@@ -1,0 +1,6 @@
+[submodule "MSLH"]
+	path = MSLH
+	url = https://github.com/KuraZuzu/MSLH.git
+[submodule "Src/MSLH"]
+	path = Src/MSLH
+	url = https://github.com/KuraZuzu/MSLH.git
