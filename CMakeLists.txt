@@ -50,11 +50,12 @@ include_directories(Inc Drivers/STM32F4xx_HAL_Driver/Inc Drivers/STM32F4xx_HAL_D
 
 # -- add original
 add_definitions(-DARM_MATH_CM4 -DARM_MATH_MATRIX_CHECK -DARM_MATH_ROUNDING -D__FPU_PRESENT=1)
+file(GLOB_RECURSE MY_SRC Src/MSLH/*.* Src/EFPMachineControl/*.*)
 # --
 
 add_definitions(-DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx)
 
-file(GLOB_RECURSE SOURCES "Startup/*.*" "Src/*.*" "Drivers/*.*")
+file(GLOB_RECURSE SOURCES "Startup/*.*" "Src/*.c" "Drivers/*.*" ${MY_SRC})
 
 set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/STM32F446RETX_FLASH.ld)
 
