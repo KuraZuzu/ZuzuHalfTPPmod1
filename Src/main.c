@@ -68,10 +68,28 @@ int main(){
     MX_USART2_UART_Init();  //< Setup Uart.
     setbuf(stdout, NULL);   //< This is needed for printf().
 
+    // Init functions.
+    MX_GPIO_Init();
+    MX_DMA_Init();
+    MX_ADC1_Init();
+    MX_TIM1_Init();
+//    MX_TIM2_Init();
+    MX_TIM3_Init();
+    MX_TIM4_Init();
+    MX_TIM6_Init();
+    MX_TIM7_Init();
+    MX_TIM8_Init();
+    MX_USART2_UART_Init();
+    MX_SPI3_Init();
     while(1) {
-        test_myself_wait_led();
+
+        printf("aa\r\n");
+//        test_gyro();
 //        test_all_console();
 //        test_battery_warning();
+
+//        HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_3);
+        HAL_Delay(500);
     }
 
     return 0;

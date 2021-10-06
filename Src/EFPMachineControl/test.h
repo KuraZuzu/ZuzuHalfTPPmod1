@@ -47,6 +47,7 @@ public:
 
     static void measureSpeedSetCallback();
 
+    void gyro_read();
 
 private:
     DigitalOut _led1;
@@ -61,6 +62,7 @@ private:
     AnalogInDMAStream _battery;
     static WheelControl _l_wheel;
     static WheelControl _r_wheel;
+    GyroSensor _gyro_sensor;
 };
 
 #endif //ZUZUHALFTPPMOD1_TEST_H

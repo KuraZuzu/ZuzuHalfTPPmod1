@@ -20,6 +20,7 @@ Test::Test()
 , _rs_sensor(GPIOB, GPIO_PIN_10, AnalogInDMAStream(hadc1, 3))
 , _rf_sensor(GPIOB, GPIO_PIN_2, AnalogInDMAStream(hadc1, 4))
 , _battery(hadc1, 5)
+, _gyro_sensor(hspi3, GPIOA, GPIO_PIN_4)
 {
     // Init functions.
     MX_GPIO_Init();
@@ -133,3 +134,7 @@ void Test::measureSpeedSetCallback() {
 
 WheelControl Test::_l_wheel(Motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, true),Encoder(htim4,500*4,false), 13.5f, 10);
 WheelControl Test::_r_wheel(Motor(htim1, TIM_CHANNEL_2, GPIOA, GPIO_PIN_7, false),Encoder(htim3,500*4,true), 13.5f, 10);
+
+void Test::gyro_read() {
+    _gyro_sensor.temp();
+}

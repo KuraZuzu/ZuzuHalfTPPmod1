@@ -167,6 +167,11 @@ void test_wheel_move() {
     test.wheel_move_debug();
 }
 
+void test_gyro() {
+    Test test;
+    test.gyro_read();
+}
+
 #ifdef __cplusplus
 }
 #endif
