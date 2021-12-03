@@ -129,7 +129,7 @@ arm_status arm_conv_partial_q7(
                                     (int32_t) firstIndex);
     blockSize2 = (blockSize2 > 0) ? blockSize2 : 0;
 
-    /* conv(x,y) at n = x[n] * y[0] + x[n-1] * y[1] + x[n-2] * y[2] + ...+ x[n-N+1] * y[N -1] */
+    /* conv(_x,_y) at n = _x[n] * _y[0] + _x[n-1] * _y[1] + _x[n-2] * _y[2] + ...+ _x[n-N+1] * _y[N -1] */
     /* The function is internally
      * divided into three stages according to the number of multiplications that has to be
      * taken place between inputA samples and inputB samples. In the first stage of the
@@ -146,10 +146,10 @@ arm_status arm_conv_partial_q7(
      * Initializations of stage1
      * -------------------------*/
 
-    /* sum = x[0] * y[0]
-     * sum = x[0] * y[1] + x[1] * y[0]
+    /* sum = _x[0] * _y[0]
+     * sum = _x[0] * _y[1] + _x[1] * _y[0]
      * ....
-     * sum = x[0] * y[srcBlen - 1] + x[1] * y[srcBlen - 2] +...+ x[srcBLen - 1] * y[0]
+     * sum = _x[0] * _y[srcBlen - 1] + _x[1] * _y[srcBlen - 2] +...+ _x[srcBLen - 1] * _y[0]
      */
 
     /* In this stage the MAC operations are increased by 1 for every iteration.
@@ -182,32 +182,32 @@ arm_status arm_conv_partial_q7(
        ** a second loop below computes MACs for the remaining 1 to 3 samples. */
       while (k > 0U)
       {
-        /* x[0] , x[1] */
+        /* _x[0] , _x[1] */
         in1 = (q15_t) * px++;
         in2 = (q15_t) * px++;
         input1 = ((q31_t) in1 & 0x0000FFFF) | ((q31_t) in2 << 16);
 
-        /* y[srcBLen - 1] , y[srcBLen - 2] */
+        /* _y[srcBLen - 1] , _y[srcBLen - 2] */
         in1 = (q15_t) * py--;
         in2 = (q15_t) * py--;
         input2 = ((q31_t) in1 & 0x0000FFFF) | ((q31_t) in2 << 16);
 
-        /* x[0] * y[srcBLen - 1] */
-        /* x[1] * y[srcBLen - 2] */
+        /* _x[0] * _y[srcBLen - 1] */
+        /* _x[1] * _y[srcBLen - 2] */
         sum = __SMLAD(input1, input2, sum);
 
-        /* x[2] , x[3] */
+        /* _x[2] , _x[3] */
         in1 = (q15_t) * px++;
         in2 = (q15_t) * px++;
         input1 = ((q31_t) in1 & 0x0000FFFF) | ((q31_t) in2 << 16);
 
-        /* y[srcBLen - 3] , y[srcBLen - 4] */
+        /* _y[srcBLen - 3] , _y[srcBLen - 4] */
         in1 = (q15_t) * py--;
         in2 = (q15_t) * py--;
         input2 = ((q31_t) in1 & 0x0000FFFF) | ((q31_t) in2 << 16);
 
-        /* x[2] * y[srcBLen - 3] */
-        /* x[3] * y[srcBLen - 4] */
+        /* _x[2] * _y[srcBLen - 3] */
+        /* _x[3] * _y[srcBLen - 4] */
         sum = __SMLAD(input1, input2, sum);
 
         /* Decrement the loop counter */
@@ -245,10 +245,10 @@ arm_status arm_conv_partial_q7(
      * Initializations of stage2
      * ------------------------*/
 
-    /* sum = x[0] * y[srcBLen-1] + x[1] * y[srcBLen-2] +...+ x[srcBLen-1] * y[0]
-     * sum = x[1] * y[srcBLen-1] + x[2] * y[srcBLen-2] +...+ x[srcBLen] * y[0]
+    /* sum = _x[0] * _y[srcBLen-1] + _x[1] * _y[srcBLen-2] +...+ _x[srcBLen-1] * _y[0]
+     * sum = _x[1] * _y[srcBLen-1] + _x[2] * _y[srcBLen-2] +...+ _x[srcBLen] * _y[0]
      * ....
-     * sum = x[srcALen-srcBLen-2] * y[srcBLen-1] + x[srcALen] * y[srcBLen-2] +...+ x[srcALen-1] * y[0]
+     * sum = _x[srcALen-srcBLen-2] * _y[srcBLen-1] + _x[srcALen] * _y[srcBLen-2] +...+ _x[srcALen-1] * _y[0]
      */
 
     /* Working pointer of inputA */
@@ -288,7 +288,7 @@ arm_status arm_conv_partial_q7(
         acc2 = 0;
         acc3 = 0;
 
-        /* read x[0], x[1], x[2] samples */
+        /* read _x[0], _x[1], _x[2] samples */
         x0 = *(px++);
         x1 = *(px++);
         x2 = *(px++);
@@ -300,110 +300,110 @@ arm_status arm_conv_partial_q7(
          ** a second loop below computes MACs for the remaining 1 to 3 samples. */
         do
         {
-          /* Read y[srcBLen - 1] sample */
+          /* Read _y[srcBLen - 1] sample */
           c0 = *(py--);
-          /* Read y[srcBLen - 2] sample */
+          /* Read _y[srcBLen - 2] sample */
           c1 = *(py--);
 
-          /* Read x[3] sample */
+          /* Read _x[3] sample */
           x3 = *(px++);
 
-          /* x[0] and x[1] are packed */
+          /* _x[0] and _x[1] are packed */
           in1 = (q15_t) x0;
           in2 = (q15_t) x1;
 
           input1 = ((q31_t) in1 & 0x0000FFFF) | ((q31_t) in2 << 16);
 
-          /* y[srcBLen - 1]   and y[srcBLen - 2] are packed */
+          /* _y[srcBLen - 1]   and _y[srcBLen - 2] are packed */
           in1 = (q15_t) c0;
           in2 = (q15_t) c1;
 
           input2 = ((q31_t) in1 & 0x0000FFFF) | ((q31_t) in2 << 16);
 
-          /* acc0 += x[0] * y[srcBLen - 1] + x[1] * y[srcBLen - 2]  */
+          /* acc0 += _x[0] * _y[srcBLen - 1] + _x[1] * _y[srcBLen - 2]  */
           acc0 = __SMLAD(input1, input2, acc0);
 
-          /* x[1] and x[2] are packed */
+          /* _x[1] and _x[2] are packed */
           in1 = (q15_t) x1;
           in2 = (q15_t) x2;
 
           input1 = ((q31_t) in1 & 0x0000FFFF) | ((q31_t) in2 << 16);
 
-          /* acc1 += x[1] * y[srcBLen - 1] + x[2] * y[srcBLen - 2]  */
+          /* acc1 += _x[1] * _y[srcBLen - 1] + _x[2] * _y[srcBLen - 2]  */
           acc1 = __SMLAD(input1, input2, acc1);
 
-          /* x[2] and x[3] are packed */
+          /* _x[2] and _x[3] are packed */
           in1 = (q15_t) x2;
           in2 = (q15_t) x3;
 
           input1 = ((q31_t) in1 & 0x0000FFFF) | ((q31_t) in2 << 16);
 
-          /* acc2 += x[2] * y[srcBLen - 1] + x[3] * y[srcBLen - 2]  */
+          /* acc2 += _x[2] * _y[srcBLen - 1] + _x[3] * _y[srcBLen - 2]  */
           acc2 = __SMLAD(input1, input2, acc2);
 
-          /* Read x[4] sample */
+          /* Read _x[4] sample */
           x0 = *(px++);
 
-          /* x[3] and x[4] are packed */
+          /* _x[3] and _x[4] are packed */
           in1 = (q15_t) x3;
           in2 = (q15_t) x0;
 
           input1 = ((q31_t) in1 & 0x0000FFFF) | ((q31_t) in2 << 16);
 
-          /* acc3 += x[3] * y[srcBLen - 1] + x[4] * y[srcBLen - 2]  */
+          /* acc3 += _x[3] * _y[srcBLen - 1] + _x[4] * _y[srcBLen - 2]  */
           acc3 = __SMLAD(input1, input2, acc3);
 
-          /* Read y[srcBLen - 3] sample */
+          /* Read _y[srcBLen - 3] sample */
           c0 = *(py--);
-          /* Read y[srcBLen - 4] sample */
+          /* Read _y[srcBLen - 4] sample */
           c1 = *(py--);
 
-          /* Read x[5] sample */
+          /* Read _x[5] sample */
           x1 = *(px++);
 
-          /* x[2] and x[3] are packed */
+          /* _x[2] and _x[3] are packed */
           in1 = (q15_t) x2;
           in2 = (q15_t) x3;
 
           input1 = ((q31_t) in1 & 0x0000FFFF) | ((q31_t) in2 << 16);
 
-          /* y[srcBLen - 3] and y[srcBLen - 4] are packed */
+          /* _y[srcBLen - 3] and _y[srcBLen - 4] are packed */
           in1 = (q15_t) c0;
           in2 = (q15_t) c1;
 
           input2 = ((q31_t) in1 & 0x0000FFFF) | ((q31_t) in2 << 16);
 
-          /* acc0 += x[2] * y[srcBLen - 3] + x[3] * y[srcBLen - 4]  */
+          /* acc0 += _x[2] * _y[srcBLen - 3] + _x[3] * _y[srcBLen - 4]  */
           acc0 = __SMLAD(input1, input2, acc0);
 
-          /* x[3] and x[4] are packed */
+          /* _x[3] and _x[4] are packed */
           in1 = (q15_t) x3;
           in2 = (q15_t) x0;
 
           input1 = ((q31_t) in1 & 0x0000FFFF) | ((q31_t) in2 << 16);
 
-          /* acc1 += x[3] * y[srcBLen - 3] + x[4] * y[srcBLen - 4]  */
+          /* acc1 += _x[3] * _y[srcBLen - 3] + _x[4] * _y[srcBLen - 4]  */
           acc1 = __SMLAD(input1, input2, acc1);
 
-          /* x[4] and x[5] are packed */
+          /* _x[4] and _x[5] are packed */
           in1 = (q15_t) x0;
           in2 = (q15_t) x1;
 
           input1 = ((q31_t) in1 & 0x0000FFFF) | ((q31_t) in2 << 16);
 
-          /* acc2 += x[4] * y[srcBLen - 3] + x[5] * y[srcBLen - 4]  */
+          /* acc2 += _x[4] * _y[srcBLen - 3] + _x[5] * _y[srcBLen - 4]  */
           acc2 = __SMLAD(input1, input2, acc2);
 
-          /* Read x[6] sample */
+          /* Read _x[6] sample */
           x2 = *(px++);
 
-          /* x[5] and x[6] are packed */
+          /* _x[5] and _x[6] are packed */
           in1 = (q15_t) x1;
           in2 = (q15_t) x2;
 
           input1 = ((q31_t) in1 & 0x0000FFFF) | ((q31_t) in2 << 16);
 
-          /* acc3 += x[5] * y[srcBLen - 3] + x[6] * y[srcBLen - 4]  */
+          /* acc3 += _x[5] * _y[srcBLen - 3] + _x[6] * _y[srcBLen - 4]  */
           acc3 = __SMLAD(input1, input2, acc3);
 
         } while (--k);
@@ -414,20 +414,20 @@ arm_status arm_conv_partial_q7(
 
         while (k > 0U)
         {
-          /* Read y[srcBLen - 5] sample */
+          /* Read _y[srcBLen - 5] sample */
           c0 = *(py--);
 
-          /* Read x[7] sample */
+          /* Read _x[7] sample */
           x3 = *(px++);
 
           /* Perform the multiply-accumulates */
-          /* acc0 +=  x[4] * y[srcBLen - 5] */
+          /* acc0 +=  _x[4] * _y[srcBLen - 5] */
           acc0 += ((q31_t) x0 * c0);
-          /* acc1 +=  x[5] * y[srcBLen - 5] */
+          /* acc1 +=  _x[5] * _y[srcBLen - 5] */
           acc1 += ((q31_t) x1 * c0);
-          /* acc2 +=  x[6] * y[srcBLen - 5] */
+          /* acc2 +=  _x[6] * _y[srcBLen - 5] */
           acc2 += ((q31_t) x2 * c0);
-          /* acc3 +=  x[7] * y[srcBLen - 5] */
+          /* acc3 +=  _x[7] * _y[srcBLen - 5] */
           acc3 += ((q31_t) x3 * c0);
 
           /* Reuse the present samples for the next MAC */
@@ -595,11 +595,11 @@ arm_status arm_conv_partial_q7(
      * Initializations of stage3
      * -------------------------*/
 
-    /* sum += x[srcALen-srcBLen+1] * y[srcBLen-1] + x[srcALen-srcBLen+2] * y[srcBLen-2] +...+ x[srcALen-1] * y[1]
-     * sum += x[srcALen-srcBLen+2] * y[srcBLen-1] + x[srcALen-srcBLen+3] * y[srcBLen-2] +...+ x[srcALen-1] * y[2]
+    /* sum += _x[srcALen-srcBLen+1] * _y[srcBLen-1] + _x[srcALen-srcBLen+2] * _y[srcBLen-2] +...+ _x[srcALen-1] * _y[1]
+     * sum += _x[srcALen-srcBLen+2] * _y[srcBLen-1] + _x[srcALen-srcBLen+3] * _y[srcBLen-2] +...+ _x[srcALen-1] * _y[2]
      * ....
-     * sum +=  x[srcALen-2] * y[srcBLen-1] + x[srcALen-1] * y[srcBLen-2]
-     * sum +=  x[srcALen-1] * y[srcBLen-1]
+     * sum +=  _x[srcALen-2] * _y[srcBLen-1] + _x[srcALen-1] * _y[srcBLen-2]
+     * sum +=  _x[srcALen-1] * _y[srcBLen-1]
      */
 
     /* In this stage the MAC operations are decreased by 1 for every iteration.
@@ -630,32 +630,32 @@ arm_status arm_conv_partial_q7(
        ** a second loop below computes MACs for the remaining 1 to 3 samples. */
       while (k > 0U)
       {
-        /* Reading two inputs, x[srcALen - srcBLen + 1] and x[srcALen - srcBLen + 2] of SrcA buffer and packing */
+        /* Reading two inputs, _x[srcALen - srcBLen + 1] and _x[srcALen - srcBLen + 2] of SrcA buffer and packing */
         in1 = (q15_t) * px++;
         in2 = (q15_t) * px++;
         input1 = ((q31_t) in1 & 0x0000FFFF) | ((q31_t) in2 << 16);
 
-        /* Reading two inputs, y[srcBLen - 1] and y[srcBLen - 2] of SrcB buffer and packing */
+        /* Reading two inputs, _y[srcBLen - 1] and _y[srcBLen - 2] of SrcB buffer and packing */
         in1 = (q15_t) * py--;
         in2 = (q15_t) * py--;
         input2 = ((q31_t) in1 & 0x0000FFFF) | ((q31_t) in2 << 16);
 
-        /* sum += x[srcALen - srcBLen + 1] * y[srcBLen - 1] */
-        /* sum += x[srcALen - srcBLen + 2] * y[srcBLen - 2] */
+        /* sum += _x[srcALen - srcBLen + 1] * _y[srcBLen - 1] */
+        /* sum += _x[srcALen - srcBLen + 2] * _y[srcBLen - 2] */
         sum = __SMLAD(input1, input2, sum);
 
-        /* Reading two inputs, x[srcALen - srcBLen + 3] and x[srcALen - srcBLen + 4] of SrcA buffer and packing */
+        /* Reading two inputs, _x[srcALen - srcBLen + 3] and _x[srcALen - srcBLen + 4] of SrcA buffer and packing */
         in1 = (q15_t) * px++;
         in2 = (q15_t) * px++;
         input1 = ((q31_t) in1 & 0x0000FFFF) | ((q31_t) in2 << 16);
 
-        /* Reading two inputs, y[srcBLen - 3] and y[srcBLen - 4] of SrcB buffer and packing */
+        /* Reading two inputs, _y[srcBLen - 3] and _y[srcBLen - 4] of SrcB buffer and packing */
         in1 = (q15_t) * py--;
         in2 = (q15_t) * py--;
         input2 = ((q31_t) in1 & 0x0000FFFF) | ((q31_t) in2 << 16);
 
-        /* sum += x[srcALen - srcBLen + 3] * y[srcBLen - 3] */
-        /* sum += x[srcALen - srcBLen + 4] * y[srcBLen - 4] */
+        /* sum += _x[srcALen - srcBLen + 3] * _y[srcBLen - 3] */
+        /* sum += _x[srcALen - srcBLen + 4] * _y[srcBLen - 4] */
         sum = __SMLAD(input1, input2, sum);
 
         /* Decrement the loop counter */
@@ -669,7 +669,7 @@ arm_status arm_conv_partial_q7(
       while (k > 0U)
       {
         /* Perform the multiply-accumulates */
-        /* sum +=  x[srcALen-1] * y[srcBLen-1] */
+        /* sum +=  _x[srcALen-1] * _y[srcBLen-1] */
         sum += ((q31_t) * px++ * *py--);
 
         /* Decrement the loop counter */
@@ -728,7 +728,7 @@ arm_status arm_conv_partial_q7(
         /* Check the array limitations */
         if (((i - j) < srcBLen) && (j < srcALen))
         {
-          /* z[i] += x[i-j] * y[j] */
+          /* z[i] += _x[i-j] * _y[j] */
           sum += ((q15_t) pIn1[j] * (pIn2[i - j]));
         }
       }

@@ -64,7 +64,7 @@
 /**
  * @brief  Fast approximation to the trigonometric cosine function for floating-point data.
  * @param[in] x input value in radians.
- * @return cos(x).
+ * @return cos(_x).
  */
 
 float32_t arm_cos_f32(
@@ -76,7 +76,7 @@ float32_t arm_cos_f32(
   int32_t n;
   float32_t findex;
 
-  /* input x is in radians */
+  /* input _x is in radians */
   /* Scale the input to [0 1] range from [0 2*PI] , divide input by 2*pi, add 0.25 (pi/2) to read sine table */
   in = x * 0.159154943092f + 0.25f;
 

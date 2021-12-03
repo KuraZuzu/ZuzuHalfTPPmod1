@@ -45,7 +45,7 @@ public:
 
     void wheel_move_debug();
 
-    static void measureSpeedSetCallback();
+    void measureSpeedSetCallback();
 
     void gyro_read();
 
@@ -60,9 +60,9 @@ private:
     DistanceSensor _rs_sensor;
     DistanceSensor _rf_sensor;
     AnalogInDMAStream _battery;
-    static WheelControl _l_wheel;
-    static WheelControl _r_wheel;
     GyroSensor _gyro_sensor;
+    WheelControl _l_wheel;
+    WheelControl _r_wheel;
 };
 
 #endif //ZUZUHALFTPPMOD1_TEST_H

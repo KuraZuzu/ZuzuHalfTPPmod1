@@ -81,7 +81,7 @@ void arm_dct4_q31(
    */
 
         /*-------- Pre-processing ------------*/
-  /* Multiplying input with cos factor i.e. r(n) = 2 * x(n) * cos(pi*(2*n+1)/(4*n)) */
+  /* Multiplying input with cos factor i.e. r(n) = 2 * _x(n) * cos(pi*(2*n+1)/(4*n)) */
   arm_mult_q31(pInlineBuffer, cosFact, pInlineBuffer, S->N);
   arm_shift_q31(pInlineBuffer, 1, pInlineBuffer, S->N);
 

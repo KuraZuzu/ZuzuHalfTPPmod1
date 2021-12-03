@@ -81,7 +81,7 @@ void arm_sin_cos_f32(
     float32_t f1, f2, d1, d2;                        /* Two nearest output values */
     float32_t findex, Dn, Df, temp;
 
-    /* input x is in degrees */
+    /* input _x is in degrees */
     /* Scale the input, divide input by 360, for cosine add 0.25 (pi/2) to read sine table */
     in = theta * 0.00277777777778f;
 

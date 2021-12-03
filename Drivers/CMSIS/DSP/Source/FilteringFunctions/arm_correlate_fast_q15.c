@@ -86,7 +86,7 @@ void arm_correlate_fast_q15(
   /* The algorithm implementation is based on the lengths of the inputs. */
   /* srcB is always made to slide across srcA. */
   /* So srcBLen is always considered as shorter or equal to srcALen */
-  /* But CORR(x, y) is reverse of CORR(y, x) */
+  /* But CORR(_x, _y) is reverse of CORR(_y, _x) */
   /* So, when srcBLen > srcALen, output pointer is made to point to the end of the output buffer */
   /* and the destination pointer modifier, inc is set to -1 */
   /* If srcALen > srcBLen, zero pad has to be done to srcB to make the two inputs of same length */
@@ -130,7 +130,7 @@ void arm_correlate_fast_q15(
     srcBLen = srcALen;
     srcALen = j;
 
-    /* CORR(x, y) = Reverse order(CORR(y, x)) */
+    /* CORR(_x, _y) = Reverse order(CORR(_y, _x)) */
     /* Hence set the destination pointer to point to the last output sample */
     pOut = pDst + ((srcALen + srcBLen) - 2U);
 
@@ -156,10 +156,10 @@ void arm_correlate_fast_q15(
    * Initializations of stage1
    * -------------------------*/
 
-  /* sum = x[0] * y[srcBlen - 1]
-   * sum = x[0] * y[srcBlen - 2] + x[1] * y[srcBlen - 1]
+  /* sum = _x[0] * _y[srcBlen - 1]
+   * sum = _x[0] * _y[srcBlen - 2] + _x[1] * _y[srcBlen - 1]
    * ....
-   * sum = x[0] * y[0] + x[1] * y[1] +...+ x[srcBLen - 1] * y[srcBLen - 1]
+   * sum = _x[0] * _y[0] + _x[1] * _y[1] +...+ _x[srcBLen - 1] * _y[srcBLen - 1]
    */
 
   /* In this stage the MAC operations are increased by 1 for every iteration.
@@ -190,9 +190,9 @@ void arm_correlate_fast_q15(
      ** a second loop below computes MACs for the remaining 1 to 3 samples. */
     while (k > 0U)
     {
-      /* x[0] * y[srcBLen - 4] , x[1] * y[srcBLen - 3] */
+      /* _x[0] * _y[srcBLen - 4] , _x[1] * _y[srcBLen - 3] */
       sum = __SMLAD(*__SIMD32(px)++, *__SIMD32(py)++, sum);
-      /* x[3] * y[srcBLen - 1] , x[2] * y[srcBLen - 2] */
+      /* _x[3] * _y[srcBLen - 1] , _x[2] * _y[srcBLen - 2] */
       sum = __SMLAD(*__SIMD32(px)++, *__SIMD32(py)++, sum);
 
       /* Decrement the loop counter */
@@ -206,7 +206,7 @@ void arm_correlate_fast_q15(
     while (k > 0U)
     {
       /* Perform the multiply-accumulates */
-      /* x[0] * y[srcBLen - 1] */
+      /* _x[0] * _y[srcBLen - 1] */
       sum = __SMLAD(*px++, *py++, sum);
 
       /* Decrement the loop counter */
@@ -233,10 +233,10 @@ void arm_correlate_fast_q15(
    * Initializations of stage2
    * ------------------------*/
 
-  /* sum = x[0] * y[0] + x[1] * y[1] +...+ x[srcBLen-1] * y[srcBLen-1]
-   * sum = x[1] * y[0] + x[2] * y[1] +...+ x[srcBLen] * y[srcBLen-1]
+  /* sum = _x[0] * _y[0] + _x[1] * _y[1] +...+ _x[srcBLen-1] * _y[srcBLen-1]
+   * sum = _x[1] * _y[0] + _x[2] * _y[1] +...+ _x[srcBLen] * _y[srcBLen-1]
    * ....
-   * sum = x[srcALen-srcBLen-2] * y[0] + x[srcALen-srcBLen-1] * y[1] +...+ x[srcALen-1] * y[srcBLen-1]
+   * sum = _x[srcALen-srcBLen-2] * _y[0] + _x[srcALen-srcBLen-1] * _y[1] +...+ _x[srcALen-1] * _y[srcBLen-1]
    */
 
   /* Working pointer of inputA */
@@ -268,9 +268,9 @@ void arm_correlate_fast_q15(
       acc2 = 0;
       acc3 = 0;
 
-      /* read x[0], x[1] samples */
+      /* read _x[0], _x[1] samples */
       x0 = *__SIMD32(px);
-      /* read x[1], x[2] samples */
+      /* read _x[1], _x[2] samples */
       x1 = _SIMD32_OFFSET(px + 1);
 	  px += 2U;
 
@@ -282,47 +282,47 @@ void arm_correlate_fast_q15(
       do
       {
         /* Read the first two inputB samples using SIMD:
-         * y[0] and y[1] */
+         * _y[0] and _y[1] */
         c0 = *__SIMD32(py)++;
 
-        /* acc0 +=  x[0] * y[0] + x[1] * y[1] */
+        /* acc0 +=  _x[0] * _y[0] + _x[1] * _y[1] */
         acc0 = __SMLAD(x0, c0, acc0);
 
-        /* acc1 +=  x[1] * y[0] + x[2] * y[1] */
+        /* acc1 +=  _x[1] * _y[0] + _x[2] * _y[1] */
         acc1 = __SMLAD(x1, c0, acc1);
 
-        /* Read x[2], x[3] */
+        /* Read _x[2], _x[3] */
         x2 = *__SIMD32(px);
 
-        /* Read x[3], x[4] */
+        /* Read _x[3], _x[4] */
         x3 = _SIMD32_OFFSET(px + 1);
 
-        /* acc2 +=  x[2] * y[0] + x[3] * y[1] */
+        /* acc2 +=  _x[2] * _y[0] + _x[3] * _y[1] */
         acc2 = __SMLAD(x2, c0, acc2);
 
-        /* acc3 +=  x[3] * y[0] + x[4] * y[1] */
+        /* acc3 +=  _x[3] * _y[0] + _x[4] * _y[1] */
         acc3 = __SMLAD(x3, c0, acc3);
 
-        /* Read y[2] and y[3] */
+        /* Read _y[2] and _y[3] */
         c0 = *__SIMD32(py)++;
 
-        /* acc0 +=  x[2] * y[2] + x[3] * y[3] */
+        /* acc0 +=  _x[2] * _y[2] + _x[3] * _y[3] */
         acc0 = __SMLAD(x2, c0, acc0);
 
-        /* acc1 +=  x[3] * y[2] + x[4] * y[3] */
+        /* acc1 +=  _x[3] * _y[2] + _x[4] * _y[3] */
         acc1 = __SMLAD(x3, c0, acc1);
 
-        /* Read x[4], x[5] */
+        /* Read _x[4], _x[5] */
         x0 = _SIMD32_OFFSET(px + 2);
 
-        /* Read x[5], x[6] */
+        /* Read _x[5], _x[6] */
         x1 = _SIMD32_OFFSET(px + 3);
 		px += 4U;
 
-        /* acc2 +=  x[4] * y[2] + x[5] * y[3] */
+        /* acc2 +=  _x[4] * _y[2] + _x[5] * _y[3] */
         acc2 = __SMLAD(x0, c0, acc2);
 
-        /* acc3 +=  x[5] * y[2] + x[6] * y[3] */
+        /* acc3 +=  _x[5] * _y[2] + _x[6] * _y[3] */
         acc3 = __SMLAD(x1, c0, acc3);
 
       } while (--k);
@@ -336,7 +336,7 @@ void arm_correlate_fast_q15(
 
       if (k == 1U)
       {
-        /* Read y[4] */
+        /* Read _y[4] */
         c0 = *py;
 #ifdef  ARM_MATH_BIG_ENDIAN
 
@@ -348,7 +348,7 @@ void arm_correlate_fast_q15(
 
 #endif /*      #ifdef  ARM_MATH_BIG_ENDIAN     */
 
-        /* Read x[7] */
+        /* Read _x[7] */
         x3 = *__SIMD32(px);
 		px++;
 
@@ -361,13 +361,13 @@ void arm_correlate_fast_q15(
 
       if (k == 2U)
       {
-        /* Read y[4], y[5] */
+        /* Read _y[4], _y[5] */
         c0 = *__SIMD32(py);
 
-        /* Read x[7], x[8] */
+        /* Read _x[7], _x[8] */
         x3 = *__SIMD32(px);
 
-        /* Read x[9] */
+        /* Read _x[9] */
         x2 = _SIMD32_OFFSET(px + 1);
 		px += 2U;
 
@@ -380,13 +380,13 @@ void arm_correlate_fast_q15(
 
       if (k == 3U)
       {
-        /* Read y[4], y[5] */
+        /* Read _y[4], _y[5] */
         c0 = *__SIMD32(py)++;
 
-        /* Read x[7], x[8] */
+        /* Read _x[7], _x[8] */
         x3 = *__SIMD32(px);
 
-        /* Read x[9] */
+        /* Read _x[9] */
         x2 = _SIMD32_OFFSET(px + 1);
 
         /* Perform the multiply-accumulates */
@@ -396,7 +396,7 @@ void arm_correlate_fast_q15(
         acc3 = __SMLAD(x2, c0, acc3);
 
         c0 = (*py);
-        /* Read y[6] */
+        /* Read _y[6] */
 #ifdef  ARM_MATH_BIG_ENDIAN
 
         c0 = c0 << 16U;
@@ -405,7 +405,7 @@ void arm_correlate_fast_q15(
         c0 = c0 & 0x0000FFFF;
 #endif /*      #ifdef  ARM_MATH_BIG_ENDIAN     */
 
-        /* Read x[10] */
+        /* Read _x[10] */
         x3 = _SIMD32_OFFSET(px + 2);
 		px += 3U;
 
@@ -541,11 +541,11 @@ void arm_correlate_fast_q15(
    * Initializations of stage3
    * -------------------------*/
 
-  /* sum += x[srcALen-srcBLen+1] * y[0] + x[srcALen-srcBLen+2] * y[1] +...+ x[srcALen-1] * y[srcBLen-1]
-   * sum += x[srcALen-srcBLen+2] * y[0] + x[srcALen-srcBLen+3] * y[1] +...+ x[srcALen-1] * y[srcBLen-1]
+  /* sum += _x[srcALen-srcBLen+1] * _y[0] + _x[srcALen-srcBLen+2] * _y[1] +...+ _x[srcALen-1] * _y[srcBLen-1]
+   * sum += _x[srcALen-srcBLen+2] * _y[0] + _x[srcALen-srcBLen+3] * _y[1] +...+ _x[srcALen-1] * _y[srcBLen-1]
    * ....
-   * sum +=  x[srcALen-2] * y[0] + x[srcALen-1] * y[1]
-   * sum +=  x[srcALen-1] * y[0]
+   * sum +=  _x[srcALen-2] * _y[0] + _x[srcALen-1] * _y[1]
+   * sum +=  _x[srcALen-1] * _y[0]
    */
 
   /* In this stage the MAC operations are decreased by 1 for every iteration.
@@ -576,9 +576,9 @@ void arm_correlate_fast_q15(
     while (k > 0U)
     {
       /* Perform the multiply-accumulates */
-      /* sum += x[srcALen - srcBLen + 4] * y[3] , sum += x[srcALen - srcBLen + 3] * y[2] */
+      /* sum += _x[srcALen - srcBLen + 4] * _y[3] , sum += _x[srcALen - srcBLen + 3] * _y[2] */
       sum = __SMLAD(*__SIMD32(px)++, *__SIMD32(py)++, sum);
-      /* sum += x[srcALen - srcBLen + 2] * y[1] , sum += x[srcALen - srcBLen + 1] * y[0] */
+      /* sum += _x[srcALen - srcBLen + 2] * _y[1] , sum += _x[srcALen - srcBLen + 1] * _y[0] */
       sum = __SMLAD(*__SIMD32(px)++, *__SIMD32(py)++, sum);
 
       /* Decrement the loop counter */
@@ -632,7 +632,7 @@ void arm_correlate_fast_q15(
   /* The algorithm implementation is based on the lengths of the inputs. */
   /* srcB is always made to slide across srcA. */
   /* So srcBLen is always considered as shorter or equal to srcALen */
-  /* But CORR(x, y) is reverse of CORR(y, x) */
+  /* But CORR(_x, _y) is reverse of CORR(_y, _x) */
   /* So, when srcBLen > srcALen, output pointer is made to point to the end of the output buffer */
   /* and the destination pointer modifier, inc is set to -1 */
   /* If srcALen > srcBLen, zero pad has to be done to srcB to make the two inputs of same length */
@@ -676,7 +676,7 @@ void arm_correlate_fast_q15(
     srcBLen = srcALen;
     srcALen = j;
 
-    /* CORR(x, y) = Reverse order(CORR(y, x)) */
+    /* CORR(_x, _y) = Reverse order(CORR(_y, _x)) */
     /* Hence set the destination pointer to point to the last output sample */
     pOut = pDst + ((srcALen + srcBLen) - 2U);
 
@@ -702,10 +702,10 @@ void arm_correlate_fast_q15(
    * Initializations of stage1
    * -------------------------*/
 
-  /* sum = x[0] * y[srcBlen - 1]
-   * sum = x[0] * y[srcBlen - 2] + x[1] * y[srcBlen - 1]
+  /* sum = _x[0] * _y[srcBlen - 1]
+   * sum = _x[0] * _y[srcBlen - 2] + _x[1] * _y[srcBlen - 1]
    * ....
-   * sum = x[0] * y[0] + x[1] * y[1] +...+ x[srcBLen - 1] * y[srcBLen - 1]
+   * sum = _x[0] * _y[0] + _x[1] * _y[1] +...+ _x[srcBLen - 1] * _y[srcBLen - 1]
    */
 
   /* In this stage the MAC operations are increased by 1 for every iteration.
@@ -736,7 +736,7 @@ void arm_correlate_fast_q15(
      ** a second loop below computes MACs for the remaining 1 to 3 samples. */
     while (k > 0U)
     {
-      /* x[0] * y[srcBLen - 4] , x[1] * y[srcBLen - 3] */
+      /* _x[0] * _y[srcBLen - 4] , _x[1] * _y[srcBLen - 3] */
         sum += ((q31_t) * px++ * *py++);
         sum += ((q31_t) * px++ * *py++);
         sum += ((q31_t) * px++ * *py++);
@@ -753,7 +753,7 @@ void arm_correlate_fast_q15(
     while (k > 0U)
     {
       /* Perform the multiply-accumulates */
-      /* x[0] * y[srcBLen - 1] */
+      /* _x[0] * _y[srcBLen - 1] */
         sum += ((q31_t) * px++ * *py++);
 
       /* Decrement the loop counter */
@@ -780,10 +780,10 @@ void arm_correlate_fast_q15(
    * Initializations of stage2
    * ------------------------*/
 
-  /* sum = x[0] * y[0] + x[1] * y[1] +...+ x[srcBLen-1] * y[srcBLen-1]
-   * sum = x[1] * y[0] + x[2] * y[1] +...+ x[srcBLen] * y[srcBLen-1]
+  /* sum = _x[0] * _y[0] + _x[1] * _y[1] +...+ _x[srcBLen-1] * _y[srcBLen-1]
+   * sum = _x[1] * _y[0] + _x[2] * _y[1] +...+ _x[srcBLen] * _y[srcBLen-1]
    * ....
-   * sum = x[srcALen-srcBLen-2] * y[0] + x[srcALen-srcBLen-1] * y[1] +...+ x[srcALen-1] * y[srcBLen-1]
+   * sum = _x[srcALen-srcBLen-2] * _y[0] + _x[srcALen-srcBLen-1] * _y[1] +...+ _x[srcALen-1] * _y[srcBLen-1]
    */
 
   /* Working pointer of inputA */
@@ -815,7 +815,7 @@ void arm_correlate_fast_q15(
       acc2 = 0;
       acc3 = 0;
 
-      /* read x[0], x[1], x[2] samples */
+      /* read _x[0], _x[1], _x[2] samples */
 	  a = *px;
 	  b = *(px + 1);
 
@@ -843,7 +843,7 @@ void arm_correlate_fast_q15(
       do
       {
         /* Read the first two inputB samples using SIMD:
-         * y[0] and y[1] */
+         * _y[0] and _y[1] */
 		  a = *py;
 		  b = *(py + 1);
 
@@ -857,13 +857,13 @@ void arm_correlate_fast_q15(
 
 #endif	/*	#ifndef ARM_MATH_BIG_ENDIAN	*/
 
-        /* acc0 +=  x[0] * y[0] + x[1] * y[1] */
+        /* acc0 +=  _x[0] * _y[0] + _x[1] * _y[1] */
         acc0 = __SMLAD(x0, c0, acc0);
 
-        /* acc1 +=  x[1] * y[0] + x[2] * y[1] */
+        /* acc1 +=  _x[1] * _y[0] + _x[2] * _y[1] */
         acc1 = __SMLAD(x1, c0, acc1);
 
-        /* Read x[2], x[3], x[4] */
+        /* Read _x[2], _x[3], _x[4] */
 	  	a = *px;
 	  	b = *(px + 1);
 
@@ -881,13 +881,13 @@ void arm_correlate_fast_q15(
 
 #endif	/*	#ifndef ARM_MATH_BIG_ENDIAN	*/
 
-        /* acc2 +=  x[2] * y[0] + x[3] * y[1] */
+        /* acc2 +=  _x[2] * _y[0] + _x[3] * _y[1] */
         acc2 = __SMLAD(x2, c0, acc2);
 
-        /* acc3 +=  x[3] * y[0] + x[4] * y[1] */
+        /* acc3 +=  _x[3] * _y[0] + _x[4] * _y[1] */
         acc3 = __SMLAD(x3, c0, acc3);
 
-        /* Read y[2] and y[3] */
+        /* Read _y[2] and _y[3] */
 		  a = *(py + 2);
 		  b = *(py + 3);
 
@@ -903,13 +903,13 @@ void arm_correlate_fast_q15(
 
 #endif	/*	#ifndef ARM_MATH_BIG_ENDIAN	*/
 
-        /* acc0 +=  x[2] * y[2] + x[3] * y[3] */
+        /* acc0 +=  _x[2] * _y[2] + _x[3] * _y[3] */
         acc0 = __SMLAD(x2, c0, acc0);
 
-        /* acc1 +=  x[3] * y[2] + x[4] * y[3] */
+        /* acc1 +=  _x[3] * _y[2] + _x[4] * _y[3] */
         acc1 = __SMLAD(x3, c0, acc1);
 
-        /* Read x[4], x[5], x[6] */
+        /* Read _x[4], _x[5], _x[6] */
 	  	a = *(px + 2);
 	  	b = *(px + 3);
 
@@ -929,10 +929,10 @@ void arm_correlate_fast_q15(
 
 		px += 4U;
 
-        /* acc2 +=  x[4] * y[2] + x[5] * y[3] */
+        /* acc2 +=  _x[4] * _y[2] + _x[5] * _y[3] */
         acc2 = __SMLAD(x0, c0, acc2);
 
-        /* acc3 +=  x[5] * y[2] + x[6] * y[3] */
+        /* acc3 +=  _x[5] * _y[2] + _x[6] * _y[3] */
         acc3 = __SMLAD(x1, c0, acc3);
 
       } while (--k);
@@ -946,7 +946,7 @@ void arm_correlate_fast_q15(
 
       if (k == 1U)
       {
-        /* Read y[4] */
+        /* Read _y[4] */
         c0 = *py;
 #ifdef  ARM_MATH_BIG_ENDIAN
 
@@ -958,7 +958,7 @@ void arm_correlate_fast_q15(
 
 #endif /*      #ifdef  ARM_MATH_BIG_ENDIAN     */
 
-        /* Read x[7] */
+        /* Read _x[7] */
 		a = *px;
 		b = *(px + 1);
 
@@ -985,7 +985,7 @@ void arm_correlate_fast_q15(
 
       if (k == 2U)
       {
-        /* Read y[4], y[5] */
+        /* Read _y[4], _y[5] */
 		  a = *py;
 		  b = *(py + 1);
 
@@ -999,7 +999,7 @@ void arm_correlate_fast_q15(
 
 #endif	/*	#ifndef ARM_MATH_BIG_ENDIAN	*/
 
-        /* Read x[7], x[8], x[9] */
+        /* Read _x[7], _x[8], _x[9] */
 	  	a = *px;
 	  	b = *(px + 1);
 
@@ -1028,7 +1028,7 @@ void arm_correlate_fast_q15(
 
       if (k == 3U)
       {
-        /* Read y[4], y[5] */
+        /* Read _y[4], _y[5] */
 		  a = *py;
 		  b = *(py + 1);
 
@@ -1044,7 +1044,7 @@ void arm_correlate_fast_q15(
 
 		py += 2U;
 
-        /* Read x[7], x[8], x[9] */
+        /* Read _x[7], _x[8], _x[9] */
 	  	a = *px;
 	  	b = *(px + 1);
 
@@ -1069,7 +1069,7 @@ void arm_correlate_fast_q15(
         acc3 = __SMLAD(x2, c0, acc3);
 
         c0 = (*py);
-        /* Read y[6] */
+        /* Read _y[6] */
 #ifdef  ARM_MATH_BIG_ENDIAN
 
         c0 = c0 << 16U;
@@ -1078,7 +1078,7 @@ void arm_correlate_fast_q15(
         c0 = c0 & 0x0000FFFF;
 #endif /*      #ifdef  ARM_MATH_BIG_ENDIAN     */
 
-        /* Read x[10] */
+        /* Read _x[10] */
 		b = *(px + 3);
 
 #ifndef ARM_MATH_BIG_ENDIAN
@@ -1225,11 +1225,11 @@ void arm_correlate_fast_q15(
    * Initializations of stage3
    * -------------------------*/
 
-  /* sum += x[srcALen-srcBLen+1] * y[0] + x[srcALen-srcBLen+2] * y[1] +...+ x[srcALen-1] * y[srcBLen-1]
-   * sum += x[srcALen-srcBLen+2] * y[0] + x[srcALen-srcBLen+3] * y[1] +...+ x[srcALen-1] * y[srcBLen-1]
+  /* sum += _x[srcALen-srcBLen+1] * _y[0] + _x[srcALen-srcBLen+2] * _y[1] +...+ _x[srcALen-1] * _y[srcBLen-1]
+   * sum += _x[srcALen-srcBLen+2] * _y[0] + _x[srcALen-srcBLen+3] * _y[1] +...+ _x[srcALen-1] * _y[srcBLen-1]
    * ....
-   * sum +=  x[srcALen-2] * y[0] + x[srcALen-1] * y[1]
-   * sum +=  x[srcALen-1] * y[0]
+   * sum +=  _x[srcALen-2] * _y[0] + _x[srcALen-1] * _y[1]
+   * sum +=  _x[srcALen-1] * _y[0]
    */
 
   /* In this stage the MAC operations are decreased by 1 for every iteration.

@@ -21,6 +21,8 @@ Test::Test()
 , _rf_sensor(GPIOB, GPIO_PIN_2, AnalogInDMAStream(hadc1, 4))
 , _battery(hadc1, 5)
 , _gyro_sensor(hspi3, GPIOA, GPIO_PIN_4)
+, _l_wheel(Motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, true),Encoder(htim4,500*4,false), 13.5f, 10)
+, _r_wheel(Motor(htim1, TIM_CHANNEL_2, GPIOA, GPIO_PIN_7, false),Encoder(htim3,500*4,true), 13.5f, 10)
 {
     // Init functions.
     MX_GPIO_Init();
@@ -96,7 +98,7 @@ void Test::all_sensor_console_debug() {
            , static_cast<int>(rf)
            , battery_voltage());
 
-    battery_warning_debug();
+//    battery_warning_debug();
 }
 
 void Test::battery_warning_debug() {
@@ -122,18 +124,17 @@ void Test::measure_speed_debug() {
 }
 
 void Test::wheel_move_debug() {
-    _l_wheel.run(100, 1000);
-    _r_wheel.run(100, 1000);
+    while (1) {
+        _l_wheel.run(100, 1000);
+        _r_wheel.run(100, 1000);
+    }
 }
 
 
 void Test::measureSpeedSetCallback() {
-    Test::_l_wheel.measureSpeed();
-    Test::_r_wheel.measureSpeed();
+    _l_wheel.measureSpeed();
+    _r_wheel.measureSpeed();
 }
-
-WheelControl Test::_l_wheel(Motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, true),Encoder(htim4,500*4,false), 13.5f, 10);
-WheelControl Test::_r_wheel(Motor(htim1, TIM_CHANNEL_2, GPIOA, GPIO_PIN_7, false),Encoder(htim3,500*4,true), 13.5f, 10);
 
 void Test::gyro_read() {
     _gyro_sensor.temp();

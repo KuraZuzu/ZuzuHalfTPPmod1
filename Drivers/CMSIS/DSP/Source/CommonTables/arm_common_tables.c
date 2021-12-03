@@ -51,9 +51,9 @@
 *   for(j=0; j<logN2; j++)
 *   {
 *     if (a[j]!=0)
-*     y[l]+=(1<<((logN2-1)-j));
+*     _y[l]+=(1<<((logN2-1)-j));
 *   }
-*   y[l] = y[l] >> 1;
+*   _y[l] = _y[l] >> 1;
 *  } </pre>
 * \par
 * where N = 4096	logN2 = 12

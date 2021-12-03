@@ -79,10 +79,10 @@ void arm_fir_lattice_q31(
      a second loop below computes the remaining 1 sample. */
   while (blkCnt > 0U)
   {
-    /* f0(n) = x(n) */
+    /* f0(n) = _x(n) */
     fcurr1 = *pSrc++;
 
-    /* f0(n) = x(n) */
+    /* f0(n) = _x(n) */
     fcurr2 = *pSrc++;
 
     /* Initialize coeff pointer */
@@ -163,7 +163,7 @@ void arm_fir_lattice_q31(
 
     }
 
-    /* y(n) = fN(n) */
+    /* _y(n) = fN(n) */
     *pDst++ = fcurr1;
     *pDst++ = fcurr2;
 
@@ -177,7 +177,7 @@ void arm_fir_lattice_q31(
 
   while (blkCnt > 0U)
   {
-    /* f0(n) = x(n) */
+    /* f0(n) = _x(n) */
     fcurr1 = *pSrc++;
 
     /* Initialize coeff pointer */
@@ -240,7 +240,7 @@ void arm_fir_lattice_q31(
     }
 
 
-    /* y(n) = fN(n) */
+    /* _y(n) = fN(n) */
     *pDst++ = fcurr1;
 
     blkCnt--;
@@ -275,7 +275,7 @@ void arm_fir_lattice_q31(
 
   while (blkCnt > 0U)
   {
-    /* f0(n) = x(n) */
+    /* f0(n) = _x(n) */
     fcurr = *pSrc++;
 
     /* Initialize coeff pointer */
@@ -324,7 +324,7 @@ void arm_fir_lattice_q31(
 
     }
 
-    /* y(n) = fN(n) */
+    /* _y(n) = fN(n) */
     *pDst++ = fcurr;
 
     blkCnt--;

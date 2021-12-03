@@ -41,7 +41,7 @@
 /**
  * @brief Fast approximation to the trigonometric cosine function for Q15 data.
  * @param[in] x Scaled input value in radians.
- * @return  cos(x).
+ * @return  cos(_x).
  *
  * The Q15 input value is in the range [0 +0.9999] and is mapped to a radian
  * value in the range [0 2*pi).

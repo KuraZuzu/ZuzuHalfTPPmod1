@@ -41,7 +41,7 @@
 /**
  * @brief Fast approximation to the trigonometric sine function for Q31 data.
  * @param[in] x Scaled input value in radians.
- * @return  sin(x).
+ * @return  sin(_x).
  *
  * The Q31 input value is in the range [0 +0.9999] and is mapped to a radian value in the range [0 2*pi). */
 

@@ -48,7 +48,7 @@
  *
  * \par
  * This function is optimized for speed at the expense of fixed-point precision and overflow protection.
- * The result of each 1.31 x 1.31 multiplication is truncated to 2.30 format.
+ * The result of each 1.31 _x 1.31 multiplication is truncated to 2.30 format.
  * These intermediate results are added to a 2.30 accumulator.
  * Finally, the accumulator is saturated and converted to a 1.31 result.
  * The fast version has the same overflow behavior as the standard version and provides less precision since it discards the low 32 bits of each multiplication result.
@@ -84,10 +84,10 @@ void arm_fir_fast_q31(
   /* Apply loop unrolling and compute 4 output values simultaneously.
    * The variables acc0 ... acc3 hold output values that are being computed:
    *
-   *    acc0 =  b[numTaps-1] * x[n-numTaps-1] + b[numTaps-2] * x[n-numTaps-2] + b[numTaps-3] * x[n-numTaps-3] +...+ b[0] * x[0]
-   *    acc1 =  b[numTaps-1] * x[n-numTaps] +   b[numTaps-2] * x[n-numTaps-1] + b[numTaps-3] * x[n-numTaps-2] +...+ b[0] * x[1]
-   *    acc2 =  b[numTaps-1] * x[n-numTaps+1] + b[numTaps-2] * x[n-numTaps] +   b[numTaps-3] * x[n-numTaps-1] +...+ b[0] * x[2]
-   *    acc3 =  b[numTaps-1] * x[n-numTaps+2] + b[numTaps-2] * x[n-numTaps+1] + b[numTaps-3] * x[n-numTaps]   +...+ b[0] * x[3]
+   *    acc0 =  b[numTaps-1] * _x[n-numTaps-1] + b[numTaps-2] * _x[n-numTaps-2] + b[numTaps-3] * _x[n-numTaps-3] +...+ b[0] * _x[0]
+   *    acc1 =  b[numTaps-1] * _x[n-numTaps] +   b[numTaps-2] * _x[n-numTaps-1] + b[numTaps-3] * _x[n-numTaps-2] +...+ b[0] * _x[1]
+   *    acc2 =  b[numTaps-1] * _x[n-numTaps+1] + b[numTaps-2] * _x[n-numTaps] +   b[numTaps-3] * _x[n-numTaps-1] +...+ b[0] * _x[2]
+   *    acc3 =  b[numTaps-1] * _x[n-numTaps+2] + b[numTaps-2] * _x[n-numTaps+1] + b[numTaps-3] * _x[n-numTaps]   +...+ b[0] * _x[3]
    */
   blkCnt = blockSize >> 2;
 
@@ -114,7 +114,7 @@ void arm_fir_fast_q31(
     pb = pCoeffs;
 
     /* Read the first three samples from the state buffer:
-     *  x[n-numTaps], x[n-numTaps-1], x[n-numTaps-2] */
+     *  _x[n-numTaps], _x[n-numTaps-1], _x[n-numTaps-2] */
     x0 = *(px++);
     x1 = *(px++);
     x2 = *(px++);
@@ -128,25 +128,25 @@ void arm_fir_fast_q31(
       /* Read the b[numTaps] coefficient */
       c0 = *pb;
 
-      /* Read x[n-numTaps-3] sample */
+      /* Read _x[n-numTaps-3] sample */
       x3 = *px;
 
-      /* acc0 +=  b[numTaps] * x[n-numTaps] */
+      /* acc0 +=  b[numTaps] * _x[n-numTaps] */
       multAcc_32x32_keep32_R(acc0, x0, c0);
 
-      /* acc1 +=  b[numTaps] * x[n-numTaps-1] */
+      /* acc1 +=  b[numTaps] * _x[n-numTaps-1] */
       multAcc_32x32_keep32_R(acc1, x1, c0);
 
-      /* acc2 +=  b[numTaps] * x[n-numTaps-2] */
+      /* acc2 +=  b[numTaps] * _x[n-numTaps-2] */
       multAcc_32x32_keep32_R(acc2, x2, c0);
 
-      /* acc3 +=  b[numTaps] * x[n-numTaps-3] */
+      /* acc3 +=  b[numTaps] * _x[n-numTaps-3] */
       multAcc_32x32_keep32_R(acc3, x3, c0);
 
       /* Read the b[numTaps-1] coefficient */
       c0 = *(pb + 1U);
 
-      /* Read x[n-numTaps-4] sample */
+      /* Read _x[n-numTaps-4] sample */
       x0 = *(px + 1U);
 
       /* Perform the multiply-accumulates */
@@ -158,7 +158,7 @@ void arm_fir_fast_q31(
       /* Read the b[numTaps-2] coefficient */
       c0 = *(pb + 2U);
 
-      /* Read x[n-numTaps-5] sample */
+      /* Read _x[n-numTaps-5] sample */
       x1 = *(px + 2U);
 
       /* Perform the multiply-accumulates */
@@ -170,7 +170,7 @@ void arm_fir_fast_q31(
       /* Read the b[numTaps-3] coefficients */
       c0 = *(pb + 3U);
 
-      /* Read x[n-numTaps-6] sample */
+      /* Read _x[n-numTaps-6] sample */
       x2 = *(px + 3U);
 
       /* Perform the multiply-accumulates */

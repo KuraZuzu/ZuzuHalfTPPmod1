@@ -111,7 +111,7 @@ void arm_conv_q15(
     srcALen = j;
   }
 
-  /* conv(x,y) at n = x[n] * y[0] + x[n-1] * y[1] + x[n-2] * y[2] + ...+ x[n-N+1] * y[N -1] */
+  /* conv(_x,_y) at n = _x[n] * _y[0] + _x[n-1] * _y[1] + _x[n-2] * _y[2] + ...+ _x[n-N+1] * _y[N -1] */
   /* The function is internally
    * divided into three stages according to the number of multiplications that has to be
    * taken place between inputA samples and inputB samples. In the first stage of the
@@ -129,10 +129,10 @@ void arm_conv_q15(
    * Initializations of stage1
    * -------------------------*/
 
-  /* sum = x[0] * y[0]
-   * sum = x[0] * y[1] + x[1] * y[0]
+  /* sum = _x[0] * _y[0]
+   * sum = _x[0] * _y[1] + _x[1] * _y[0]
    * ....
-   * sum = x[0] * y[srcBlen - 1] + x[1] * y[srcBlen - 2] +...+ x[srcBLen - 1] * y[0]
+   * sum = _x[0] * _y[srcBlen - 1] + _x[1] * _y[srcBlen - 2] +...+ _x[srcBLen - 1] * _y[0]
    */
 
   /* In this stage the MAC operations are increased by 1 for every iteration.
@@ -190,7 +190,7 @@ void arm_conv_q15(
   /* The second part of the stage starts here */
   /* The internal loop, over count, is unrolled by 4 */
   /* To, read the last two inputB samples using SIMD:
-   * y[srcBLen] and y[srcBLen-1] coefficients, py is decremented by 1 */
+   * _y[srcBLen] and _y[srcBLen-1] coefficients, py is decremented by 1 */
   py = py - 1;
 
   while (blockSize1 > 0U)
@@ -206,9 +206,9 @@ void arm_conv_q15(
     while (k > 0U)
     {
       /* Perform the multiply-accumulates */
-      /* x[0], x[1] are multiplied with y[srcBLen - 1], y[srcBLen - 2] respectively */
+      /* _x[0], _x[1] are multiplied with _y[srcBLen - 1], _y[srcBLen - 2] respectively */
       sum = __SMLALDX(*__SIMD32(px)++, *__SIMD32(py)--, sum);
-      /* x[2], x[3] are multiplied with y[srcBLen - 3], y[srcBLen - 4] respectively */
+      /* _x[2], _x[3] are multiplied with _y[srcBLen - 3], _y[srcBLen - 4] respectively */
       sum = __SMLALDX(*__SIMD32(px)++, *__SIMD32(py)--, sum);
 
       /* Decrement the loop counter */
@@ -250,10 +250,10 @@ void arm_conv_q15(
    * Initializations of stage2
    * ------------------------*/
 
-  /* sum = x[0] * y[srcBLen-1] + x[1] * y[srcBLen-2] +...+ x[srcBLen-1] * y[0]
-   * sum = x[1] * y[srcBLen-1] + x[2] * y[srcBLen-2] +...+ x[srcBLen] * y[0]
+  /* sum = _x[0] * _y[srcBLen-1] + _x[1] * _y[srcBLen-2] +...+ _x[srcBLen-1] * _y[0]
+   * sum = _x[1] * _y[srcBLen-1] + _x[2] * _y[srcBLen-2] +...+ _x[srcBLen] * _y[0]
    * ....
-   * sum = x[srcALen-srcBLen-2] * y[srcBLen-1] + x[srcALen] * y[srcBLen-2] +...+ x[srcALen-1] * y[0]
+   * sum = _x[srcALen-srcBLen-2] * _y[srcBLen-1] + _x[srcALen] * _y[srcBLen-2] +...+ _x[srcALen-1] * _y[0]
    */
 
   /* Working pointer of inputA */
@@ -290,9 +290,9 @@ void arm_conv_q15(
       acc3 = 0;
 
 
-      /* read x[0], x[1] samples */
+      /* read _x[0], _x[1] samples */
       x0 = *__SIMD32(px);
-      /* read x[1], x[2] samples */
+      /* read _x[1], _x[2] samples */
       x1 = _SIMD32_OFFSET(px+1);
       px+= 2U;
 
@@ -305,47 +305,47 @@ void arm_conv_q15(
       do
       {
         /* Read the last two inputB samples using SIMD:
-         * y[srcBLen - 1] and y[srcBLen - 2] */
+         * _y[srcBLen - 1] and _y[srcBLen - 2] */
         c0 = *__SIMD32(py)--;
 
-        /* acc0 +=  x[0] * y[srcBLen - 1] + x[1] * y[srcBLen - 2] */
+        /* acc0 +=  _x[0] * _y[srcBLen - 1] + _x[1] * _y[srcBLen - 2] */
         acc0 = __SMLALDX(x0, c0, acc0);
 
-        /* acc1 +=  x[1] * y[srcBLen - 1] + x[2] * y[srcBLen - 2] */
+        /* acc1 +=  _x[1] * _y[srcBLen - 1] + _x[2] * _y[srcBLen - 2] */
         acc1 = __SMLALDX(x1, c0, acc1);
 
-        /* Read x[2], x[3] */
+        /* Read _x[2], _x[3] */
         x2 = *__SIMD32(px);
 
-        /* Read x[3], x[4] */
+        /* Read _x[3], _x[4] */
         x3 = _SIMD32_OFFSET(px+1);
 
-        /* acc2 +=  x[2] * y[srcBLen - 1] + x[3] * y[srcBLen - 2] */
+        /* acc2 +=  _x[2] * _y[srcBLen - 1] + _x[3] * _y[srcBLen - 2] */
         acc2 = __SMLALDX(x2, c0, acc2);
 
-        /* acc3 +=  x[3] * y[srcBLen - 1] + x[4] * y[srcBLen - 2] */
+        /* acc3 +=  _x[3] * _y[srcBLen - 1] + _x[4] * _y[srcBLen - 2] */
         acc3 = __SMLALDX(x3, c0, acc3);
 
-        /* Read y[srcBLen - 3] and y[srcBLen - 4] */
+        /* Read _y[srcBLen - 3] and _y[srcBLen - 4] */
         c0 = *__SIMD32(py)--;
 
-        /* acc0 +=  x[2] * y[srcBLen - 3] + x[3] * y[srcBLen - 4] */
+        /* acc0 +=  _x[2] * _y[srcBLen - 3] + _x[3] * _y[srcBLen - 4] */
         acc0 = __SMLALDX(x2, c0, acc0);
 
-        /* acc1 +=  x[3] * y[srcBLen - 3] + x[4] * y[srcBLen - 4] */
+        /* acc1 +=  _x[3] * _y[srcBLen - 3] + _x[4] * _y[srcBLen - 4] */
         acc1 = __SMLALDX(x3, c0, acc1);
 
-        /* Read x[4], x[5] */
+        /* Read _x[4], _x[5] */
         x0 = _SIMD32_OFFSET(px+2);
 
-        /* Read x[5], x[6] */
+        /* Read _x[5], _x[6] */
         x1 = _SIMD32_OFFSET(px+3);
         px += 4U;
 
-        /* acc2 +=  x[4] * y[srcBLen - 3] + x[5] * y[srcBLen - 4] */
+        /* acc2 +=  _x[4] * _y[srcBLen - 3] + _x[5] * _y[srcBLen - 4] */
         acc2 = __SMLALDX(x0, c0, acc2);
 
-        /* acc3 +=  x[5] * y[srcBLen - 3] + x[6] * y[srcBLen - 4] */
+        /* acc3 +=  _x[5] * _y[srcBLen - 3] + _x[6] * _y[srcBLen - 4] */
         acc3 = __SMLALDX(x1, c0, acc3);
 
       } while (--k);
@@ -359,7 +359,7 @@ void arm_conv_q15(
 
       if (k == 1U)
       {
-        /* Read y[srcBLen - 5] */
+        /* Read _y[srcBLen - 5] */
         c0 = *(py+1);
 
 #ifdef  ARM_MATH_BIG_ENDIAN
@@ -371,7 +371,7 @@ void arm_conv_q15(
         c0 = c0 & 0x0000FFFF;
 
 #endif /*      #ifdef  ARM_MATH_BIG_ENDIAN     */
-        /* Read x[7] */
+        /* Read _x[7] */
         x3 = *__SIMD32(px);
         px++;
 
@@ -384,13 +384,13 @@ void arm_conv_q15(
 
       if (k == 2U)
       {
-        /* Read y[srcBLen - 5], y[srcBLen - 6] */
+        /* Read _y[srcBLen - 5], _y[srcBLen - 6] */
         c0 = _SIMD32_OFFSET(py);
 
-        /* Read x[7], x[8] */
+        /* Read _x[7], _x[8] */
         x3 = *__SIMD32(px);
 
-        /* Read x[9] */
+        /* Read _x[9] */
         x2 = _SIMD32_OFFSET(px+1);
         px += 2U;
 
@@ -403,13 +403,13 @@ void arm_conv_q15(
 
       if (k == 3U)
       {
-        /* Read y[srcBLen - 5], y[srcBLen - 6] */
+        /* Read _y[srcBLen - 5], _y[srcBLen - 6] */
         c0 = _SIMD32_OFFSET(py);
 
-        /* Read x[7], x[8] */
+        /* Read _x[7], _x[8] */
         x3 = *__SIMD32(px);
 
-        /* Read x[9] */
+        /* Read _x[9] */
         x2 = _SIMD32_OFFSET(px+1);
 
         /* Perform the multiply-accumulates */
@@ -427,7 +427,7 @@ void arm_conv_q15(
 
         c0 = c0 & 0x0000FFFF;
 #endif /*      #ifdef  ARM_MATH_BIG_ENDIAN     */
-        /* Read x[10] */
+        /* Read _x[10] */
         x3 =  _SIMD32_OFFSET(px+2);
         px += 3U;
 
@@ -564,11 +564,11 @@ void arm_conv_q15(
    * Initializations of stage3
    * -------------------------*/
 
-  /* sum += x[srcALen-srcBLen+1] * y[srcBLen-1] + x[srcALen-srcBLen+2] * y[srcBLen-2] +...+ x[srcALen-1] * y[1]
-   * sum += x[srcALen-srcBLen+2] * y[srcBLen-1] + x[srcALen-srcBLen+3] * y[srcBLen-2] +...+ x[srcALen-1] * y[2]
+  /* sum += _x[srcALen-srcBLen+1] * _y[srcBLen-1] + _x[srcALen-srcBLen+2] * _y[srcBLen-2] +...+ _x[srcALen-1] * _y[1]
+   * sum += _x[srcALen-srcBLen+2] * _y[srcBLen-1] + _x[srcALen-srcBLen+3] * _y[srcBLen-2] +...+ _x[srcALen-1] * _y[2]
    * ....
-   * sum +=  x[srcALen-2] * y[srcBLen-1] + x[srcALen-1] * y[srcBLen-2]
-   * sum +=  x[srcALen-1] * y[srcBLen-1]
+   * sum +=  _x[srcALen-2] * _y[srcBLen-1] + _x[srcALen-1] * _y[srcBLen-2]
+   * sum +=  _x[srcALen-1] * _y[srcBLen-1]
    */
 
   /* In this stage the MAC operations are decreased by 1 for every iteration.
@@ -608,11 +608,11 @@ void arm_conv_q15(
      ** a second loop below computes MACs for the remaining 1 to 3 samples. */
     while (k > 0U)
     {
-      /* x[srcALen - srcBLen + 1], x[srcALen - srcBLen + 2] are multiplied
-       * with y[srcBLen - 1], y[srcBLen - 2] respectively */
+      /* _x[srcALen - srcBLen + 1], _x[srcALen - srcBLen + 2] are multiplied
+       * with _y[srcBLen - 1], _y[srcBLen - 2] respectively */
       sum = __SMLALDX(*__SIMD32(px)++, *__SIMD32(py)--, sum);
-      /* x[srcALen - srcBLen + 3], x[srcALen - srcBLen + 4] are multiplied
-       * with y[srcBLen - 3], y[srcBLen - 4] respectively */
+      /* _x[srcALen - srcBLen + 3], _x[srcALen - srcBLen + 4] are multiplied
+       * with _y[srcBLen - 3], _y[srcBLen - 4] respectively */
       sum = __SMLALDX(*__SIMD32(px)++, *__SIMD32(py)--, sum);
 
       /* Decrement the loop counter */
@@ -629,7 +629,7 @@ void arm_conv_q15(
 
     while (k > 0U)
     {
-      /* sum += x[srcALen - srcBLen + 5] * y[srcBLen - 5] */
+      /* sum += _x[srcALen - srcBLen + 5] * _y[srcBLen - 5] */
       sum = __SMLALD(*px++, *py--, sum);
 
       /* Decrement the loop counter */
@@ -665,7 +665,7 @@ void arm_conv_q15(
     while (k > 0U)
     {
       /* Perform the multiply-accumulates */
-      /* sum +=  x[srcALen-1] * y[srcBLen-1] */
+      /* sum +=  _x[srcALen-1] * _y[srcBLen-1] */
       sum = __SMLALD(*px++, *py--, sum);
 
       /* Decrement the loop counter */
@@ -704,7 +704,7 @@ void arm_conv_q15(
       /* Check the array limitations */
       if (((i - j) < srcBLen) && (j < srcALen))
       {
-        /* z[i] += x[i-j] * y[j] */
+        /* z[i] += _x[i-j] * _y[j] */
         sum += (q31_t) pIn1[j] * (pIn2[i - j]);
       }
     }

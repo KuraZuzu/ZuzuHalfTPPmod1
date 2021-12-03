@@ -151,7 +151,7 @@ static HAL_StatusTypeDef DMA_CheckFifoParam(DMA_HandleTypeDef *hdma);
  ===============================================================================
     [..]
     This section provides functions allowing to initialize the DMA Stream source
-    and destination addresses, incrementation and data sizes, transfer direction, 
+    and destination addresses, incrementation and data sizes, transfer _direction,
     circular/normal mode selection, memory-to-memory mode selection and Stream priority value.
     [..]
     The HAL_DMA_Init() function follows the DMA configuration procedures as described in

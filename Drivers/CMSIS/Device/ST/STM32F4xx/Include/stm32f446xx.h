@@ -362,12 +362,12 @@ typedef struct
 
 typedef struct
 {
-  __IO uint32_t CR;     /*!< DMA stream x configuration register      */
-  __IO uint32_t NDTR;   /*!< DMA stream x number of data register     */
-  __IO uint32_t PAR;    /*!< DMA stream x peripheral address register */
-  __IO uint32_t M0AR;   /*!< DMA stream x memory 0 address register   */
-  __IO uint32_t M1AR;   /*!< DMA stream x memory 1 address register   */
-  __IO uint32_t FCR;    /*!< DMA stream x FIFO control register       */
+  __IO uint32_t CR;     /*!< DMA stream _x configuration register      */
+  __IO uint32_t NDTR;   /*!< DMA stream _x number of data register     */
+  __IO uint32_t PAR;    /*!< DMA stream _x peripheral address register */
+  __IO uint32_t M0AR;   /*!< DMA stream _x memory 0 address register   */
+  __IO uint32_t M1AR;   /*!< DMA stream _x memory 1 address register   */
+  __IO uint32_t FCR;    /*!< DMA stream _x FIFO control register       */
 } DMA_Stream_TypeDef;
 
 typedef struct
@@ -645,14 +645,14 @@ typedef struct
 
 typedef struct
 {
-  __IO uint32_t CR1;      /*!< SAI block x configuration register 1,     Address offset: 0x04 */
-  __IO uint32_t CR2;      /*!< SAI block x configuration register 2,     Address offset: 0x08 */
-  __IO uint32_t FRCR;     /*!< SAI block x frame configuration register, Address offset: 0x0C */
-  __IO uint32_t SLOTR;    /*!< SAI block x slot register,                Address offset: 0x10 */
-  __IO uint32_t IMR;      /*!< SAI block x interrupt mask register,      Address offset: 0x14 */
-  __IO uint32_t SR;       /*!< SAI block x status register,              Address offset: 0x18 */
-  __IO uint32_t CLRFR;    /*!< SAI block x clear flag register,          Address offset: 0x1C */
-  __IO uint32_t DR;       /*!< SAI block x data register,                Address offset: 0x20 */
+  __IO uint32_t CR1;      /*!< SAI block _x configuration register 1,     Address offset: 0x04 */
+  __IO uint32_t CR2;      /*!< SAI block _x configuration register 2,     Address offset: 0x08 */
+  __IO uint32_t FRCR;     /*!< SAI block _x frame configuration register, Address offset: 0x0C */
+  __IO uint32_t SLOTR;    /*!< SAI block _x slot register,                Address offset: 0x10 */
+  __IO uint32_t IMR;      /*!< SAI block _x interrupt mask register,      Address offset: 0x14 */
+  __IO uint32_t SR;       /*!< SAI block _x status register,              Address offset: 0x18 */
+  __IO uint32_t CLRFR;    /*!< SAI block _x clear flag register,          Address offset: 0x1C */
+  __IO uint32_t DR;       /*!< SAI block _x data register,                Address offset: 0x20 */
 } SAI_Block_TypeDef;
 
 /** 
@@ -9438,13 +9438,13 @@ typedef struct
 #define FMPI2C_CR2_SADD                 FMPI2C_CR2_SADD_Msk                    /*!< Slave address (master mode)                             */
 #define FMPI2C_CR2_RD_WRN_Pos           (10U)                                  
 #define FMPI2C_CR2_RD_WRN_Msk           (0x1UL << FMPI2C_CR2_RD_WRN_Pos)        /*!< 0x00000400 */
-#define FMPI2C_CR2_RD_WRN               FMPI2C_CR2_RD_WRN_Msk                  /*!< Transfer direction (master mode)                        */
+#define FMPI2C_CR2_RD_WRN               FMPI2C_CR2_RD_WRN_Msk                  /*!< Transfer _direction (master mode)                        */
 #define FMPI2C_CR2_ADD10_Pos            (11U)                                  
 #define FMPI2C_CR2_ADD10_Msk            (0x1UL << FMPI2C_CR2_ADD10_Pos)         /*!< 0x00000800 */
 #define FMPI2C_CR2_ADD10                FMPI2C_CR2_ADD10_Msk                   /*!< 10-bit addressing mode (master mode)                    */
 #define FMPI2C_CR2_HEAD10R_Pos          (12U)                                  
 #define FMPI2C_CR2_HEAD10R_Msk          (0x1UL << FMPI2C_CR2_HEAD10R_Pos)       /*!< 0x00001000 */
-#define FMPI2C_CR2_HEAD10R              FMPI2C_CR2_HEAD10R_Msk                 /*!< 10-bit address header only read direction (master mode) */
+#define FMPI2C_CR2_HEAD10R              FMPI2C_CR2_HEAD10R_Msk                 /*!< 10-bit address header only read _direction (master mode) */
 #define FMPI2C_CR2_START_Pos            (13U)                                  
 #define FMPI2C_CR2_START_Msk            (0x1UL << FMPI2C_CR2_START_Pos)         /*!< 0x00002000 */
 #define FMPI2C_CR2_START                FMPI2C_CR2_START_Msk                   /*!< START generation                                        */
@@ -9571,7 +9571,7 @@ typedef struct
 #define FMPI2C_ISR_BUSY                 FMPI2C_ISR_BUSY_Msk                    /*!< Bus busy                         */
 #define FMPI2C_ISR_DIR_Pos              (16U)                                  
 #define FMPI2C_ISR_DIR_Msk              (0x1UL << FMPI2C_ISR_DIR_Pos)           /*!< 0x00010000 */
-#define FMPI2C_ISR_DIR                  FMPI2C_ISR_DIR_Msk                     /*!< Transfer direction (slave mode)  */
+#define FMPI2C_ISR_DIR                  FMPI2C_ISR_DIR_Msk                     /*!< Transfer _direction (slave mode)  */
 #define FMPI2C_ISR_ADDCODE_Pos          (17U)                                  
 #define FMPI2C_ISR_ADDCODE_Msk          (0x7FUL << FMPI2C_ISR_ADDCODE_Pos)      /*!< 0x00FE0000 */
 #define FMPI2C_ISR_ADDCODE              FMPI2C_ISR_ADDCODE_Msk                 /*!< Address match code (slave mode)  */
@@ -12387,7 +12387,7 @@ typedef struct
 #define SDIO_DCTRL_DTEN                SDIO_DCTRL_DTEN_Msk                     /*!<Data transfer enabled bit         */
 #define SDIO_DCTRL_DTDIR_Pos           (1U)                                    
 #define SDIO_DCTRL_DTDIR_Msk           (0x1UL << SDIO_DCTRL_DTDIR_Pos)          /*!< 0x00000002 */
-#define SDIO_DCTRL_DTDIR               SDIO_DCTRL_DTDIR_Msk                    /*!<Data transfer direction selection */
+#define SDIO_DCTRL_DTDIR               SDIO_DCTRL_DTDIR_Msk                    /*!<Data transfer _direction selection */
 #define SDIO_DCTRL_DTMODE_Pos          (2U)                                    
 #define SDIO_DCTRL_DTMODE_Msk          (0x1UL << SDIO_DCTRL_DTMODE_Pos)         /*!< 0x00000004 */
 #define SDIO_DCTRL_DTMODE              SDIO_DCTRL_DTMODE_Msk                   /*!<Data transfer mode selection      */
@@ -15041,7 +15041,7 @@ typedef struct
 #define USB_OTG_HCCHAR_EPNUM_3                   (0x8UL << USB_OTG_HCCHAR_EPNUM_Pos) /*!< 0x00004000 */
 #define USB_OTG_HCCHAR_EPDIR_Pos                 (15U)                         
 #define USB_OTG_HCCHAR_EPDIR_Msk                 (0x1UL << USB_OTG_HCCHAR_EPDIR_Pos) /*!< 0x00008000 */
-#define USB_OTG_HCCHAR_EPDIR                     USB_OTG_HCCHAR_EPDIR_Msk      /*!< Endpoint direction */
+#define USB_OTG_HCCHAR_EPDIR                     USB_OTG_HCCHAR_EPDIR_Msk      /*!< Endpoint _direction */
 #define USB_OTG_HCCHAR_LSDEV_Pos                 (17U)                         
 #define USB_OTG_HCCHAR_LSDEV_Msk                 (0x1UL << USB_OTG_HCCHAR_LSDEV_Pos) /*!< 0x00020000 */
 #define USB_OTG_HCCHAR_LSDEV                     USB_OTG_HCCHAR_LSDEV_Msk      /*!< Low-speed device */

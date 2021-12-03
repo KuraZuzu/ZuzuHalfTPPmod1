@@ -51,7 +51,7 @@
  * of elementary row-operations to an identity matrix yields the inverse matrix.
  * If the input matrix is singular, then the algorithm terminates and returns error status
  * <code>ARM_MATH_SINGULAR</code>.
- * \image html MatrixInverse.gif "Matrix Inverse of a 3 x 3 matrix using Gauss-Jordan Method"
+ * \image html MatrixInverse.gif "Matrix Inverse of a 3 _x 3 matrix using Gauss-Jordan Method"
  */
 
 /**

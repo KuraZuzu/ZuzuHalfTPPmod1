@@ -49,7 +49,7 @@
  *
  * \par
  * This function is optimized for speed at the expense of fixed-point precision and overflow protection.
- * The result of each 1.31 x 1.31 multiplication is truncated to 2.30 format.
+ * The result of each 1.31 _x 1.31 multiplication is truncated to 2.30 format.
  * These intermediate results are added to a 2.30 accumulator.
  * Finally, the accumulator is saturated and converted to a 1.31 result.
  * The fast version has the same overflow behavior as the standard version and provides less precision since it discards the low 32 bits of each multiplication result.
@@ -122,7 +122,7 @@ void arm_fir_decimate_fast_q31(
       /* Read the b[numTaps-1] coefficient */
       c0 = *(pb);
 
-      /* Read x[n-numTaps-1] for sample 0 sample 1 */
+      /* Read _x[n-numTaps-1] for sample 0 sample 1 */
       x0 = *(px0);
       x1 = *(px1);
 
@@ -133,7 +133,7 @@ void arm_fir_decimate_fast_q31(
       /* Read the b[numTaps-2] coefficient */
       c0 = *(pb + 1U);
 
-      /* Read x[n-numTaps-2]  for sample 0 sample 1  */
+      /* Read _x[n-numTaps-2]  for sample 0 sample 1  */
       x0 = *(px0 + 1U);
       x1 = *(px1 + 1U);
 
@@ -144,7 +144,7 @@ void arm_fir_decimate_fast_q31(
       /* Read the b[numTaps-3] coefficient */
       c0 = *(pb + 2U);
 
-      /* Read x[n-numTaps-3]  for sample 0 sample 1 */
+      /* Read _x[n-numTaps-3]  for sample 0 sample 1 */
       x0 = *(px0 + 2U);
       x1 = *(px1 + 2U);
       pb += 4U;
@@ -156,7 +156,7 @@ void arm_fir_decimate_fast_q31(
       /* Read the b[numTaps-4] coefficient */
       c0 = *(pb - 1U);
 
-      /* Read x[n-numTaps-4] for sample 0 sample 1 */
+      /* Read _x[n-numTaps-4] for sample 0 sample 1 */
       x0 = *(px0 + 3U);
       x1 = *(px1 + 3U);
 
@@ -235,7 +235,7 @@ void arm_fir_decimate_fast_q31(
       /* Read the b[numTaps-1] coefficient */
       c0 = *(pb++);
 
-      /* Read x[n-numTaps-1] sample */
+      /* Read _x[n-numTaps-1] sample */
       x0 = *(px++);
 
       /* Perform the multiply-accumulate */
@@ -244,7 +244,7 @@ void arm_fir_decimate_fast_q31(
       /* Read the b[numTaps-2] coefficient */
       c0 = *(pb++);
 
-      /* Read x[n-numTaps-2] sample */
+      /* Read _x[n-numTaps-2] sample */
       x0 = *(px++);
 
       /* Perform the multiply-accumulate */
@@ -253,7 +253,7 @@ void arm_fir_decimate_fast_q31(
       /* Read the b[numTaps-3] coefficient */
       c0 = *(pb++);
 
-      /* Read x[n-numTaps-3] sample */
+      /* Read _x[n-numTaps-3] sample */
       x0 = *(px++);
 
       /* Perform the multiply-accumulate */
@@ -262,7 +262,7 @@ void arm_fir_decimate_fast_q31(
       /* Read the b[numTaps-4] coefficient */
       c0 = *(pb++);
 
-      /* Read x[n-numTaps-4] sample */
+      /* Read _x[n-numTaps-4] sample */
       x0 = *(px++);
 
       /* Perform the multiply-accumulate */

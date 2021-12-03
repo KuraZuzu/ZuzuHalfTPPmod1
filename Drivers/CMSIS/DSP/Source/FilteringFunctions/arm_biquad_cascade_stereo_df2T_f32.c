@@ -49,23 +49,23 @@
 * \par Algorithm
 * Each Biquad stage implements a second order filter using the difference equation:
 * <pre>
-*    y[n] = b0 * x[n] + d1
-*    d1 = b1 * x[n] + a1 * y[n] + d2
-*    d2 = b2 * x[n] + a2 * y[n]
+*    _y[n] = b0 * _x[n] + d1
+*    d1 = b1 * _x[n] + a1 * _y[n] + d2
+*    d2 = b2 * _x[n] + a2 * _y[n]
 * </pre>
 * where d1 and d2 represent the two state values.
 *
 * \par
 * A Biquad filter using a transposed Direct Form II structure is shown below.
 * \image html BiquadDF2Transposed.gif "Single transposed Direct Form II Biquad"
-* Coefficients <code>b0, b1, and b2 </code> multiply the input signal <code>x[n]</code> and are referred to as the feedforward coefficients.
-* Coefficients <code>a1</code> and <code>a2</code> multiply the output signal <code>y[n]</code> and are referred to as the feedback coefficients.
+* Coefficients <code>b0, b1, and b2 </code> multiply the input signal <code>_x[n]</code> and are referred to as the feedforward coefficients.
+* Coefficients <code>a1</code> and <code>a2</code> multiply the output signal <code>_y[n]</code> and are referred to as the feedback coefficients.
 * Pay careful attention to the sign of the feedback coefficients.
 * Some design tools flip the sign of the feedback coefficients:
 * <pre>
-*    y[n] = b0 * x[n] + d1;
-*    d1 = b1 * x[n] - a1 * y[n] + d2;
-*    d2 = b2 * x[n] - a2 * y[n];
+*    _y[n] = b0 * _x[n] + d1;
+*    d1 = b1 * _x[n] - a1 * _y[n] + d2;
+*    d2 = b2 * _x[n] - a2 * _y[n];
 * </pre>
 * In this case the feedback coefficients <code>a1</code> and <code>a2</code> must be negated when used with the CMSIS DSP Library.
 *
@@ -186,9 +186,9 @@ uint32_t blockSize)
         ** a second loop below computes the remaining 1 to 7 samples. */
         while (sample > 0U) {
 
-            /* y[n] = b0 * x[n] + d1 */
-            /* d1 = b1 * x[n] + a1 * y[n] + d2 */
-            /* d2 = b2 * x[n] + a2 * y[n] */
+            /* _y[n] = b0 * _x[n] + d1 */
+            /* d1 = b1 * _x[n] + a1 * _y[n] + d2 */
+            /* d2 = b2 * _x[n] + a2 * _y[n] */
 
             /* Read the first 2 inputs. 2 cycles */
             Xn1a  = pIn[0 ];
@@ -373,7 +373,7 @@ uint32_t blockSize)
             Xn1a = *pIn++; //Channel a
             Xn1b = *pIn++; //Channel b
 
-            /* y[n] = b0 * x[n] + d1 */
+            /* _y[n] = b0 * _x[n] + d1 */
             acc1a = (b0 * Xn1a) + d1a;
             acc1b = (b0 * Xn1b) + d1b;
 
@@ -382,11 +382,11 @@ uint32_t blockSize)
             *pOut++ = acc1b;
 
             /* Every time after the output is computed state should be updated. */
-            /* d1 = b1 * x[n] + a1 * y[n] + d2 */
+            /* d1 = b1 * _x[n] + a1 * _y[n] + d2 */
             d1a = ((b1 * Xn1a) + (a1 * acc1a)) + d2a;
             d1b = ((b1 * Xn1b) + (a1 * acc1b)) + d2b;
 
-            /* d2 = b2 * x[n] + a2 * y[n] */
+            /* d2 = b2 * _x[n] + a2 * _y[n] */
             d2a = (b2 * Xn1a) + (a2 * acc1a);
             d2b = (b2 * Xn1b) + (a2 * acc1b);
 
@@ -439,7 +439,7 @@ uint32_t blockSize)
             Xn1a = *pIn++; //Channel a
             Xn1b = *pIn++; //Channel b
 
-            /* y[n] = b0 * x[n] + d1 */
+            /* _y[n] = b0 * _x[n] + d1 */
             acc1a = (b0 * Xn1a) + d1a;
             acc1b = (b0 * Xn1b) + d1b;
 
@@ -448,11 +448,11 @@ uint32_t blockSize)
             *pOut++ = acc1b;
 
             /* Every time after the output is computed state should be updated. */
-            /* d1 = b1 * x[n] + a1 * y[n] + d2 */
+            /* d1 = b1 * _x[n] + a1 * _y[n] + d2 */
             d1a = ((b1 * Xn1a) + (a1 * acc1a)) + d2a;
             d1b = ((b1 * Xn1b) + (a1 * acc1b)) + d2b;
 
-            /* d2 = b2 * x[n] + a2 * y[n] */
+            /* d2 = b2 * _x[n] + a2 * _y[n] */
             d2a = (b2 * Xn1a) + (a2 * acc1a);
             d2b = (b2 * Xn1b) + (a2 * acc1b);
 
@@ -509,9 +509,9 @@ uint32_t blockSize)
         ** a second loop below computes the remaining 1 to 3 samples. */
         while (sample > 0U) {
 
-            /* y[n] = b0 * x[n] + d1 */
-            /* d1 = b1 * x[n] + a1 * y[n] + d2 */
-            /* d2 = b2 * x[n] + a2 * y[n] */
+            /* _y[n] = b0 * _x[n] + d1 */
+            /* d1 = b1 * _x[n] + a1 * _y[n] + d2 */
+            /* d2 = b2 * _x[n] + a2 * _y[n] */
 
             /* Read the four inputs */
             Xn1a = pIn[0];

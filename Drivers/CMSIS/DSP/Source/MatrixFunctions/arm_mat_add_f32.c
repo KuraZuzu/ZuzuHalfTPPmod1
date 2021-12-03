@@ -36,7 +36,7 @@
  * @defgroup MatrixAdd Matrix Addition
  *
  * Adds two matrices.
- * \image html MatrixAddition.gif "Addition of two 3 x 3 matrices"
+ * \image html MatrixAddition.gif "Addition of two 3 _x 3 matrices"
  *
  * The functions check to make sure that
  * <code>pSrcA</code>, <code>pSrcB</code>, and <code>pDst</code> have the same

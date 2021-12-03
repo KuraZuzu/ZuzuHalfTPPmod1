@@ -52,10 +52,10 @@
  * \par Algorithm:
  * The functions use a polyphase filter structure:
  * <pre>
- *    y[n] = b[0] * x[n] + b[L]   * x[n-1] + ... + b[L*(phaseLength-1)] * x[n-phaseLength+1]
- *    y[n+1] = b[1] * x[n] + b[L+1] * x[n-1] + ... + b[L*(phaseLength-1)+1] * x[n-phaseLength+1]
+ *    _y[n] = b[0] * _x[n] + b[L]   * _x[n-1] + ... + b[L*(phaseLength-1)] * _x[n-phaseLength+1]
+ *    _y[n+1] = b[1] * _x[n] + b[L+1] * _x[n-1] + ... + b[L*(phaseLength-1)+1] * _x[n-phaseLength+1]
  *    ...
- *    y[n+(L-1)] = b[L-1] * x[n] + b[2*L-1] * x[n-1] + ....+ b[L*(phaseLength-1)+(L-1)] * x[n-phaseLength+1]
+ *    _y[n+(L-1)] = b[L-1] * _x[n] + b[2*L-1] * _x[n-1] + ....+ b[L*(phaseLength-1)+(L-1)] * _x[n-phaseLength+1]
  * </pre>
  * This approach is more efficient than straightforward upsample-then-filter algorithms.
  * With this method the computation is reduced by a factor of <code>1/L</code> when compared to using a standard FIR filter.
@@ -75,7 +75,7 @@
  * Samples in the state buffer are stored in the order:
  * \par
  * <pre>
- *    {x[n-phaseLength+1], x[n-phaseLength], x[n-phaseLength-1], x[n-phaseLength-2]....x[0], x[1], ..., x[blockSize-1]}
+ *    {_x[n-phaseLength+1], _x[n-phaseLength], _x[n-phaseLength-1], _x[n-phaseLength-2]...._x[0], _x[1], ..., _x[blockSize-1]}
  * </pre>
  * The state variables are updated after each block of data is processed, the coefficients are untouched.
  *

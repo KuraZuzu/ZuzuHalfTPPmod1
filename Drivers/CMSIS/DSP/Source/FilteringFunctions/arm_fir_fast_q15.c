@@ -81,10 +81,10 @@ void arm_fir_fast_q15(
   /* Apply loop unrolling and compute 4 output values simultaneously.
    * The variables acc0 ... acc3 hold output values that are being computed:
    *
-   *    acc0 =  b[numTaps-1] * x[n-numTaps-1] + b[numTaps-2] * x[n-numTaps-2] + b[numTaps-3] * x[n-numTaps-3] +...+ b[0] * x[0]
-   *    acc1 =  b[numTaps-1] * x[n-numTaps] +   b[numTaps-2] * x[n-numTaps-1] + b[numTaps-3] * x[n-numTaps-2] +...+ b[0] * x[1]
-   *    acc2 =  b[numTaps-1] * x[n-numTaps+1] + b[numTaps-2] * x[n-numTaps] +   b[numTaps-3] * x[n-numTaps-1] +...+ b[0] * x[2]
-   *    acc3 =  b[numTaps-1] * x[n-numTaps+2] + b[numTaps-2] * x[n-numTaps+1] + b[numTaps-3] * x[n-numTaps]   +...+ b[0] * x[3]
+   *    acc0 =  b[numTaps-1] * _x[n-numTaps-1] + b[numTaps-2] * _x[n-numTaps-2] + b[numTaps-3] * _x[n-numTaps-3] +...+ b[0] * _x[0]
+   *    acc1 =  b[numTaps-1] * _x[n-numTaps] +   b[numTaps-2] * _x[n-numTaps-1] + b[numTaps-3] * _x[n-numTaps-2] +...+ b[0] * _x[1]
+   *    acc2 =  b[numTaps-1] * _x[n-numTaps+1] + b[numTaps-2] * _x[n-numTaps] +   b[numTaps-3] * _x[n-numTaps-1] +...+ b[0] * _x[2]
+   *    acc3 =  b[numTaps-1] * _x[n-numTaps+2] + b[numTaps-2] * _x[n-numTaps+1] + b[numTaps-3] * _x[n-numTaps]   +...+ b[0] * _x[3]
    */
 
   blkCnt = blockSize >> 2;
@@ -113,10 +113,10 @@ void arm_fir_fast_q15(
     /* Typecast q15_t pointer to q31_t pointer for coefficient reading in q31_t */
     pb = pCoeffs;
 
-    /* Read the first two samples from the state buffer:  x[n-N], x[n-N-1] */
+    /* Read the first two samples from the state buffer:  _x[n-N], _x[n-N-1] */
     x0 = *__SIMD32(px)++;
 
-    /* Read the third and forth samples from the state buffer: x[n-N-2], x[n-N-3] */
+    /* Read the third and forth samples from the state buffer: _x[n-N-2], _x[n-N-3] */
     x2 = *__SIMD32(px)++;
 
     /* Loop over the number of taps.  Unroll by a factor of 4.
@@ -128,58 +128,58 @@ void arm_fir_fast_q15(
       /* Read the first two coefficients using SIMD:  b[N] and b[N-1] coefficients */
       c0 = *__SIMD32(pb)++;
 
-      /* acc0 +=  b[N] * x[n-N] + b[N-1] * x[n-N-1] */
+      /* acc0 +=  b[N] * _x[n-N] + b[N-1] * _x[n-N-1] */
       acc0 = __SMLAD(x0, c0, acc0);
 
-      /* acc2 +=  b[N] * x[n-N-2] + b[N-1] * x[n-N-3] */
+      /* acc2 +=  b[N] * _x[n-N-2] + b[N-1] * _x[n-N-3] */
       acc2 = __SMLAD(x2, c0, acc2);
 
-      /* pack  x[n-N-1] and x[n-N-2] */
+      /* pack  _x[n-N-1] and _x[n-N-2] */
 #ifndef ARM_MATH_BIG_ENDIAN
       x1 = __PKHBT(x2, x0, 0);
 #else
       x1 = __PKHBT(x0, x2, 0);
 #endif
 
-      /* Read state x[n-N-4], x[n-N-5] */
+      /* Read state _x[n-N-4], _x[n-N-5] */
       x0 = _SIMD32_OFFSET(px);
 
-      /* acc1 +=  b[N] * x[n-N-1] + b[N-1] * x[n-N-2] */
+      /* acc1 +=  b[N] * _x[n-N-1] + b[N-1] * _x[n-N-2] */
       acc1 = __SMLADX(x1, c0, acc1);
 
-      /* pack  x[n-N-3] and x[n-N-4] */
+      /* pack  _x[n-N-3] and _x[n-N-4] */
 #ifndef ARM_MATH_BIG_ENDIAN
       x1 = __PKHBT(x0, x2, 0);
 #else
       x1 = __PKHBT(x2, x0, 0);
 #endif
 
-      /* acc3 +=  b[N] * x[n-N-3] + b[N-1] * x[n-N-4] */
+      /* acc3 +=  b[N] * _x[n-N-3] + b[N-1] * _x[n-N-4] */
       acc3 = __SMLADX(x1, c0, acc3);
 
       /* Read coefficients b[N-2], b[N-3] */
       c0 = *__SIMD32(pb)++;
 
-      /* acc0 +=  b[N-2] * x[n-N-2] + b[N-3] * x[n-N-3] */
+      /* acc0 +=  b[N-2] * _x[n-N-2] + b[N-3] * _x[n-N-3] */
       acc0 = __SMLAD(x2, c0, acc0);
 
-      /* Read state x[n-N-6], x[n-N-7] with offset */
+      /* Read state _x[n-N-6], _x[n-N-7] with offset */
       x2 = _SIMD32_OFFSET(px + 2U);
 
-      /* acc2 +=  b[N-2] * x[n-N-4] + b[N-3] * x[n-N-5] */
+      /* acc2 +=  b[N-2] * _x[n-N-4] + b[N-3] * _x[n-N-5] */
       acc2 = __SMLAD(x0, c0, acc2);
 
-      /* acc1 +=  b[N-2] * x[n-N-3] + b[N-3] * x[n-N-4] */
+      /* acc1 +=  b[N-2] * _x[n-N-3] + b[N-3] * _x[n-N-4] */
       acc1 = __SMLADX(x1, c0, acc1);
 
-      /* pack  x[n-N-5] and x[n-N-6] */
+      /* pack  _x[n-N-5] and _x[n-N-6] */
 #ifndef ARM_MATH_BIG_ENDIAN
       x1 = __PKHBT(x2, x0, 0);
 #else
       x1 = __PKHBT(x0, x2, 0);
 #endif
 
-      /* acc3 +=  b[N-2] * x[n-N-5] + b[N-3] * x[n-N-6] */
+      /* acc3 +=  b[N-2] * _x[n-N-5] + b[N-3] * _x[n-N-6] */
       acc3 = __SMLADX(x1, c0, acc3);
 
       /* Update state pointer for next state reading */

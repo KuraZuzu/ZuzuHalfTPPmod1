@@ -739,7 +739,7 @@ ErrorStatus LL_ADC_REG_Init(ADC_TypeDef *ADCx, LL_ADC_REG_InitTypeDef *ADC_REG_I
                | ADC_REG_InitStruct->DMATransfer
               );
 
-    /* Set ADC group regular sequencer length and scan direction */
+    /* Set ADC group regular sequencer length and scan _direction */
     /* Note: Hardware constraint (refer to description of this function):     */
     /* Note: If ADC instance feature scan mode is disabled                    */
     /*       (refer to  ADC instance initialization structure                 */

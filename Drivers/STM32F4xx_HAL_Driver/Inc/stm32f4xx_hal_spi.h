@@ -336,7 +336,7 @@ typedef  void (*pSPI_CallbackTypeDef)(SPI_HandleTypeDef *hspi); /*!< pointer to 
 
 /** @brief  Reset SPI handle state.
   * @param  __HANDLE__ specifies the SPI Handle.
-  *         This parameter can be SPI where x: 1, 2, or 3 to select the SPI peripheral.
+  *         This parameter can be SPI where _x: 1, 2, or 3 to select the SPI peripheral.
   * @retval None
   */
 #if (USE_HAL_SPI_REGISTER_CALLBACKS == 1U)
@@ -351,7 +351,7 @@ typedef  void (*pSPI_CallbackTypeDef)(SPI_HandleTypeDef *hspi); /*!< pointer to 
 
 /** @brief  Enable the specified SPI interrupts.
   * @param  __HANDLE__ specifies the SPI Handle.
-  *         This parameter can be SPI where x: 1, 2, or 3 to select the SPI peripheral.
+  *         This parameter can be SPI where _x: 1, 2, or 3 to select the SPI peripheral.
   * @param  __INTERRUPT__ specifies the interrupt source to enable.
   *         This parameter can be one of the following values:
   *            @arg SPI_IT_TXE: Tx buffer empty interrupt enable
@@ -363,7 +363,7 @@ typedef  void (*pSPI_CallbackTypeDef)(SPI_HandleTypeDef *hspi); /*!< pointer to 
 
 /** @brief  Disable the specified SPI interrupts.
   * @param  __HANDLE__ specifies the SPI handle.
-  *         This parameter can be SPIx where x: 1, 2, or 3 to select the SPI peripheral.
+  *         This parameter can be SPIx where _x: 1, 2, or 3 to select the SPI peripheral.
   * @param  __INTERRUPT__ specifies the interrupt source to disable.
   *         This parameter can be one of the following values:
   *            @arg SPI_IT_TXE: Tx buffer empty interrupt enable
@@ -375,7 +375,7 @@ typedef  void (*pSPI_CallbackTypeDef)(SPI_HandleTypeDef *hspi); /*!< pointer to 
 
 /** @brief  Check whether the specified SPI interrupt source is enabled or not.
   * @param  __HANDLE__ specifies the SPI Handle.
-  *         This parameter can be SPI where x: 1, 2, or 3 to select the SPI peripheral.
+  *         This parameter can be SPI where _x: 1, 2, or 3 to select the SPI peripheral.
   * @param  __INTERRUPT__ specifies the SPI interrupt source to check.
   *          This parameter can be one of the following values:
   *            @arg SPI_IT_TXE: Tx buffer empty interrupt enable
@@ -388,7 +388,7 @@ typedef  void (*pSPI_CallbackTypeDef)(SPI_HandleTypeDef *hspi); /*!< pointer to 
 
 /** @brief  Check whether the specified SPI flag is set or not.
   * @param  __HANDLE__ specifies the SPI Handle.
-  *         This parameter can be SPI where x: 1, 2, or 3 to select the SPI peripheral.
+  *         This parameter can be SPI where _x: 1, 2, or 3 to select the SPI peripheral.
   * @param  __FLAG__ specifies the flag to check.
   *         This parameter can be one of the following values:
   *            @arg SPI_FLAG_RXNE: Receive buffer not empty flag
@@ -404,14 +404,14 @@ typedef  void (*pSPI_CallbackTypeDef)(SPI_HandleTypeDef *hspi); /*!< pointer to 
 
 /** @brief  Clear the SPI CRCERR pending flag.
   * @param  __HANDLE__ specifies the SPI Handle.
-  *         This parameter can be SPI where x: 1, 2, or 3 to select the SPI peripheral.
+  *         This parameter can be SPI where _x: 1, 2, or 3 to select the SPI peripheral.
   * @retval None
   */
 #define __HAL_SPI_CLEAR_CRCERRFLAG(__HANDLE__) ((__HANDLE__)->Instance->SR = (uint16_t)(~SPI_FLAG_CRCERR))
 
 /** @brief  Clear the SPI MODF pending flag.
   * @param  __HANDLE__ specifies the SPI Handle.
-  *         This parameter can be SPI where x: 1, 2, or 3 to select the SPI peripheral.
+  *         This parameter can be SPI where _x: 1, 2, or 3 to select the SPI peripheral.
   * @retval None
   */
 #define __HAL_SPI_CLEAR_MODFFLAG(__HANDLE__)             \
@@ -424,7 +424,7 @@ typedef  void (*pSPI_CallbackTypeDef)(SPI_HandleTypeDef *hspi); /*!< pointer to 
 
 /** @brief  Clear the SPI OVR pending flag.
   * @param  __HANDLE__ specifies the SPI Handle.
-  *         This parameter can be SPI where x: 1, 2, or 3 to select the SPI peripheral.
+  *         This parameter can be SPI where _x: 1, 2, or 3 to select the SPI peripheral.
   * @retval None
   */
 #define __HAL_SPI_CLEAR_OVRFLAG(__HANDLE__)        \
@@ -437,7 +437,7 @@ typedef  void (*pSPI_CallbackTypeDef)(SPI_HandleTypeDef *hspi); /*!< pointer to 
 
 /** @brief  Clear the SPI FRE pending flag.
   * @param  __HANDLE__ specifies the SPI Handle.
-  *         This parameter can be SPI where x: 1, 2, or 3 to select the SPI peripheral.
+  *         This parameter can be SPI where _x: 1, 2, or 3 to select the SPI peripheral.
   * @retval None
   */
 #define __HAL_SPI_CLEAR_FREFLAG(__HANDLE__)        \
@@ -449,14 +449,14 @@ typedef  void (*pSPI_CallbackTypeDef)(SPI_HandleTypeDef *hspi); /*!< pointer to 
 
 /** @brief  Enable the SPI peripheral.
   * @param  __HANDLE__ specifies the SPI Handle.
-  *         This parameter can be SPI where x: 1, 2, or 3 to select the SPI peripheral.
+  *         This parameter can be SPI where _x: 1, 2, or 3 to select the SPI peripheral.
   * @retval None
   */
 #define __HAL_SPI_ENABLE(__HANDLE__)  SET_BIT((__HANDLE__)->Instance->CR1, SPI_CR1_SPE)
 
 /** @brief  Disable the SPI peripheral.
   * @param  __HANDLE__ specifies the SPI Handle.
-  *         This parameter can be SPI where x: 1, 2, or 3 to select the SPI peripheral.
+  *         This parameter can be SPI where _x: 1, 2, or 3 to select the SPI peripheral.
   * @retval None
   */
 #define __HAL_SPI_DISABLE(__HANDLE__) CLEAR_BIT((__HANDLE__)->Instance->CR1, SPI_CR1_SPE)
@@ -472,21 +472,21 @@ typedef  void (*pSPI_CallbackTypeDef)(SPI_HandleTypeDef *hspi); /*!< pointer to 
 
 /** @brief  Set the SPI transmit-only mode.
   * @param  __HANDLE__ specifies the SPI Handle.
-  *         This parameter can be SPI where x: 1, 2, or 3 to select the SPI peripheral.
+  *         This parameter can be SPI where _x: 1, 2, or 3 to select the SPI peripheral.
   * @retval None
   */
 #define SPI_1LINE_TX(__HANDLE__)  SET_BIT((__HANDLE__)->Instance->CR1, SPI_CR1_BIDIOE)
 
 /** @brief  Set the SPI receive-only mode.
   * @param  __HANDLE__ specifies the SPI Handle.
-  *         This parameter can be SPI where x: 1, 2, or 3 to select the SPI peripheral.
+  *         This parameter can be SPI where _x: 1, 2, or 3 to select the SPI peripheral.
   * @retval None
   */
 #define SPI_1LINE_RX(__HANDLE__)  CLEAR_BIT((__HANDLE__)->Instance->CR1, SPI_CR1_BIDIOE)
 
 /** @brief  Reset the CRC calculation of the SPI.
   * @param  __HANDLE__ specifies the SPI Handle.
-  *         This parameter can be SPI where x: 1, 2, or 3 to select the SPI peripheral.
+  *         This parameter can be SPI where _x: 1, 2, or 3 to select the SPI peripheral.
   * @retval None
   */
 #define SPI_RESET_CRC(__HANDLE__) do{CLEAR_BIT((__HANDLE__)->Instance->CR1, SPI_CR1_CRCEN);\

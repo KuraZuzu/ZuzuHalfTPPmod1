@@ -37,7 +37,7 @@
  *
  * Multiplies a matrix by a scalar.  This is accomplished by multiplying each element in the
  * matrix by the scalar.  For example:
- * \image html MatrixScale.gif "Matrix Scaling of a 3 x 3 matrix"
+ * \image html MatrixScale.gif "Matrix Scaling of a 3 _x 3 matrix"
  *
  * The function checks to make sure that the input and output matrices are of the same size.
  *

@@ -49,7 +49,7 @@
  * <b>Scaling and Overflow Behavior:</b>
  * \par
  * This function is optimized for speed at the expense of fixed-point precision and overflow protection.
- * The result of each 1.31 x 1.31 multiplication is truncated to 2.30 format.
+ * The result of each 1.31 _x 1.31 multiplication is truncated to 2.30 format.
  * These intermediate results are added to a 2.30 accumulator.
  * Finally, the accumulator is saturated and converted to a 1.31 result.
  * The fast version has the same overflow behavior as the standard version and provides less precision since it discards the low 32 bits of each multiplication result.
@@ -97,7 +97,7 @@ void arm_biquad_cascade_df1_fast_q31(
     /* Apply loop unrolling and compute 4 output values simultaneously. */
     /*      The variables acc ... acc3 hold output values that are being computed:
      *
-     *    acc =  b0 * x[n] + b1 * x[n-1] + b2 * x[n-2] + a1 * y[n-1] + a2 * y[n-2]
+     *    acc =  b0 * _x[n] + b1 * _x[n-1] + b2 * _x[n-2] + a1 * _y[n-1] + a2 * _y[n-2]
      */
 
     sample = blockSize >> 2U;
@@ -109,20 +109,20 @@ void arm_biquad_cascade_df1_fast_q31(
       /* Read the input */
       Xn = *pIn;
 
-      /* acc =  b0 * x[n] + b1 * x[n-1] + b2 * x[n-2] + a1 * y[n-1] + a2 * y[n-2] */
-      /* acc =  b0 * x[n] */
+      /* acc =  b0 * _x[n] + b1 * _x[n-1] + b2 * _x[n-2] + a1 * _y[n-1] + a2 * _y[n-2] */
+      /* acc =  b0 * _x[n] */
       /*acc = (q31_t) (((q63_t) b1 * Xn1) >> 32);*/
       mult_32x32_keep32_R(acc, b1, Xn1);
-      /* acc +=  b1 * x[n-1] */
+      /* acc +=  b1 * _x[n-1] */
       /*acc = (q31_t) ((((q63_t) acc << 32) + ((q63_t) b0 * (Xn))) >> 32);*/
       multAcc_32x32_keep32_R(acc, b0, Xn);
-      /* acc +=  b[2] * x[n-2] */
+      /* acc +=  b[2] * _x[n-2] */
       /*acc = (q31_t) ((((q63_t) acc << 32) + ((q63_t) b2 * (Xn2))) >> 32);*/
       multAcc_32x32_keep32_R(acc, b2, Xn2);
-      /* acc +=  a1 * y[n-1] */
+      /* acc +=  a1 * _y[n-1] */
       /*acc = (q31_t) ((((q63_t) acc << 32) + ((q63_t) a1 * (Yn1))) >> 32);*/
       multAcc_32x32_keep32_R(acc, a1, Yn1);
-      /* acc +=  a2 * y[n-2] */
+      /* acc +=  a2 * _y[n-2] */
       /*acc = (q31_t) ((((q63_t) acc << 32) + ((q63_t) a2 * (Yn2))) >> 32);*/
       multAcc_32x32_keep32_R(acc, a2, Yn2);
 
@@ -135,20 +135,20 @@ void arm_biquad_cascade_df1_fast_q31(
       /* Store the output in the destination buffer. */
       *pOut = Yn2;
 
-      /* acc =  b0 * x[n] + b1 * x[n-1] + b2 * x[n-2] + a1 * y[n-1] + a2 * y[n-2] */
-      /* acc =  b0 * x[n] */
+      /* acc =  b0 * _x[n] + b1 * _x[n-1] + b2 * _x[n-2] + a1 * _y[n-1] + a2 * _y[n-2] */
+      /* acc =  b0 * _x[n] */
       /*acc = (q31_t) (((q63_t) b0 * (Xn2)) >> 32);*/
       mult_32x32_keep32_R(acc, b0, Xn2);
-      /* acc +=  b1 * x[n-1] */
+      /* acc +=  b1 * _x[n-1] */
       /*acc = (q31_t) ((((q63_t) acc << 32) + ((q63_t) b1 * (Xn))) >> 32);*/
       multAcc_32x32_keep32_R(acc, b1, Xn);
-      /* acc +=  b[2] * x[n-2] */
+      /* acc +=  b[2] * _x[n-2] */
       /*acc = (q31_t) ((((q63_t) acc << 32) + ((q63_t) b2 * (Xn1))) >> 32);*/
       multAcc_32x32_keep32_R(acc, b2, Xn1);
-      /* acc +=  a1 * y[n-1] */
+      /* acc +=  a1 * _y[n-1] */
       /*acc = (q31_t) ((((q63_t) acc << 32) + ((q63_t) a1 * (Yn2))) >> 32);*/
       multAcc_32x32_keep32_R(acc, a1, Yn2);
-      /* acc +=  a2 * y[n-2] */
+      /* acc +=  a2 * _y[n-2] */
       /*acc = (q31_t) ((((q63_t) acc << 32) + ((q63_t) a2 * (Yn1))) >> 32);*/
       multAcc_32x32_keep32_R(acc, a2, Yn1);
 
@@ -161,20 +161,20 @@ void arm_biquad_cascade_df1_fast_q31(
       /* Store the output in the destination buffer. */
       *(pOut + 1U) = Yn1;
 
-      /* acc =  b0 * x[n] + b1 * x[n-1] + b2 * x[n-2] + a1 * y[n-1] + a2 * y[n-2] */
-      /* acc =  b0 * x[n] */
+      /* acc =  b0 * _x[n] + b1 * _x[n-1] + b2 * _x[n-2] + a1 * _y[n-1] + a2 * _y[n-2] */
+      /* acc =  b0 * _x[n] */
       /*acc = (q31_t) (((q63_t) b0 * (Xn1)) >> 32);*/
       mult_32x32_keep32_R(acc, b0, Xn1);
-      /* acc +=  b1 * x[n-1] */
+      /* acc +=  b1 * _x[n-1] */
       /*acc = (q31_t) ((((q63_t) acc << 32) + ((q63_t) b1 * (Xn2))) >> 32);*/
       multAcc_32x32_keep32_R(acc, b1, Xn2);
-      /* acc +=  b[2] * x[n-2] */
+      /* acc +=  b[2] * _x[n-2] */
       /*acc = (q31_t) ((((q63_t) acc << 32) + ((q63_t) b2 * (Xn))) >> 32);*/
       multAcc_32x32_keep32_R(acc, b2, Xn);
-      /* acc +=  a1 * y[n-1] */
+      /* acc +=  a1 * _y[n-1] */
       /*acc = (q31_t) ((((q63_t) acc << 32) + ((q63_t) a1 * (Yn1))) >> 32);*/
       multAcc_32x32_keep32_R(acc, a1, Yn1);
-      /* acc +=  a2 * y[n-2] */
+      /* acc +=  a2 * _y[n-2] */
       /*acc = (q31_t) ((((q63_t) acc << 32) + ((q63_t) a2 * (Yn2))) >> 32);*/
       multAcc_32x32_keep32_R(acc, a2, Yn2);
 
@@ -188,20 +188,20 @@ void arm_biquad_cascade_df1_fast_q31(
       *(pOut + 2U) = Yn2;
       pIn += 4U;
 
-      /* acc =  b0 * x[n] + b1 * x[n-1] + b2 * x[n-2] + a1 * y[n-1] + a2 * y[n-2] */
-      /* acc =  b0 * x[n] */
+      /* acc =  b0 * _x[n] + b1 * _x[n-1] + b2 * _x[n-2] + a1 * _y[n-1] + a2 * _y[n-2] */
+      /* acc =  b0 * _x[n] */
       /*acc = (q31_t) (((q63_t) b0 * (Xn)) >> 32);*/
       mult_32x32_keep32_R(acc, b0, Xn);
-      /* acc +=  b1 * x[n-1] */
+      /* acc +=  b1 * _x[n-1] */
       /*acc = (q31_t) ((((q63_t) acc << 32) + ((q63_t) b1 * (Xn1))) >> 32);*/
       multAcc_32x32_keep32_R(acc, b1, Xn1);
-      /* acc +=  b[2] * x[n-2] */
+      /* acc +=  b[2] * _x[n-2] */
       /*acc = (q31_t) ((((q63_t) acc << 32) + ((q63_t) b2 * (Xn2))) >> 32);*/
       multAcc_32x32_keep32_R(acc, b2, Xn2);
-      /* acc +=  a1 * y[n-1] */
+      /* acc +=  a1 * _y[n-1] */
       /*acc = (q31_t) ((((q63_t) acc << 32) + ((q63_t) a1 * (Yn2))) >> 32);*/
       multAcc_32x32_keep32_R(acc, a1, Yn2);
-      /* acc +=  a2 * y[n-2] */
+      /* acc +=  a2 * _y[n-2] */
       /*acc = (q31_t) ((((q63_t) acc << 32) + ((q63_t) a2 * (Yn1))) >> 32);*/
       multAcc_32x32_keep32_R(acc, a2, Yn1);
 
@@ -233,20 +233,20 @@ void arm_biquad_cascade_df1_fast_q31(
       /* Read the input */
       Xn = *pIn++;
 
-      /* acc =  b0 * x[n] + b1 * x[n-1] + b2 * x[n-2] + a1 * y[n-1] + a2 * y[n-2] */
-      /* acc =  b0 * x[n] */
+      /* acc =  b0 * _x[n] + b1 * _x[n-1] + b2 * _x[n-2] + a1 * _y[n-1] + a2 * _y[n-2] */
+      /* acc =  b0 * _x[n] */
       /*acc = (q31_t) (((q63_t) b0 * (Xn)) >> 32);*/
       mult_32x32_keep32_R(acc, b0, Xn);
-      /* acc +=  b1 * x[n-1] */
+      /* acc +=  b1 * _x[n-1] */
       /*acc = (q31_t) ((((q63_t) acc << 32) + ((q63_t) b1 * (Xn1))) >> 32);*/
       multAcc_32x32_keep32_R(acc, b1, Xn1);
-      /* acc +=  b[2] * x[n-2] */
+      /* acc +=  b[2] * _x[n-2] */
       /*acc = (q31_t) ((((q63_t) acc << 32) + ((q63_t) b2 * (Xn2))) >> 32);*/
       multAcc_32x32_keep32_R(acc, b2, Xn2);
-      /* acc +=  a1 * y[n-1] */
+      /* acc +=  a1 * _y[n-1] */
       /*acc = (q31_t) ((((q63_t) acc << 32) + ((q63_t) a1 * (Yn1))) >> 32);*/
       multAcc_32x32_keep32_R(acc, a1, Yn1);
-      /* acc +=  a2 * y[n-2] */
+      /* acc +=  a2 * _y[n-2] */
       /*acc = (q31_t) ((((q63_t) acc << 32) + ((q63_t) a2 * (Yn2))) >> 32);*/
       multAcc_32x32_keep32_R(acc, a2, Yn2);
 

@@ -66,7 +66,7 @@
 /**
  * @brief  Fast approximation to the trigonometric sine function for floating-point data.
  * @param[in] x input value in radians.
- * @return  sin(x).
+ * @return  sin(_x).
  */
 
 float32_t arm_sin_f32(
@@ -83,7 +83,7 @@ float32_t arm_sin_f32(
      return x;
   }
 
-  /* input x is in radians */
+  /* input _x is in radians */
   /* Scale the input to [0 1] range from [0 2*PI] , divide input by 2*pi */
   in = x * 0.159154943092f;
 

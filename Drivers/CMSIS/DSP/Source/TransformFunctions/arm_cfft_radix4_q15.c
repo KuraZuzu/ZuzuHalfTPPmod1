@@ -107,17 +107,17 @@ void arm_cfft_radix4_q15(
 * Radix-4 FFT algorithm used is :
 *
 * Input real and imaginary data:
-* x(n) = xa + j * ya
-* x(n+N/4 ) = xb + j * yb
-* x(n+N/2 ) = xc + j * yc
-* x(n+3N 4) = xd + j * yd
+* _x(n) = xa + j * ya
+* _x(n+N/4 ) = xb + j * yb
+* _x(n+N/2 ) = xc + j * yc
+* _x(n+3N 4) = xd + j * yd
 *
 *
 * Output real and imaginary data:
-* x(4r) = xa'+ j * ya'
-* x(4r+1) = xb'+ j * yb'
-* x(4r+2) = xc'+ j * yc'
-* x(4r+3) = xd'+ j * yd'
+* _x(4r) = xa'+ j * ya'
+* _x(4r+1) = xb'+ j * yb'
+* _x(4r+2) = xc'+ j * yc'
+* _x(4r+3) = xd'+ j * yd'
 *
 *
 * Twiddle factors for radix-4 FFT:
@@ -1027,23 +1027,23 @@ void arm_radix4_butterfly_q15(
 * Radix-4 IFFT algorithm used is :
 *
 * CIFFT uses same twiddle coefficients as CFFT function
-*  x[k] = x[n] + (j)k * x[n + fftLen/4] + (-1)k * x[n+fftLen/2] + (-j)k * x[n+3*fftLen/4]
+*  _x[k] = _x[n] + (j)k * _x[n + fftLen/4] + (-1)k * _x[n+fftLen/2] + (-j)k * _x[n+3*fftLen/4]
 *
 *
 * IFFT is implemented with following changes in equations from FFT
 *
 * Input real and imaginary data:
-* x(n) = xa + j * ya
-* x(n+N/4 ) = xb + j * yb
-* x(n+N/2 ) = xc + j * yc
-* x(n+3N 4) = xd + j * yd
+* _x(n) = xa + j * ya
+* _x(n+N/4 ) = xb + j * yb
+* _x(n+N/2 ) = xc + j * yc
+* _x(n+3N 4) = xd + j * yd
 *
 *
 * Output real and imaginary data:
-* x(4r) = xa'+ j * ya'
-* x(4r+1) = xb'+ j * yb'
-* x(4r+2) = xc'+ j * yc'
-* x(4r+3) = xd'+ j * yd'
+* _x(4r) = xa'+ j * ya'
+* _x(4r+1) = xb'+ j * yb'
+* _x(4r+2) = xc'+ j * yc'
+* _x(4r+3) = xd'+ j * yd'
 *
 *
 * Twiddle factors for radix-4 IFFT:

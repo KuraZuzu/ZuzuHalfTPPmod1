@@ -47,7 +47,7 @@
  *
  * <b>Scaling and Overflow Behavior:</b>
  * \par
- * The intermediate multiplications are in 1.7 x 1.7 = 2.14 format and these
+ * The intermediate multiplications are in 1.7 _x 1.7 = 2.14 format and these
  * results are added to an accumulator in 18.14 format.
  * Nonsaturating additions are used and there is no danger of wrap around as long as
  * the vectors are less than 2^18 elements long.

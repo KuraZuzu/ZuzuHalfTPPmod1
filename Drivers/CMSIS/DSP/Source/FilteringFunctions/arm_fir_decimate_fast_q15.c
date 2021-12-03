@@ -129,7 +129,7 @@ void arm_fir_decimate_fast_q15(
       /* Read the Read b[numTaps-1] and b[numTaps-2]  coefficients */
       c0 = *__SIMD32(pb)++;
 
-      /* Read x[n-numTaps-1] and x[n-numTaps-2]sample */
+      /* Read _x[n-numTaps-1] and _x[n-numTaps-2]sample */
       x0 = *__SIMD32(px0)++;
 
       x1 = *__SIMD32(px1)++;
@@ -142,7 +142,7 @@ void arm_fir_decimate_fast_q15(
       /* Read the b[numTaps-3] and b[numTaps-4] coefficient */
       c0 = *__SIMD32(pb)++;
 
-      /* Read x[n-numTaps-2] and x[n-numTaps-3] sample */
+      /* Read _x[n-numTaps-2] and _x[n-numTaps-3] sample */
       x0 = *__SIMD32(px0)++;
 
       x1 = *__SIMD32(px1)++;
@@ -222,7 +222,7 @@ void arm_fir_decimate_fast_q15(
       /* Read the Read b[numTaps-1] and b[numTaps-2]  coefficients */
       c0 = *__SIMD32(pb)++;
 
-      /* Read x[n-numTaps-1] and x[n-numTaps-2]sample */
+      /* Read _x[n-numTaps-1] and _x[n-numTaps-2]sample */
       x0 = *__SIMD32(px)++;
 
       /* Read the b[numTaps-3] and b[numTaps-4] coefficient */
@@ -231,7 +231,7 @@ void arm_fir_decimate_fast_q15(
       /* Perform the multiply-accumulate */
       sum0 = __SMLAD(x0, c0, sum0);
 
-      /* Read x[n-numTaps-2] and x[n-numTaps-3] sample */
+      /* Read _x[n-numTaps-2] and _x[n-numTaps-3] sample */
       x0 = *__SIMD32(px)++;
 
       /* Perform the multiply-accumulate */
@@ -368,7 +368,7 @@ void arm_fir_decimate_fast_q15(
       /* Read the Read b[numTaps-1] coefficients */
       c0 = *pb++;
 
-      /* Read x[n-numTaps-1] for sample 0 and for sample 1 */
+      /* Read _x[n-numTaps-1] for sample 0 and for sample 1 */
       x0 = *px0++;
       x1 = *px1++;
 
@@ -379,7 +379,7 @@ void arm_fir_decimate_fast_q15(
       /* Read the b[numTaps-2] coefficient */
       c0 = *pb++;
 
-      /* Read x[n-numTaps-2] for sample 0 and sample 1 */
+      /* Read _x[n-numTaps-2] for sample 0 and sample 1 */
       x0 = *px0++;
       x1 = *px1++;
 
@@ -390,7 +390,7 @@ void arm_fir_decimate_fast_q15(
       /* Read the b[numTaps-3]  coefficients */
       c0 = *pb++;
 
-      /* Read x[n-numTaps-3] for sample 0 and sample 1 */
+      /* Read _x[n-numTaps-3] for sample 0 and sample 1 */
       x0 = *px0++;
       x1 = *px1++;
 
@@ -401,7 +401,7 @@ void arm_fir_decimate_fast_q15(
       /* Read the b[numTaps-4] coefficient */
       c0 = *pb++;
 
-      /* Read x[n-numTaps-4] for sample 0 and sample 1 */
+      /* Read _x[n-numTaps-4] for sample 0 and sample 1 */
       x0 = *px0++;
       x1 = *px1++;
 
@@ -478,7 +478,7 @@ void arm_fir_decimate_fast_q15(
       /* Read the Read b[numTaps-1] coefficients */
       c0 = *pb++;
 
-      /* Read x[n-numTaps-1] and sample */
+      /* Read _x[n-numTaps-1] and sample */
       x0 = *px++;
 
       /* Perform the multiply-accumulate */
@@ -487,7 +487,7 @@ void arm_fir_decimate_fast_q15(
       /* Read the b[numTaps-2] coefficient */
       c0 = *pb++;
 
-      /* Read x[n-numTaps-2] and  sample */
+      /* Read _x[n-numTaps-2] and  sample */
       x0 = *px++;
 
       /* Perform the multiply-accumulate */
@@ -496,7 +496,7 @@ void arm_fir_decimate_fast_q15(
       /* Read the b[numTaps-3]  coefficients */
       c0 = *pb++;
 
-      /* Read x[n-numTaps-3] sample */
+      /* Read _x[n-numTaps-3] sample */
       x0 = *px++;
 
       /* Perform the multiply-accumulate */
@@ -505,7 +505,7 @@ void arm_fir_decimate_fast_q15(
       /* Read the b[numTaps-4] coefficient */
       c0 = *pb++;
 
-      /* Read x[n-numTaps-4] sample */
+      /* Read _x[n-numTaps-4] sample */
       x0 = *px++;
 
       /* Perform the multiply-accumulate */

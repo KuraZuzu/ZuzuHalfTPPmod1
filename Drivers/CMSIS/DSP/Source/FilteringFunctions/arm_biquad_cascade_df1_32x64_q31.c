@@ -51,16 +51,16 @@
  * \par Algorithm
  * Each Biquad stage implements a second order filter using the difference equation:
  * <pre>
- *     y[n] = b0 * x[n] + b1 * x[n-1] + b2 * x[n-2] + a1 * y[n-1] + a2 * y[n-2]
+ *     _y[n] = b0 * _x[n] + b1 * _x[n-1] + b2 * _x[n-2] + a1 * _y[n-1] + a2 * _y[n-2]
  * </pre>
  * A Direct Form I algorithm is used with 5 coefficients and 4 state variables per stage.
  * \image html Biquad.gif "Single Biquad filter stage"
- * Coefficients <code>b0, b1, and b2 </code> multiply the input signal <code>x[n]</code> and are referred to as the feedforward coefficients.
- * Coefficients <code>a1</code> and <code>a2</code> multiply the output signal <code>y[n]</code> and are referred to as the feedback coefficients.
+ * Coefficients <code>b0, b1, and b2 </code> multiply the input signal <code>_x[n]</code> and are referred to as the feedforward coefficients.
+ * Coefficients <code>a1</code> and <code>a2</code> multiply the output signal <code>_y[n]</code> and are referred to as the feedback coefficients.
  * Pay careful attention to the sign of the feedback coefficients.
  * Some design tools use the difference equation
  * <pre>
- *     y[n] = b0 * x[n] + b1 * x[n-1] + b2 * x[n-2] - a1 * y[n-1] - a2 * y[n-2]
+ *     _y[n] = b0 * _x[n] + b1 * _x[n-1] + b2 * _x[n-2] - a1 * _y[n-1] - a2 * _y[n-2]
  * </pre>
  * In this case the feedback coefficients <code>a1</code> and <code>a2</code> must be negated when used with the CMSIS DSP Library.
  *
@@ -73,10 +73,10 @@
  *
  * \par
  * The <code>pState</code> points to state variables array .
- * Each Biquad stage has 4 state variables <code>x[n-1], x[n-2], y[n-1],</code> and <code>y[n-2]</code> and each state variable in 1.63 format to improve precision.
+ * Each Biquad stage has 4 state variables <code>_x[n-1], _x[n-2], _y[n-1],</code> and <code>_y[n-2]</code> and each state variable in 1.63 format to improve precision.
  * The state variables are arranged in the array as:
  * <pre>
- *     {x[n-1], x[n-2], y[n-1], y[n-2]}
+ *     {_x[n-1], _x[n-2], _y[n-1], _y[n-2]}
  * </pre>
  *
  * \par
@@ -216,7 +216,7 @@ void arm_biquad_cas_df1_32x64_q31(
     /* Apply loop unrolling and compute 4 output values simultaneously. */
     /* The variable acc hold output value that is being computed and
      * stored in the destination buffer
-     * acc =  b0 * x[n] + b1 * x[n-1] + b2 * x[n-2] + a1 * y[n-1] + a2 * y[n-2]
+     * acc =  b0 * _x[n] + b1 * _x[n-1] + b2 * _x[n-2] + a1 * _y[n-1] + a2 * _y[n-2]
      */
 
     sample = blockSize >> 2U;
@@ -228,21 +228,21 @@ void arm_biquad_cas_df1_32x64_q31(
       /* Read the input */
       Xn = *pIn++;
 
-      /* acc =  b0 * x[n] + b1 * x[n-1] + b2 * x[n-2] + a1 * y[n-1] + a2 * y[n-2] */
+      /* acc =  b0 * _x[n] + b1 * _x[n-1] + b2 * _x[n-2] + a1 * _y[n-1] + a2 * _y[n-2] */
 
-      /* acc =  b0 * x[n] */
+      /* acc =  b0 * _x[n] */
       acc = (q63_t) Xn *b0;
 
-      /* acc +=  b1 * x[n-1] */
+      /* acc +=  b1 * _x[n-1] */
       acc += (q63_t) Xn1 *b1;
 
-      /* acc +=  b[2] * x[n-2] */
+      /* acc +=  b[2] * _x[n-2] */
       acc += (q63_t) Xn2 *b2;
 
-      /* acc +=  a1 * y[n-1] */
+      /* acc +=  a1 * _y[n-1] */
       acc += mult32x64(Yn1, a1);
 
-      /* acc +=  a2 * y[n-2] */
+      /* acc +=  a2 * _y[n-2] */
       acc += mult32x64(Yn2, a2);
 
       /* The result is converted to 1.63 , Yn2 variable is reused */
@@ -263,21 +263,21 @@ void arm_biquad_cas_df1_32x64_q31(
       /* Read the second input into Xn2, to reuse the value */
       Xn2 = *pIn++;
 
-      /* acc =  b0 * x[n] + b1 * x[n-1] + b2 * x[n-2] + a1 * y[n-1] + a2 * y[n-2] */
+      /* acc =  b0 * _x[n] + b1 * _x[n-1] + b2 * _x[n-2] + a1 * _y[n-1] + a2 * _y[n-2] */
 
-      /* acc +=  b1 * x[n-1] */
+      /* acc +=  b1 * _x[n-1] */
       acc = (q63_t) Xn *b1;
 
-      /* acc =  b0 * x[n] */
+      /* acc =  b0 * _x[n] */
       acc += (q63_t) Xn2 *b0;
 
-      /* acc +=  b[2] * x[n-2] */
+      /* acc +=  b[2] * _x[n-2] */
       acc += (q63_t) Xn1 *b2;
 
-      /* acc +=  a1 * y[n-1] */
+      /* acc +=  a1 * _y[n-1] */
       acc += mult32x64(Yn2, a1);
 
-      /* acc +=  a2 * y[n-2] */
+      /* acc +=  a2 * _y[n-2] */
       acc += mult32x64(Yn1, a2);
 
       /* The result is converted to 1.63, Yn1 variable is reused */
@@ -299,21 +299,21 @@ void arm_biquad_cas_df1_32x64_q31(
       /* Store the output in the destination buffer. */
       *(pOut + 1U) = acc_h;
 
-      /* acc =  b0 * x[n] + b1 * x[n-1] + b2 * x[n-2] + a1 * y[n-1] + a2 * y[n-2] */
+      /* acc =  b0 * _x[n] + b1 * _x[n-1] + b2 * _x[n-2] + a1 * _y[n-1] + a2 * _y[n-2] */
 
-      /* acc =  b0 * x[n] */
+      /* acc =  b0 * _x[n] */
       acc = (q63_t) Xn1 *b0;
 
-      /* acc +=  b1 * x[n-1] */
+      /* acc +=  b1 * _x[n-1] */
       acc += (q63_t) Xn2 *b1;
 
-      /* acc +=  b[2] * x[n-2] */
+      /* acc +=  b[2] * _x[n-2] */
       acc += (q63_t) Xn *b2;
 
-      /* acc +=  a1 * y[n-1] */
+      /* acc +=  a1 * _y[n-1] */
       acc += mult32x64(Yn1, a1);
 
-      /* acc +=  a2 * y[n-2] */
+      /* acc +=  a2 * _y[n-2] */
       acc += mult32x64(Yn2, a2);
 
       /* The result is converted to 1.63, Yn2 variable is reused  */
@@ -334,20 +334,20 @@ void arm_biquad_cas_df1_32x64_q31(
       /* Read the fourth input into Xn, to reuse the value */
       Xn = *pIn++;
 
-      /* acc =  b0 * x[n] + b1 * x[n-1] + b2 * x[n-2] + a1 * y[n-1] + a2 * y[n-2] */
-      /* acc =  b0 * x[n] */
+      /* acc =  b0 * _x[n] + b1 * _x[n-1] + b2 * _x[n-2] + a1 * _y[n-1] + a2 * _y[n-2] */
+      /* acc =  b0 * _x[n] */
       acc = (q63_t) Xn *b0;
 
-      /* acc +=  b1 * x[n-1] */
+      /* acc +=  b1 * _x[n-1] */
       acc += (q63_t) Xn1 *b1;
 
-      /* acc +=  b[2] * x[n-2] */
+      /* acc +=  b[2] * _x[n-2] */
       acc += (q63_t) Xn2 *b2;
 
-      /* acc +=  a1 * y[n-1] */
+      /* acc +=  a1 * _y[n-1] */
       acc += mult32x64(Yn2, a1);
 
-      /* acc +=  a2 * y[n-2] */
+      /* acc +=  a2 * _y[n-2] */
       acc += mult32x64(Yn1, a2);
 
       /* The result is converted to 1.63, Yn1 variable is reused  */
@@ -390,17 +390,17 @@ void arm_biquad_cas_df1_32x64_q31(
       /* Read the input */
       Xn = *pIn++;
 
-      /* acc =  b0 * x[n] + b1 * x[n-1] + b2 * x[n-2] + a1 * y[n-1] + a2 * y[n-2] */
+      /* acc =  b0 * _x[n] + b1 * _x[n-1] + b2 * _x[n-2] + a1 * _y[n-1] + a2 * _y[n-2] */
 
-      /* acc =  b0 * x[n] */
+      /* acc =  b0 * _x[n] */
       acc = (q63_t) Xn *b0;
-      /* acc +=  b1 * x[n-1] */
+      /* acc +=  b1 * _x[n-1] */
       acc += (q63_t) Xn1 *b1;
-      /* acc +=  b[2] * x[n-2] */
+      /* acc +=  b[2] * _x[n-2] */
       acc += (q63_t) Xn2 *b2;
-      /* acc +=  a1 * y[n-1] */
+      /* acc +=  a1 * _y[n-1] */
       acc += mult32x64(Yn1, a1);
-      /* acc +=  a2 * y[n-2] */
+      /* acc +=  a2 * _y[n-2] */
       acc += mult32x64(Yn2, a2);
 
       /* Every time after the output is computed state should be updated. */
@@ -471,7 +471,7 @@ void arm_biquad_cas_df1_32x64_q31(
 
     /* The variable acc hold output value that is being computed and
      * stored in the destination buffer
-     * acc =  b0 * x[n] + b1 * x[n-1] + b2 * x[n-2] + a1 * y[n-1] + a2 * y[n-2]
+     * acc =  b0 * _x[n] + b1 * _x[n-1] + b2 * _x[n-2] + a1 * _y[n-1] + a2 * _y[n-2]
      */
 
     sample = blockSize;
@@ -481,16 +481,16 @@ void arm_biquad_cas_df1_32x64_q31(
       /* Read the input */
       Xn = *pIn++;
 
-      /* acc =  b0 * x[n] + b1 * x[n-1] + b2 * x[n-2] + a1 * y[n-1] + a2 * y[n-2] */
-      /* acc =  b0 * x[n] */
+      /* acc =  b0 * _x[n] + b1 * _x[n-1] + b2 * _x[n-2] + a1 * _y[n-1] + a2 * _y[n-2] */
+      /* acc =  b0 * _x[n] */
       acc = (q63_t) Xn *b0;
-      /* acc +=  b1 * x[n-1] */
+      /* acc +=  b1 * _x[n-1] */
       acc += (q63_t) Xn1 *b1;
-      /* acc +=  b[2] * x[n-2] */
+      /* acc +=  b[2] * _x[n-2] */
       acc += (q63_t) Xn2 *b2;
-      /* acc +=  a1 * y[n-1] */
+      /* acc +=  a1 * _y[n-1] */
       acc += mult32x64(Yn1, a1);
-      /* acc +=  a2 * y[n-2] */
+      /* acc +=  a2 * _y[n-2] */
       acc += mult32x64(Yn2, a2);
 
       /* Every time after the output is computed state should be updated. */

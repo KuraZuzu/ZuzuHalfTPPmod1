@@ -46,7 +46,7 @@
  * <b>Scaling and Overflow Behavior:</b>
  * \par
  * The function is implemented using an internal 32-bit accumulator.
- * The 1.15 x 1.15 multiplications yield a 2.30 result and these are added to a 2.30 accumulator.
+ * The 1.15 _x 1.15 multiplications yield a 2.30 result and these are added to a 2.30 accumulator.
  * Thus the full precision of the multiplications is maintained but there is only a single guard bit in the accumulator.
  * If the accumulator result overflows it will wrap around rather than saturate.
  * After all multiply-accumulates are performed, the 2.30 accumulator is truncated to 2.15 format and then saturated to 1.15 format.

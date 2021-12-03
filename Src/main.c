@@ -72,24 +72,21 @@ int main(){
     MX_GPIO_Init();
     MX_DMA_Init();
     MX_ADC1_Init();
-    MX_TIM1_Init();
-//    MX_TIM2_Init();
-    MX_TIM3_Init();
-    MX_TIM4_Init();
+//    MX_TIM1_Init();
+//    MX_TIM3_Init();
+//    MX_TIM4_Init();
     MX_TIM6_Init();
-    MX_TIM7_Init();
-    MX_TIM8_Init();
+//    MX_TIM7_Init();
+//    MX_TIM8_Init();
     MX_USART2_UART_Init();
     MX_SPI3_Init();
-    while(1) {
 
-        printf("aa\r\n");
-//        test_gyro();
+    test_wait();
+    while(1) {
+//        printf("%d\r\n", __HAL_TIM_GET_COUNTER(&htim6));
 //        test_all_console();
 //        test_battery_warning();
-
 //        HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_3);
-        HAL_Delay(500);
     }
 
     return 0;

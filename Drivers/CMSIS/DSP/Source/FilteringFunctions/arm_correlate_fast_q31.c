@@ -51,7 +51,7 @@
  *
  * \par
  * This function is optimized for speed at the expense of fixed-point precision and overflow protection.
- * The result of each 1.31 x 1.31 multiplication is truncated to 2.30 format.
+ * The result of each 1.31 _x 1.31 multiplication is truncated to 2.30 format.
  * These intermediate results are accumulated in a 32-bit register in 2.30 format.
  * Finally, the accumulator is saturated and converted to a 1.31 result.
  *
@@ -122,7 +122,7 @@ void arm_correlate_fast_q31(
     srcBLen = srcALen;
     srcALen = j;
 
-    /* CORR(x, y) = Reverse order(CORR(y, x)) */
+    /* CORR(_x, _y) = Reverse order(CORR(_y, _x)) */
     /* Hence set the destination pointer to point to the last output sample */
     pOut = pDst + ((srcALen + srcBLen) - 2U);
 
@@ -148,10 +148,10 @@ void arm_correlate_fast_q31(
    * Initializations of stage1
    * -------------------------*/
 
-  /* sum = x[0] * y[srcBlen - 1]
-   * sum = x[0] * y[srcBlen - 2] + x[1] * y[srcBlen - 1]
+  /* sum = _x[0] * _y[srcBlen - 1]
+   * sum = _x[0] * _y[srcBlen - 2] + _x[1] * _y[srcBlen - 1]
    * ....
-   * sum = x[0] * y[0] + x[1] * y[1] +...+ x[srcBLen - 1] * y[srcBLen - 1]
+   * sum = _x[0] * _y[0] + _x[1] * _y[1] +...+ _x[srcBLen - 1] * _y[srcBLen - 1]
    */
 
   /* In this stage the MAC operations are increased by 1 for every iteration.
@@ -182,16 +182,16 @@ void arm_correlate_fast_q31(
      ** a second loop below computes MACs for the remaining 1 to 3 samples. */
     while (k > 0U)
     {
-      /* x[0] * y[srcBLen - 4] */
+      /* _x[0] * _y[srcBLen - 4] */
       sum = (q31_t) ((((q63_t) sum << 32) +
                       ((q63_t) * px++ * (*py++))) >> 32);
-      /* x[1] * y[srcBLen - 3] */
+      /* _x[1] * _y[srcBLen - 3] */
       sum = (q31_t) ((((q63_t) sum << 32) +
                       ((q63_t) * px++ * (*py++))) >> 32);
-      /* x[2] * y[srcBLen - 2] */
+      /* _x[2] * _y[srcBLen - 2] */
       sum = (q31_t) ((((q63_t) sum << 32) +
                       ((q63_t) * px++ * (*py++))) >> 32);
-      /* x[3] * y[srcBLen - 1] */
+      /* _x[3] * _y[srcBLen - 1] */
       sum = (q31_t) ((((q63_t) sum << 32) +
                       ((q63_t) * px++ * (*py++))) >> 32);
 
@@ -206,7 +206,7 @@ void arm_correlate_fast_q31(
     while (k > 0U)
     {
       /* Perform the multiply-accumulates */
-      /* x[0] * y[srcBLen - 1] */
+      /* _x[0] * _y[srcBLen - 1] */
       sum = (q31_t) ((((q63_t) sum << 32) +
                       ((q63_t) * px++ * (*py++))) >> 32);
 
@@ -234,10 +234,10 @@ void arm_correlate_fast_q31(
    * Initializations of stage2
    * ------------------------*/
 
-  /* sum = x[0] * y[0] + x[1] * y[1] +...+ x[srcBLen-1] * y[srcBLen-1]
-   * sum = x[1] * y[0] + x[2] * y[1] +...+ x[srcBLen] * y[srcBLen-1]
+  /* sum = _x[0] * _y[0] + _x[1] * _y[1] +...+ _x[srcBLen-1] * _y[srcBLen-1]
+   * sum = _x[1] * _y[0] + _x[2] * _y[1] +...+ _x[srcBLen] * _y[srcBLen-1]
    * ....
-   * sum = x[srcALen-srcBLen-2] * y[0] + x[srcALen-srcBLen-1] * y[1] +...+ x[srcALen-1] * y[srcBLen-1]
+   * sum = _x[srcALen-srcBLen-2] * _y[0] + _x[srcALen-srcBLen-1] * _y[1] +...+ _x[srcALen-1] * _y[srcBLen-1]
    */
 
   /* Working pointer of inputA */
@@ -269,7 +269,7 @@ void arm_correlate_fast_q31(
       acc2 = 0;
       acc3 = 0;
 
-      /* read x[0], x[1], x[2] samples */
+      /* read _x[0], _x[1], _x[2] samples */
       x0 = *(px++);
       x1 = *(px++);
       x2 = *(px++);
@@ -281,68 +281,68 @@ void arm_correlate_fast_q31(
        ** a second loop below computes MACs for the remaining 1 to 3 samples. */
       do
       {
-        /* Read y[0] sample */
+        /* Read _y[0] sample */
         c0 = *(py++);
 
-        /* Read x[3] sample */
+        /* Read _x[3] sample */
         x3 = *(px++);
 
         /* Perform the multiply-accumulate */
-        /* acc0 +=  x[0] * y[0] */
+        /* acc0 +=  _x[0] * _y[0] */
         acc0 = (q31_t) ((((q63_t) acc0 << 32) + ((q63_t) x0 * c0)) >> 32);
-        /* acc1 +=  x[1] * y[0] */
+        /* acc1 +=  _x[1] * _y[0] */
         acc1 = (q31_t) ((((q63_t) acc1 << 32) + ((q63_t) x1 * c0)) >> 32);
-        /* acc2 +=  x[2] * y[0] */
+        /* acc2 +=  _x[2] * _y[0] */
         acc2 = (q31_t) ((((q63_t) acc2 << 32) + ((q63_t) x2 * c0)) >> 32);
-        /* acc3 +=  x[3] * y[0] */
+        /* acc3 +=  _x[3] * _y[0] */
         acc3 = (q31_t) ((((q63_t) acc3 << 32) + ((q63_t) x3 * c0)) >> 32);
 
-        /* Read y[1] sample */
+        /* Read _y[1] sample */
         c0 = *(py++);
 
-        /* Read x[4] sample */
+        /* Read _x[4] sample */
         x0 = *(px++);
 
         /* Perform the multiply-accumulates */
-        /* acc0 +=  x[1] * y[1] */
+        /* acc0 +=  _x[1] * _y[1] */
         acc0 = (q31_t) ((((q63_t) acc0 << 32) + ((q63_t) x1 * c0)) >> 32);
-        /* acc1 +=  x[2] * y[1] */
+        /* acc1 +=  _x[2] * _y[1] */
         acc1 = (q31_t) ((((q63_t) acc1 << 32) + ((q63_t) x2 * c0)) >> 32);
-        /* acc2 +=  x[3] * y[1] */
+        /* acc2 +=  _x[3] * _y[1] */
         acc2 = (q31_t) ((((q63_t) acc2 << 32) + ((q63_t) x3 * c0)) >> 32);
-        /* acc3 +=  x[4] * y[1] */
+        /* acc3 +=  _x[4] * _y[1] */
         acc3 = (q31_t) ((((q63_t) acc3 << 32) + ((q63_t) x0 * c0)) >> 32);
 
-        /* Read y[2] sample */
+        /* Read _y[2] sample */
         c0 = *(py++);
 
-        /* Read x[5] sample */
+        /* Read _x[5] sample */
         x1 = *(px++);
 
         /* Perform the multiply-accumulates */
-        /* acc0 +=  x[2] * y[2] */
+        /* acc0 +=  _x[2] * _y[2] */
         acc0 = (q31_t) ((((q63_t) acc0 << 32) + ((q63_t) x2 * c0)) >> 32);
-        /* acc1 +=  x[3] * y[2] */
+        /* acc1 +=  _x[3] * _y[2] */
         acc1 = (q31_t) ((((q63_t) acc1 << 32) + ((q63_t) x3 * c0)) >> 32);
-        /* acc2 +=  x[4] * y[2] */
+        /* acc2 +=  _x[4] * _y[2] */
         acc2 = (q31_t) ((((q63_t) acc2 << 32) + ((q63_t) x0 * c0)) >> 32);
-        /* acc3 +=  x[5] * y[2] */
+        /* acc3 +=  _x[5] * _y[2] */
         acc3 = (q31_t) ((((q63_t) acc3 << 32) + ((q63_t) x1 * c0)) >> 32);
 
-        /* Read y[3] sample */
+        /* Read _y[3] sample */
         c0 = *(py++);
 
-        /* Read x[6] sample */
+        /* Read _x[6] sample */
         x2 = *(px++);
 
         /* Perform the multiply-accumulates */
-        /* acc0 +=  x[3] * y[3] */
+        /* acc0 +=  _x[3] * _y[3] */
         acc0 = (q31_t) ((((q63_t) acc0 << 32) + ((q63_t) x3 * c0)) >> 32);
-        /* acc1 +=  x[4] * y[3] */
+        /* acc1 +=  _x[4] * _y[3] */
         acc1 = (q31_t) ((((q63_t) acc1 << 32) + ((q63_t) x0 * c0)) >> 32);
-        /* acc2 +=  x[5] * y[3] */
+        /* acc2 +=  _x[5] * _y[3] */
         acc2 = (q31_t) ((((q63_t) acc2 << 32) + ((q63_t) x1 * c0)) >> 32);
-        /* acc3 +=  x[6] * y[3] */
+        /* acc3 +=  _x[6] * _y[3] */
         acc3 = (q31_t) ((((q63_t) acc3 << 32) + ((q63_t) x2 * c0)) >> 32);
 
 
@@ -354,20 +354,20 @@ void arm_correlate_fast_q31(
 
       while (k > 0U)
       {
-        /* Read y[4] sample */
+        /* Read _y[4] sample */
         c0 = *(py++);
 
-        /* Read x[7] sample */
+        /* Read _x[7] sample */
         x3 = *(px++);
 
         /* Perform the multiply-accumulates */
-        /* acc0 +=  x[4] * y[4] */
+        /* acc0 +=  _x[4] * _y[4] */
         acc0 = (q31_t) ((((q63_t) acc0 << 32) + ((q63_t) x0 * c0)) >> 32);
-        /* acc1 +=  x[5] * y[4] */
+        /* acc1 +=  _x[5] * _y[4] */
         acc1 = (q31_t) ((((q63_t) acc1 << 32) + ((q63_t) x1 * c0)) >> 32);
-        /* acc2 +=  x[6] * y[4] */
+        /* acc2 +=  _x[6] * _y[4] */
         acc2 = (q31_t) ((((q63_t) acc2 << 32) + ((q63_t) x2 * c0)) >> 32);
-        /* acc3 +=  x[7] * y[4] */
+        /* acc3 +=  _x[7] * _y[4] */
         acc3 = (q31_t) ((((q63_t) acc3 << 32) + ((q63_t) x3 * c0)) >> 32);
 
         /* Reuse the present samples for the next MAC */
@@ -511,11 +511,11 @@ void arm_correlate_fast_q31(
    * Initializations of stage3
    * -------------------------*/
 
-  /* sum += x[srcALen-srcBLen+1] * y[0] + x[srcALen-srcBLen+2] * y[1] +...+ x[srcALen-1] * y[srcBLen-1]
-   * sum += x[srcALen-srcBLen+2] * y[0] + x[srcALen-srcBLen+3] * y[1] +...+ x[srcALen-1] * y[srcBLen-1]
+  /* sum += _x[srcALen-srcBLen+1] * _y[0] + _x[srcALen-srcBLen+2] * _y[1] +...+ _x[srcALen-1] * _y[srcBLen-1]
+   * sum += _x[srcALen-srcBLen+2] * _y[0] + _x[srcALen-srcBLen+3] * _y[1] +...+ _x[srcALen-1] * _y[srcBLen-1]
    * ....
-   * sum +=  x[srcALen-2] * y[0] + x[srcALen-1] * y[1]
-   * sum +=  x[srcALen-1] * y[0]
+   * sum +=  _x[srcALen-2] * _y[0] + _x[srcALen-1] * _y[1]
+   * sum +=  _x[srcALen-1] * _y[0]
    */
 
   /* In this stage the MAC operations are decreased by 1 for every iteration.
@@ -546,16 +546,16 @@ void arm_correlate_fast_q31(
     while (k > 0U)
     {
       /* Perform the multiply-accumulates */
-      /* sum += x[srcALen - srcBLen + 4] * y[3] */
+      /* sum += _x[srcALen - srcBLen + 4] * _y[3] */
       sum = (q31_t) ((((q63_t) sum << 32) +
                       ((q63_t) * px++ * (*py++))) >> 32);
-      /* sum += x[srcALen - srcBLen + 3] * y[2] */
+      /* sum += _x[srcALen - srcBLen + 3] * _y[2] */
       sum = (q31_t) ((((q63_t) sum << 32) +
                       ((q63_t) * px++ * (*py++))) >> 32);
-      /* sum += x[srcALen - srcBLen + 2] * y[1] */
+      /* sum += _x[srcALen - srcBLen + 2] * _y[1] */
       sum = (q31_t) ((((q63_t) sum << 32) +
                       ((q63_t) * px++ * (*py++))) >> 32);
-      /* sum += x[srcALen - srcBLen + 1] * y[0] */
+      /* sum += _x[srcALen - srcBLen + 1] * _y[0] */
       sum = (q31_t) ((((q63_t) sum << 32) +
                       ((q63_t) * px++ * (*py++))) >> 32);
 

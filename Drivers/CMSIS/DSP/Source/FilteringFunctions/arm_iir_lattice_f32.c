@@ -47,10 +47,10 @@
  * \par Algorithm:
  * \image html IIRLattice.gif "Infinite Impulse Response Lattice filter"
  * <pre>
- *    fN(n)   =  x(n)
+ *    fN(n)   =  _x(n)
  *    fm-1(n) = fm(n) - km * gm-1(n-1)   for m = N, N-1, ...1
  *    gm(n)   = km * fm-1(n) + gm-1(n-1) for m = N, N-1, ...1
- *    y(n)    = vN * gN(n) + vN-1 * gN-1(n) + ...+ v0 * g0(n)
+ *    _y(n)    = vN * gN(n) + vN-1 * gN-1(n) + ...+ v0 * g0(n)
  * </pre>
  * \par
  * <code>pkCoeffs</code> points to array of reflection coefficients of size <code>numStages</code>.
@@ -147,7 +147,7 @@ void arm_iir_lattice_f32(
   while (blkCnt > 0U)
   {
     /* Read Sample from input buffer */
-    /* fN(n) = x(n) */
+    /* fN(n) = _x(n) */
     fnext2 = *pSrc++;
 
     /* Initialize Ladder coeff pointer */
@@ -204,7 +204,7 @@ void arm_iir_lattice_f32(
       /* Read gN-3(n-1) from state buffer */
       gcurr1 = *(px1 + 2U);
 
-      /* y(n) += gN(n) * vN  */
+      /* _y(n) += gN(n) * vN  */
       acc += (gnext * v1);
 
       /* fN-3(n) = fN-2(n) - kN-2 * gN-3(n-1) */
@@ -216,7 +216,7 @@ void arm_iir_lattice_f32(
       /* Read gN-4(n-1) from state buffer */
       gcurr2 = *(px1 + 3U);
 
-      /* y(n) += gN-1(n) * vN-1  */
+      /* _y(n) += gN-1(n) * vN-1  */
       acc += (gnext * v2);
 
       /* read reflection coefficient kN-3 */
@@ -234,7 +234,7 @@ void arm_iir_lattice_f32(
       /* read ladder coefficient vN-2 */
       v3 = *(pv + 2U);
 
-      /* y(n) += gN-2(n) * vN-2  */
+      /* _y(n) += gN-2(n) * vN-2  */
       acc += (gnext * v3);
 
       /* write gN-2(n) into state for next sample processing */
@@ -249,7 +249,7 @@ void arm_iir_lattice_f32(
       /* read next ladder coefficient vN-3 */
       v4 = *(pv + 3U);
 
-      /* y(n) += gN-4(n) * vN-4  */
+      /* _y(n) += gN-4(n) * vN-4  */
       acc += (gnext * v4);
 
       /* write gN-3(n) into state for next sample processing */
@@ -281,7 +281,7 @@ void arm_iir_lattice_f32(
 
     }
 
-    /* y(n) += g0(n) * v0 */
+    /* _y(n) += g0(n) * v0 */
     acc += (fnext2 * (*pv));
 
     *px2++ = fnext2;
@@ -358,7 +358,7 @@ void arm_iir_lattice_f32(
   while (blkCnt > 0U)
   {
     /* Read Sample from input buffer */
-    /* fN(n) = x(n) */
+    /* fN(n) = _x(n) */
     fcurr = *pSrc++;
 
     /* Initialize state read pointer */
@@ -393,7 +393,7 @@ void arm_iir_lattice_f32(
 
     }
 
-    /* y(n) += g0(n) * v0 */
+    /* _y(n) += g0(n) * v0 */
     acc += (fnext * (*pv));
 
     *px2++ = fnext;

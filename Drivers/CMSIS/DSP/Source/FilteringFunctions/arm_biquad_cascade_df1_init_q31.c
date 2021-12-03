@@ -60,10 +60,10 @@
  *
  * \par
  * The <code>pState</code> points to state variables array.
- * Each Biquad stage has 4 state variables <code>x[n-1], x[n-2], y[n-1],</code> and <code>y[n-2]</code>.
+ * Each Biquad stage has 4 state variables <code>_x[n-1], _x[n-2], _y[n-1],</code> and <code>_y[n-2]</code>.
  * The state variables are arranged in the <code>pState</code> array as:
  * <pre>
- *     {x[n-1], x[n-2], y[n-1], y[n-2]}
+ *     {_x[n-1], _x[n-2], _y[n-1], _y[n-2]}
  * </pre>
  * The 4 state variables for stage 1 are first, then the 4 state variables for stage 2, and so on.
  * The state array has a total length of <code>4*numStages</code> values.

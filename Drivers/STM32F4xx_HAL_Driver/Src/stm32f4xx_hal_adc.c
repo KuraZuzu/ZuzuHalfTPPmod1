@@ -17,7 +17,7 @@
   (#) Interrupt generation at the end of conversion, end of injected conversion,  
       and in case of analog watchdog or overrun events
   (#) Single and continuous conversion modes.
-  (#) Scan mode for automatic conversion of channel 0 to channel x.
+  (#) Scan mode for automatic conversion of channel 0 to channel _x.
   (#) Data alignment with in-built data coherency.
   (#) Channel-wise programmable sampling time.
   (#) External trigger option with configurable polarity for both regular and 

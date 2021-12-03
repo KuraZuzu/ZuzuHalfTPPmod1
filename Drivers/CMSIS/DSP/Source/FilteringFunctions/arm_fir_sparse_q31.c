@@ -46,7 +46,7 @@
  * <b>Scaling and Overflow Behavior:</b>
  * \par
  * The function is implemented using an internal 32-bit accumulator.
- * The 1.31 x 1.31 multiplications are truncated to 2.30 format.
+ * The 1.31 _x 1.31 multiplications are truncated to 2.30 format.
  * This leads to loss of precision on the intermediate multiplications and provides only a single guard bit.
  * If the accumulator result overflows, it wraps around rather than saturate.
  * In order to avoid overflows the input signal or coefficients must be scaled down by log2(numTaps) bits.

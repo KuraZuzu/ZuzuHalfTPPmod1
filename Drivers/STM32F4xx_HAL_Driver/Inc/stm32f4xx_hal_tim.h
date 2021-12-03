@@ -1505,7 +1505,7 @@ mode.
 #define __HAL_TIM_URS_DISABLE(__HANDLE__)  ((__HANDLE__)->Instance->CR1&=~TIM_CR1_URS)
 
 /**
-  * @brief  Set the TIM Capture x input polarity on runtime.
+  * @brief  Set the TIM Capture _x input polarity on runtime.
   * @param  __HANDLE__ TIM handle.
   * @param  __CHANNEL__ TIM Channels to be configured.
   *          This parameter can be one of the following values:

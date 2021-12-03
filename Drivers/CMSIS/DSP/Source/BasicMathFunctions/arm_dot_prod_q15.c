@@ -47,7 +47,7 @@
  *
  * <b>Scaling and Overflow Behavior:</b>
  * \par
- * The intermediate multiplications are in 1.15 x 1.15 = 2.30 format and these
+ * The intermediate multiplications are in 1.15 _x 1.15 = 2.30 format and these
  * results are added to a 64-bit accumulator in 34.30 format.
  * Nonsaturating additions are used and given that there are 33 guard bits in the accumulator
  * there is no risk of overflow.

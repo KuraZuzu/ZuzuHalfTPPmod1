@@ -63,21 +63,21 @@
  * The convergence of the LMS filter is slower compared to the normalized LMS algorithm.
  *
  * \par Algorithm:
- * The output signal <code>y[n]</code> is computed by a standard FIR filter:
+ * The output signal <code>_y[n]</code> is computed by a standard FIR filter:
  * <pre>
- *     y[n] = b[0] * x[n] + b[1] * x[n-1] + b[2] * x[n-2] + ...+ b[numTaps-1] * x[n-numTaps+1]
+ *     _y[n] = b[0] * _x[n] + b[1] * _x[n-1] + b[2] * _x[n-2] + ...+ b[numTaps-1] * _x[n-numTaps+1]
  * </pre>
  *
  * \par
  * The error signal equals the difference between the reference signal <code>d[n]</code> and the filter output:
  * <pre>
- *     e[n] = d[n] - y[n].
+ *     e[n] = d[n] - _y[n].
  * </pre>
  *
  * \par
  * After each sample of the error signal is computed, the filter coefficients <code>b[k]</code> are updated on a sample-by-sample basis:
  * <pre>
- *     b[k] = b[k] + e[n] * mu * x[n-k],  for k=0, 1, ..., numTaps-1
+ *     b[k] = b[k] + e[n] * mu * _x[n-k],  for k=0, 1, ..., numTaps-1
  * </pre>
  * where <code>mu</code> is the step size and controls the rate of coefficient convergence.
  *\par
@@ -92,7 +92,7 @@
  * Samples in the state buffer are stored in the order:
  * \par
  * <pre>
- *    {x[n-numTaps+1], x[n-numTaps], x[n-numTaps-1], x[n-numTaps-2]....x[0], x[1], ..., x[blockSize-1]}
+ *    {_x[n-numTaps+1], _x[n-numTaps], _x[n-numTaps-1], _x[n-numTaps-2]...._x[0], _x[1], ..., _x[blockSize-1]}
  * </pre>
  * \par
  * Note that the length of the state buffer exceeds the length of the coefficient array by <code>blockSize-1</code> samples.

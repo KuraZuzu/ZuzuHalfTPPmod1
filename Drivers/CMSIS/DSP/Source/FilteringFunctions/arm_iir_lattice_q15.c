@@ -92,7 +92,7 @@ void arm_iir_lattice_q15(
   while (blkCnt > 0U)
   {
     /* Read Sample from input buffer */
-    /* fN(n) = x(n) */
+    /* fN(n) = _x(n) */
     fcurr = *pSrc++;
 
     /* Initialize state read pointer */
@@ -117,7 +117,7 @@ void arm_iir_lattice_q15(
     gnext = __SSAT(gnext, 16);
     /* write gN(n) into state for next sample processing */
     *px2++ = (q15_t) gnext;
-    /* y(n) += gN(n) * vN  */
+    /* _y(n) += gN(n) * vN  */
     acc += (q31_t) ((gnext * (*pv++)));
 
 
@@ -192,9 +192,9 @@ void arm_iir_lattice_q15(
 
 #endif /*   #ifndef  ARM_MATH_BIG_ENDIAN    */
 
-      /* y(n) += gN-1(n) * vN-1  */
+      /* _y(n) += gN-1(n) * vN-1  */
       /* process for gN-5(n) * vN-5, gN-9(n) * vN-9 ... */
-      /* y(n) += gN-2(n) * vN-2  */
+      /* _y(n) += gN-2(n) * vN-2  */
       /* process for gN-6(n) * vN-6, gN-10(n) * vN-10 ... */
       acc = __SMLALD(gnext, v, acc);
 
@@ -260,9 +260,9 @@ void arm_iir_lattice_q15(
 
 #endif /*      #ifndef  ARM_MATH_BIG_ENDIAN    */
 
-      /* y(n) += gN-4(n) * vN-4  */
+      /* _y(n) += gN-4(n) * vN-4  */
       /* process for gN-8(n) * vN-8, gN-12(n) * vN-12 ... */
-      /* y(n) += gN-3(n) * vN-3  */
+      /* _y(n) += gN-3(n) * vN-3  */
       /* process for gN-7(n) * vN-7, gN-11(n) * vN-11 ... */
       acc = __SMLALD(gnext, v, acc);
 
@@ -291,7 +291,7 @@ void arm_iir_lattice_q15(
       tapCnt--;
     }
 
-    /* y(n) += g0(n) * v0 */
+    /* _y(n) += g0(n) * v0 */
     acc += (q31_t) (((q31_t) fnext * (*pv++)));
 
     out = (q15_t) __SSAT(acc >> 15, 16);
@@ -371,7 +371,7 @@ void arm_iir_lattice_q15(
   while (blkCnt > 0U)
   {
     /* Read Sample from input buffer */
-    /* fN(n) = x(n) */
+    /* fN(n) = _x(n) */
     fcurr = *pSrc++;
 
     /* Initialize state read pointer */
@@ -398,7 +398,7 @@ void arm_iir_lattice_q15(
       gnext = ((fnext * (*pk++)) >> 15) + gcurr;
       gnext = __SSAT(gnext, 16);
       /* Output samples */
-      /* y(n) += gN(n) * vN */
+      /* _y(n) += gN(n) * vN */
       acc += (q31_t) ((gnext * (*pv++)));
       /* write gN(n) into state for next sample processing */
       *px2++ = (q15_t) gnext;
@@ -408,7 +408,7 @@ void arm_iir_lattice_q15(
       tapCnt--;
     }
 
-    /* y(n) += g0(n) * v0 */
+    /* _y(n) += g0(n) * v0 */
     acc += (q31_t) ((fnext * (*pv++)));
 
     out = (q15_t) __SSAT(acc >> 15, 16);

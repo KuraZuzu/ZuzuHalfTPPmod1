@@ -101,7 +101,7 @@ void arm_biquad_cascade_df1_q31(
     /* Apply loop unrolling and compute 4 output values simultaneously. */
     /*      The variable acc hold output values that are being computed:
      *
-     *    acc =  b0 * x[n] + b1 * x[n-1] + b2 * x[n-2] + a1 * y[n-1] + a2 * y[n-2]
+     *    acc =  b0 * _x[n] + b1 * _x[n-1] + b2 * _x[n-2] + a1 * _y[n-1] + a2 * _y[n-2]
      */
 
     sample = blockSize >> 2U;
@@ -113,17 +113,17 @@ void arm_biquad_cascade_df1_q31(
       /* Read the input */
       Xn = *pIn++;
 
-      /* acc =  b0 * x[n] + b1 * x[n-1] + b2 * x[n-2] + a1 * y[n-1] + a2 * y[n-2] */
+      /* acc =  b0 * _x[n] + b1 * _x[n-1] + b2 * _x[n-2] + a1 * _y[n-1] + a2 * _y[n-2] */
 
-      /* acc =  b0 * x[n] */
+      /* acc =  b0 * _x[n] */
       acc = (q63_t) b0 *Xn;
-      /* acc +=  b1 * x[n-1] */
+      /* acc +=  b1 * _x[n-1] */
       acc += (q63_t) b1 *Xn1;
-      /* acc +=  b[2] * x[n-2] */
+      /* acc +=  b[2] * _x[n-2] */
       acc += (q63_t) b2 *Xn2;
-      /* acc +=  a1 * y[n-1] */
+      /* acc +=  a1 * _y[n-1] */
       acc += (q63_t) a1 *Yn1;
-      /* acc +=  a2 * y[n-2] */
+      /* acc +=  a2 * _y[n-2] */
       acc += (q63_t) a2 *Yn2;
 
       /* The result is converted to 1.31 , Yn2 variable is reused */
@@ -143,17 +143,17 @@ void arm_biquad_cascade_df1_q31(
       /* Read the second input */
       Xn2 = *pIn++;
 
-      /* acc =  b0 * x[n] + b1 * x[n-1] + b2 * x[n-2] + a1 * y[n-1] + a2 * y[n-2] */
+      /* acc =  b0 * _x[n] + b1 * _x[n-1] + b2 * _x[n-2] + a1 * _y[n-1] + a2 * _y[n-2] */
 
-      /* acc =  b0 * x[n] */
+      /* acc =  b0 * _x[n] */
       acc = (q63_t) b0 *Xn2;
-      /* acc +=  b1 * x[n-1] */
+      /* acc +=  b1 * _x[n-1] */
       acc += (q63_t) b1 *Xn;
-      /* acc +=  b[2] * x[n-2] */
+      /* acc +=  b[2] * _x[n-2] */
       acc += (q63_t) b2 *Xn1;
-      /* acc +=  a1 * y[n-1] */
+      /* acc +=  a1 * _y[n-1] */
       acc += (q63_t) a1 *Yn2;
-      /* acc +=  a2 * y[n-2] */
+      /* acc +=  a2 * _y[n-2] */
       acc += (q63_t) a2 *Yn1;
 
 
@@ -175,17 +175,17 @@ void arm_biquad_cascade_df1_q31(
       /* Read the third input  */
       Xn1 = *pIn++;
 
-      /* acc =  b0 * x[n] + b1 * x[n-1] + b2 * x[n-2] + a1 * y[n-1] + a2 * y[n-2] */
+      /* acc =  b0 * _x[n] + b1 * _x[n-1] + b2 * _x[n-2] + a1 * _y[n-1] + a2 * _y[n-2] */
 
-      /* acc =  b0 * x[n] */
+      /* acc =  b0 * _x[n] */
       acc = (q63_t) b0 *Xn1;
-      /* acc +=  b1 * x[n-1] */
+      /* acc +=  b1 * _x[n-1] */
       acc += (q63_t) b1 *Xn2;
-      /* acc +=  b[2] * x[n-2] */
+      /* acc +=  b[2] * _x[n-2] */
       acc += (q63_t) b2 *Xn;
-      /* acc +=  a1 * y[n-1] */
+      /* acc +=  a1 * _y[n-1] */
       acc += (q63_t) a1 *Yn1;
-      /* acc +=  a2 * y[n-2] */
+      /* acc +=  a2 * _y[n-2] */
       acc += (q63_t) a2 *Yn2;
 
       /* The result is converted to 1.31, Yn2 variable is reused  */
@@ -205,17 +205,17 @@ void arm_biquad_cascade_df1_q31(
       /* Read the forth input */
       Xn = *pIn++;
 
-      /* acc =  b0 * x[n] + b1 * x[n-1] + b2 * x[n-2] + a1 * y[n-1] + a2 * y[n-2] */
+      /* acc =  b0 * _x[n] + b1 * _x[n-1] + b2 * _x[n-2] + a1 * _y[n-1] + a2 * _y[n-2] */
 
-      /* acc =  b0 * x[n] */
+      /* acc =  b0 * _x[n] */
       acc = (q63_t) b0 *Xn;
-      /* acc +=  b1 * x[n-1] */
+      /* acc +=  b1 * _x[n-1] */
       acc += (q63_t) b1 *Xn1;
-      /* acc +=  b[2] * x[n-2] */
+      /* acc +=  b[2] * _x[n-2] */
       acc += (q63_t) b2 *Xn2;
-      /* acc +=  a1 * y[n-1] */
+      /* acc +=  a1 * _y[n-1] */
       acc += (q63_t) a1 *Yn2;
-      /* acc +=  a2 * y[n-2] */
+      /* acc +=  a2 * _y[n-2] */
       acc += (q63_t) a2 *Yn1;
 
       /* The result is converted to 1.31, Yn1 variable is reused  */
@@ -253,17 +253,17 @@ void arm_biquad_cascade_df1_q31(
       /* Read the input */
       Xn = *pIn++;
 
-      /* acc =  b0 * x[n] + b1 * x[n-1] + b2 * x[n-2] + a1 * y[n-1] + a2 * y[n-2] */
+      /* acc =  b0 * _x[n] + b1 * _x[n-1] + b2 * _x[n-2] + a1 * _y[n-1] + a2 * _y[n-2] */
 
-      /* acc =  b0 * x[n] */
+      /* acc =  b0 * _x[n] */
       acc = (q63_t) b0 *Xn;
-      /* acc +=  b1 * x[n-1] */
+      /* acc +=  b1 * _x[n-1] */
       acc += (q63_t) b1 *Xn1;
-      /* acc +=  b[2] * x[n-2] */
+      /* acc +=  b[2] * _x[n-2] */
       acc += (q63_t) b2 *Xn2;
-      /* acc +=  a1 * y[n-1] */
+      /* acc +=  a1 * _y[n-1] */
       acc += (q63_t) a1 *Yn1;
-      /* acc +=  a2 * y[n-2] */
+      /* acc +=  a2 * _y[n-2] */
       acc += (q63_t) a2 *Yn2;
 
       /* The result is converted to 1.31  */
@@ -322,7 +322,7 @@ void arm_biquad_cascade_df1_q31(
     Yn2 = pState[3];
 
     /*      The variables acc holds the output value that is computed:
-     *    acc =  b0 * x[n] + b1 * x[n-1] + b2 * x[n-2] + a1 * y[n-1] + a2 * y[n-2]
+     *    acc =  b0 * _x[n] + b1 * _x[n-1] + b2 * _x[n-2] + a1 * _y[n-1] + a2 * _y[n-2]
      */
 
     sample = blockSize;
@@ -332,17 +332,17 @@ void arm_biquad_cascade_df1_q31(
       /* Read the input */
       Xn = *pIn++;
 
-      /* acc =  b0 * x[n] + b1 * x[n-1] + b2 * x[n-2] + a1 * y[n-1] + a2 * y[n-2] */
-      /* acc =  b0 * x[n] */
+      /* acc =  b0 * _x[n] + b1 * _x[n-1] + b2 * _x[n-2] + a1 * _y[n-1] + a2 * _y[n-2] */
+      /* acc =  b0 * _x[n] */
       acc = (q63_t) b0 *Xn;
 
-      /* acc +=  b1 * x[n-1] */
+      /* acc +=  b1 * _x[n-1] */
       acc += (q63_t) b1 *Xn1;
-      /* acc +=  b[2] * x[n-2] */
+      /* acc +=  b[2] * _x[n-2] */
       acc += (q63_t) b2 *Xn2;
-      /* acc +=  a1 * y[n-1] */
+      /* acc +=  a1 * _y[n-1] */
       acc += (q63_t) a1 *Yn1;
-      /* acc +=  a2 * y[n-2] */
+      /* acc +=  a2 * _y[n-2] */
       acc += (q63_t) a2 *Yn2;
 
       /* The result is converted to 1.31  */

@@ -30,8 +30,8 @@
  * @defgroup MatrixTrans Matrix Transpose
  *
  * Tranposes a matrix.
- * Transposing an <code>M x N</code> matrix flips it around the center diagonal and results in an <code>N x M</code> matrix.
- * \image html MatrixTranspose.gif "Transpose of a 3 x 3 matrix"
+ * Transposing an <code>M _x N</code> matrix flips it around the center diagonal and results in an <code>N _x M</code> matrix.
+ * \image html MatrixTranspose.gif "Transpose of a 3 _x 3 matrix"
  */
 
 #include "arm_math.h"

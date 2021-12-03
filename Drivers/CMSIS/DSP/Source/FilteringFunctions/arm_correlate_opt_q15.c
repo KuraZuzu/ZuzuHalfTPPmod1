@@ -96,7 +96,7 @@ void arm_correlate_opt_q15(
   /* The algorithm implementation is based on the lengths of the inputs. */
   /* srcB is always made to slide across srcA. */
   /* So srcBLen is always considered as shorter or equal to srcALen */
-  /* But CORR(x, y) is reverse of CORR(y, x) */
+  /* But CORR(_x, _y) is reverse of CORR(_y, _x) */
   /* So, when srcBLen > srcALen, output pointer is made to point to the end of the output buffer */
   /* and the destination pointer modifier, inc is set to -1 */
   /* If srcALen > srcBLen, zero pad has to be done to srcB to make the two inputs of same length */
@@ -140,7 +140,7 @@ void arm_correlate_opt_q15(
     srcBLen = srcALen;
     srcALen = j;
 
-    /* CORR(x, y) = Reverse order(CORR(y, x)) */
+    /* CORR(_x, _y) = Reverse order(CORR(_y, _x)) */
     /* Hence set the destination pointer to point to the last output sample */
     pOut = pDst + ((srcALen + srcBLen) - 2U);
 

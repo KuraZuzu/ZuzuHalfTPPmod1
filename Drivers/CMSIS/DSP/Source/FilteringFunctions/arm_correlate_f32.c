@@ -129,7 +129,7 @@ void arm_correlate_f32(
   /* The algorithm implementation is based on the lengths of the inputs. */
   /* srcB is always made to slide across srcA. */
   /* So srcBLen is always considered as shorter or equal to srcALen */
-  /* But CORR(x, y) is reverse of CORR(y, x) */
+  /* But CORR(_x, _y) is reverse of CORR(_y, _x) */
   /* So, when srcBLen > srcALen, output pointer is made to point to the end of the output buffer */
   /* and the destination pointer modifier, inc is set to -1 */
   /* If srcALen > srcBLen, zero pad has to be done to srcB to make the two inputs of same length */
@@ -182,7 +182,7 @@ void arm_correlate_f32(
     srcBLen = srcALen;
     srcALen = j;
 
-    /* CORR(x, y) = Reverse order(CORR(y, x)) */
+    /* CORR(_x, _y) = Reverse order(CORR(_y, _x)) */
     /* Hence set the destination pointer to point to the last output sample */
     pOut = pDst + ((srcALen + srcBLen) - 2U);
 
@@ -208,10 +208,10 @@ void arm_correlate_f32(
    * Initializations of stage1
    * -------------------------*/
 
-  /* sum = x[0] * y[srcBlen - 1]
-   * sum = x[0] * y[srcBlen-2] + x[1] * y[srcBlen - 1]
+  /* sum = _x[0] * _y[srcBlen - 1]
+   * sum = _x[0] * _y[srcBlen-2] + _x[1] * _y[srcBlen - 1]
    * ....
-   * sum = x[0] * y[0] + x[1] * y[1] +...+ x[srcBLen - 1] * y[srcBLen - 1]
+   * sum = _x[0] * _y[0] + _x[1] * _y[1] +...+ _x[srcBLen - 1] * _y[srcBLen - 1]
    */
 
   /* In this stage the MAC operations are increased by 1 for every iteration.
@@ -242,13 +242,13 @@ void arm_correlate_f32(
      ** a second loop below computes MACs for the remaining 1 to 3 samples. */
     while (k > 0U)
     {
-      /* x[0] * y[srcBLen - 4] */
+      /* _x[0] * _y[srcBLen - 4] */
       sum += *px++ * *py++;
-      /* x[1] * y[srcBLen - 3] */
+      /* _x[1] * _y[srcBLen - 3] */
       sum += *px++ * *py++;
-      /* x[2] * y[srcBLen - 2] */
+      /* _x[2] * _y[srcBLen - 2] */
       sum += *px++ * *py++;
-      /* x[3] * y[srcBLen - 1] */
+      /* _x[3] * _y[srcBLen - 1] */
       sum += *px++ * *py++;
 
       /* Decrement the loop counter */
@@ -262,7 +262,7 @@ void arm_correlate_f32(
     while (k > 0U)
     {
       /* Perform the multiply-accumulate */
-      /* x[0] * y[srcBLen - 1] */
+      /* _x[0] * _y[srcBLen - 1] */
       sum += *px++ * *py++;
 
       /* Decrement the loop counter */
@@ -289,10 +289,10 @@ void arm_correlate_f32(
    * Initializations of stage2
    * ------------------------*/
 
-  /* sum = x[0] * y[0] + x[1] * y[1] +...+ x[srcBLen-1] * y[srcBLen-1]
-   * sum = x[1] * y[0] + x[2] * y[1] +...+ x[srcBLen] * y[srcBLen-1]
+  /* sum = _x[0] * _y[0] + _x[1] * _y[1] +...+ _x[srcBLen-1] * _y[srcBLen-1]
+   * sum = _x[1] * _y[0] + _x[2] * _y[1] +...+ _x[srcBLen] * _y[srcBLen-1]
    * ....
-   * sum = x[srcALen-srcBLen-2] * y[0] + x[srcALen-srcBLen-1] * y[1] +...+ x[srcALen-1] * y[srcBLen-1]
+   * sum = _x[srcALen-srcBLen-2] * _y[0] + _x[srcALen-srcBLen-1] * _y[1] +...+ _x[srcALen-1] * _y[srcBLen-1]
    */
 
   /* Working pointer of inputA */
@@ -324,7 +324,7 @@ void arm_correlate_f32(
       acc2 = 0.0f;
       acc3 = 0.0f;
 
-      /* read x[0], x[1], x[2] samples */
+      /* read _x[0], _x[1], _x[2] samples */
       x0 = *(px++);
       x1 = *(px++);
       x2 = *(px++);
@@ -336,68 +336,68 @@ void arm_correlate_f32(
        ** a second loop below computes MACs for the remaining 1 to 3 samples. */
       do
       {
-        /* Read y[0] sample */
+        /* Read _y[0] sample */
         c0 = *(py++);
 
-        /* Read x[3] sample */
+        /* Read _x[3] sample */
         x3 = *(px++);
 
         /* Perform the multiply-accumulate */
-        /* acc0 +=  x[0] * y[0] */
+        /* acc0 +=  _x[0] * _y[0] */
         acc0 += x0 * c0;
-        /* acc1 +=  x[1] * y[0] */
+        /* acc1 +=  _x[1] * _y[0] */
         acc1 += x1 * c0;
-        /* acc2 +=  x[2] * y[0] */
+        /* acc2 +=  _x[2] * _y[0] */
         acc2 += x2 * c0;
-        /* acc3 +=  x[3] * y[0] */
+        /* acc3 +=  _x[3] * _y[0] */
         acc3 += x3 * c0;
 
-        /* Read y[1] sample */
+        /* Read _y[1] sample */
         c0 = *(py++);
 
-        /* Read x[4] sample */
+        /* Read _x[4] sample */
         x0 = *(px++);
 
         /* Perform the multiply-accumulate */
-        /* acc0 +=  x[1] * y[1] */
+        /* acc0 +=  _x[1] * _y[1] */
         acc0 += x1 * c0;
-        /* acc1 +=  x[2] * y[1] */
+        /* acc1 +=  _x[2] * _y[1] */
         acc1 += x2 * c0;
-        /* acc2 +=  x[3] * y[1] */
+        /* acc2 +=  _x[3] * _y[1] */
         acc2 += x3 * c0;
-        /* acc3 +=  x[4] * y[1] */
+        /* acc3 +=  _x[4] * _y[1] */
         acc3 += x0 * c0;
 
-        /* Read y[2] sample */
+        /* Read _y[2] sample */
         c0 = *(py++);
 
-        /* Read x[5] sample */
+        /* Read _x[5] sample */
         x1 = *(px++);
 
         /* Perform the multiply-accumulates */
-        /* acc0 +=  x[2] * y[2] */
+        /* acc0 +=  _x[2] * _y[2] */
         acc0 += x2 * c0;
-        /* acc1 +=  x[3] * y[2] */
+        /* acc1 +=  _x[3] * _y[2] */
         acc1 += x3 * c0;
-        /* acc2 +=  x[4] * y[2] */
+        /* acc2 +=  _x[4] * _y[2] */
         acc2 += x0 * c0;
-        /* acc3 +=  x[5] * y[2] */
+        /* acc3 +=  _x[5] * _y[2] */
         acc3 += x1 * c0;
 
-        /* Read y[3] sample */
+        /* Read _y[3] sample */
         c0 = *(py++);
 
-        /* Read x[6] sample */
+        /* Read _x[6] sample */
         x2 = *(px++);
 
         /* Perform the multiply-accumulates */
-        /* acc0 +=  x[3] * y[3] */
+        /* acc0 +=  _x[3] * _y[3] */
         acc0 += x3 * c0;
-        /* acc1 +=  x[4] * y[3] */
+        /* acc1 +=  _x[4] * _y[3] */
         acc1 += x0 * c0;
-        /* acc2 +=  x[5] * y[3] */
+        /* acc2 +=  _x[5] * _y[3] */
         acc2 += x1 * c0;
-        /* acc3 +=  x[6] * y[3] */
+        /* acc3 +=  _x[6] * _y[3] */
         acc3 += x2 * c0;
 
 
@@ -409,20 +409,20 @@ void arm_correlate_f32(
 
       while (k > 0U)
       {
-        /* Read y[4] sample */
+        /* Read _y[4] sample */
         c0 = *(py++);
 
-        /* Read x[7] sample */
+        /* Read _x[7] sample */
         x3 = *(px++);
 
         /* Perform the multiply-accumulates */
-        /* acc0 +=  x[4] * y[4] */
+        /* acc0 +=  _x[4] * _y[4] */
         acc0 += x0 * c0;
-        /* acc1 +=  x[5] * y[4] */
+        /* acc1 +=  _x[5] * _y[4] */
         acc1 += x1 * c0;
-        /* acc2 +=  x[6] * y[4] */
+        /* acc2 +=  _x[6] * _y[4] */
         acc2 += x2 * c0;
-        /* acc3 +=  x[7] * y[4] */
+        /* acc3 +=  _x[7] * _y[4] */
         acc3 += x3 * c0;
 
         /* Reuse the present samples for the next MAC */
@@ -558,11 +558,11 @@ void arm_correlate_f32(
    * Initializations of stage3
    * -------------------------*/
 
-  /* sum += x[srcALen-srcBLen+1] * y[0] + x[srcALen-srcBLen+2] * y[1] +...+ x[srcALen-1] * y[srcBLen-1]
-   * sum += x[srcALen-srcBLen+2] * y[0] + x[srcALen-srcBLen+3] * y[1] +...+ x[srcALen-1] * y[srcBLen-1]
+  /* sum += _x[srcALen-srcBLen+1] * _y[0] + _x[srcALen-srcBLen+2] * _y[1] +...+ _x[srcALen-1] * _y[srcBLen-1]
+   * sum += _x[srcALen-srcBLen+2] * _y[0] + _x[srcALen-srcBLen+3] * _y[1] +...+ _x[srcALen-1] * _y[srcBLen-1]
    * ....
-   * sum +=  x[srcALen-2] * y[0] + x[srcALen-1] * y[1]
-   * sum +=  x[srcALen-1] * y[0]
+   * sum +=  _x[srcALen-2] * _y[0] + _x[srcALen-1] * _y[1]
+   * sum +=  _x[srcALen-1] * _y[0]
    */
 
   /* In this stage the MAC operations are decreased by 1 for every iteration.
@@ -593,13 +593,13 @@ void arm_correlate_f32(
     while (k > 0U)
     {
       /* Perform the multiply-accumulates */
-      /* sum += x[srcALen - srcBLen + 4] * y[3] */
+      /* sum += _x[srcALen - srcBLen + 4] * _y[3] */
       sum += *px++ * *py++;
-      /* sum += x[srcALen - srcBLen + 3] * y[2] */
+      /* sum += _x[srcALen - srcBLen + 3] * _y[2] */
       sum += *px++ * *py++;
-      /* sum += x[srcALen - srcBLen + 2] * y[1] */
+      /* sum += _x[srcALen - srcBLen + 2] * _y[1] */
       sum += *px++ * *py++;
-      /* sum += x[srcALen - srcBLen + 1] * y[0] */
+      /* sum += _x[srcALen - srcBLen + 1] * _y[0] */
       sum += *px++ * *py++;
 
       /* Decrement the loop counter */
@@ -649,7 +649,7 @@ void arm_correlate_f32(
   /* The algorithm implementation is based on the lengths of the inputs. */
   /* srcB is always made to slide across srcA. */
   /* So srcBLen is always considered as shorter or equal to srcALen */
-  /* But CORR(x, y) is reverse of CORR(y, x) */
+  /* But CORR(_x, _y) is reverse of CORR(_y, _x) */
   /* So, when srcBLen > srcALen, output pointer is made to point to the end of the output buffer */
   /* and a varaible, inv is set to 1 */
   /* If lengths are not equal then zero pad has to be done to  make the two
@@ -707,7 +707,7 @@ void arm_correlate_f32(
       /* Check the array limitations */
       if ((((i - j) < srcBLen) && (j < srcALen)))
       {
-        /* z[i] += x[i-j] * y[j] */
+        /* z[i] += _x[i-j] * _y[j] */
         sum += pIn1[j] * pIn2[-((int32_t) i - j)];
       }
     }

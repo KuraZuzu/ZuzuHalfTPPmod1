@@ -42,10 +42,10 @@
 
 #ifndef __ALIGNED
   #if __ICCARM_V8
-    #define __ALIGNED(x) __attribute__((aligned(x)))
+    #define __ALIGNED(_x) __attribute__((aligned(_x)))
   #elif (__VER__ >= 7080000)
     /* Needs IAR language extensions */
-    #define __ALIGNED(x) __attribute__((aligned(x)))
+    #define __ALIGNED(_x) __attribute__((aligned(_x)))
   #else
     #warning No compiler specific solution for __ALIGNED.__ALIGNED is ignored.
     #define __ALIGNED(x)

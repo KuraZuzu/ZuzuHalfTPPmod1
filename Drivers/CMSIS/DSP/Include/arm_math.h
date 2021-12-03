@@ -679,15 +679,15 @@ extern "C"
    * @brief C custom defined QADD8 for M3 and M0 processors
    */
   CMSIS_INLINE __STATIC_INLINE uint32_t __QADD8(
-  uint32_t x,
-  uint32_t y)
+  uint32_t _x,
+  uint32_t _y)
   {
     q31_t r, s, t, u;
 
-    r = __SSAT(((((q31_t)x << 24) >> 24) + (((q31_t)y << 24) >> 24)), 8) & (int32_t)0x000000FF;
-    s = __SSAT(((((q31_t)x << 16) >> 24) + (((q31_t)y << 16) >> 24)), 8) & (int32_t)0x000000FF;
-    t = __SSAT(((((q31_t)x <<  8) >> 24) + (((q31_t)y <<  8) >> 24)), 8) & (int32_t)0x000000FF;
-    u = __SSAT(((((q31_t)x      ) >> 24) + (((q31_t)y      ) >> 24)), 8) & (int32_t)0x000000FF;
+    r = __SSAT(((((q31_t)_x << 24) >> 24) + (((q31_t)_y << 24) >> 24)), 8) & (int32_t)0x000000FF;
+    s = __SSAT(((((q31_t)_x << 16) >> 24) + (((q31_t)_y << 16) >> 24)), 8) & (int32_t)0x000000FF;
+    t = __SSAT(((((q31_t)_x <<  8) >> 24) + (((q31_t)_y <<  8) >> 24)), 8) & (int32_t)0x000000FF;
+    u = __SSAT(((((q31_t)_x      ) >> 24) + (((q31_t)_y      ) >> 24)), 8) & (int32_t)0x000000FF;
 
     return ((uint32_t)((u << 24) | (t << 16) | (s <<  8) | (r      )));
   }
@@ -697,15 +697,15 @@ extern "C"
    * @brief C custom defined QSUB8 for M3 and M0 processors
    */
   CMSIS_INLINE __STATIC_INLINE uint32_t __QSUB8(
-  uint32_t x,
-  uint32_t y)
+  uint32_t _x,
+  uint32_t _y)
   {
     q31_t r, s, t, u;
 
-    r = __SSAT(((((q31_t)x << 24) >> 24) - (((q31_t)y << 24) >> 24)), 8) & (int32_t)0x000000FF;
-    s = __SSAT(((((q31_t)x << 16) >> 24) - (((q31_t)y << 16) >> 24)), 8) & (int32_t)0x000000FF;
-    t = __SSAT(((((q31_t)x <<  8) >> 24) - (((q31_t)y <<  8) >> 24)), 8) & (int32_t)0x000000FF;
-    u = __SSAT(((((q31_t)x      ) >> 24) - (((q31_t)y      ) >> 24)), 8) & (int32_t)0x000000FF;
+    r = __SSAT(((((q31_t)_x << 24) >> 24) - (((q31_t)_y << 24) >> 24)), 8) & (int32_t)0x000000FF;
+    s = __SSAT(((((q31_t)_x << 16) >> 24) - (((q31_t)_y << 16) >> 24)), 8) & (int32_t)0x000000FF;
+    t = __SSAT(((((q31_t)_x <<  8) >> 24) - (((q31_t)_y <<  8) >> 24)), 8) & (int32_t)0x000000FF;
+    u = __SSAT(((((q31_t)_x      ) >> 24) - (((q31_t)_y      ) >> 24)), 8) & (int32_t)0x000000FF;
 
     return ((uint32_t)((u << 24) | (t << 16) | (s <<  8) | (r      )));
   }
@@ -715,14 +715,14 @@ extern "C"
    * @brief C custom defined QADD16 for M3 and M0 processors
    */
   CMSIS_INLINE __STATIC_INLINE uint32_t __QADD16(
-  uint32_t x,
-  uint32_t y)
+  uint32_t _x,
+  uint32_t _y)
   {
 /*  q31_t r,     s;  without initialisation 'arm_offset_q15 test' fails  but 'intrinsic' tests pass! for armCC */
     q31_t r = 0, s = 0;
 
-    r = __SSAT(((((q31_t)x << 16) >> 16) + (((q31_t)y << 16) >> 16)), 16) & (int32_t)0x0000FFFF;
-    s = __SSAT(((((q31_t)x      ) >> 16) + (((q31_t)y      ) >> 16)), 16) & (int32_t)0x0000FFFF;
+    r = __SSAT(((((q31_t)_x << 16) >> 16) + (((q31_t)_y << 16) >> 16)), 16) & (int32_t)0x0000FFFF;
+    s = __SSAT(((((q31_t)_x      ) >> 16) + (((q31_t)_y      ) >> 16)), 16) & (int32_t)0x0000FFFF;
 
     return ((uint32_t)((s << 16) | (r      )));
   }
@@ -732,13 +732,13 @@ extern "C"
    * @brief C custom defined SHADD16 for M3 and M0 processors
    */
   CMSIS_INLINE __STATIC_INLINE uint32_t __SHADD16(
-  uint32_t x,
-  uint32_t y)
+  uint32_t _x,
+  uint32_t _y)
   {
     q31_t r, s;
 
-    r = (((((q31_t)x << 16) >> 16) + (((q31_t)y << 16) >> 16)) >> 1) & (int32_t)0x0000FFFF;
-    s = (((((q31_t)x      ) >> 16) + (((q31_t)y      ) >> 16)) >> 1) & (int32_t)0x0000FFFF;
+    r = (((((q31_t)_x << 16) >> 16) + (((q31_t)_y << 16) >> 16)) >> 1) & (int32_t)0x0000FFFF;
+    s = (((((q31_t)_x      ) >> 16) + (((q31_t)_y      ) >> 16)) >> 1) & (int32_t)0x0000FFFF;
 
     return ((uint32_t)((s << 16) | (r      )));
   }
@@ -748,13 +748,13 @@ extern "C"
    * @brief C custom defined QSUB16 for M3 and M0 processors
    */
   CMSIS_INLINE __STATIC_INLINE uint32_t __QSUB16(
-  uint32_t x,
-  uint32_t y)
+  uint32_t _x,
+  uint32_t _y)
   {
     q31_t r, s;
 
-    r = __SSAT(((((q31_t)x << 16) >> 16) - (((q31_t)y << 16) >> 16)), 16) & (int32_t)0x0000FFFF;
-    s = __SSAT(((((q31_t)x      ) >> 16) - (((q31_t)y      ) >> 16)), 16) & (int32_t)0x0000FFFF;
+    r = __SSAT(((((q31_t)_x << 16) >> 16) - (((q31_t)_y << 16) >> 16)), 16) & (int32_t)0x0000FFFF;
+    s = __SSAT(((((q31_t)_x      ) >> 16) - (((q31_t)_y      ) >> 16)), 16) & (int32_t)0x0000FFFF;
 
     return ((uint32_t)((s << 16) | (r      )));
   }
@@ -764,13 +764,13 @@ extern "C"
    * @brief C custom defined SHSUB16 for M3 and M0 processors
    */
   CMSIS_INLINE __STATIC_INLINE uint32_t __SHSUB16(
-  uint32_t x,
-  uint32_t y)
+  uint32_t _x,
+  uint32_t _y)
   {
     q31_t r, s;
 
-    r = (((((q31_t)x << 16) >> 16) - (((q31_t)y << 16) >> 16)) >> 1) & (int32_t)0x0000FFFF;
-    s = (((((q31_t)x      ) >> 16) - (((q31_t)y      ) >> 16)) >> 1) & (int32_t)0x0000FFFF;
+    r = (((((q31_t)_x << 16) >> 16) - (((q31_t)_y << 16) >> 16)) >> 1) & (int32_t)0x0000FFFF;
+    s = (((((q31_t)_x      ) >> 16) - (((q31_t)_y      ) >> 16)) >> 1) & (int32_t)0x0000FFFF;
 
     return ((uint32_t)((s << 16) | (r      )));
   }
@@ -780,13 +780,13 @@ extern "C"
    * @brief C custom defined QASX for M3 and M0 processors
    */
   CMSIS_INLINE __STATIC_INLINE uint32_t __QASX(
-  uint32_t x,
-  uint32_t y)
+  uint32_t _x,
+  uint32_t _y)
   {
     q31_t r, s;
 
-    r = __SSAT(((((q31_t)x << 16) >> 16) - (((q31_t)y      ) >> 16)), 16) & (int32_t)0x0000FFFF;
-    s = __SSAT(((((q31_t)x      ) >> 16) + (((q31_t)y << 16) >> 16)), 16) & (int32_t)0x0000FFFF;
+    r = __SSAT(((((q31_t)_x << 16) >> 16) - (((q31_t)_y      ) >> 16)), 16) & (int32_t)0x0000FFFF;
+    s = __SSAT(((((q31_t)_x      ) >> 16) + (((q31_t)_y << 16) >> 16)), 16) & (int32_t)0x0000FFFF;
 
     return ((uint32_t)((s << 16) | (r      )));
   }
@@ -796,13 +796,13 @@ extern "C"
    * @brief C custom defined SHASX for M3 and M0 processors
    */
   CMSIS_INLINE __STATIC_INLINE uint32_t __SHASX(
-  uint32_t x,
-  uint32_t y)
+  uint32_t _x,
+  uint32_t _y)
   {
     q31_t r, s;
 
-    r = (((((q31_t)x << 16) >> 16) - (((q31_t)y      ) >> 16)) >> 1) & (int32_t)0x0000FFFF;
-    s = (((((q31_t)x      ) >> 16) + (((q31_t)y << 16) >> 16)) >> 1) & (int32_t)0x0000FFFF;
+    r = (((((q31_t)_x << 16) >> 16) - (((q31_t)_y      ) >> 16)) >> 1) & (int32_t)0x0000FFFF;
+    s = (((((q31_t)_x      ) >> 16) + (((q31_t)_y << 16) >> 16)) >> 1) & (int32_t)0x0000FFFF;
 
     return ((uint32_t)((s << 16) | (r      )));
   }
@@ -812,13 +812,13 @@ extern "C"
    * @brief C custom defined QSAX for M3 and M0 processors
    */
   CMSIS_INLINE __STATIC_INLINE uint32_t __QSAX(
-  uint32_t x,
-  uint32_t y)
+  uint32_t _x,
+  uint32_t _y)
   {
     q31_t r, s;
 
-    r = __SSAT(((((q31_t)x << 16) >> 16) + (((q31_t)y      ) >> 16)), 16) & (int32_t)0x0000FFFF;
-    s = __SSAT(((((q31_t)x      ) >> 16) - (((q31_t)y << 16) >> 16)), 16) & (int32_t)0x0000FFFF;
+    r = __SSAT(((((q31_t)_x << 16) >> 16) + (((q31_t)_y      ) >> 16)), 16) & (int32_t)0x0000FFFF;
+    s = __SSAT(((((q31_t)_x      ) >> 16) - (((q31_t)_y << 16) >> 16)), 16) & (int32_t)0x0000FFFF;
 
     return ((uint32_t)((s << 16) | (r      )));
   }
@@ -828,13 +828,13 @@ extern "C"
    * @brief C custom defined SHSAX for M3 and M0 processors
    */
   CMSIS_INLINE __STATIC_INLINE uint32_t __SHSAX(
-  uint32_t x,
-  uint32_t y)
+  uint32_t _x,
+  uint32_t _y)
   {
     q31_t r, s;
 
-    r = (((((q31_t)x << 16) >> 16) + (((q31_t)y      ) >> 16)) >> 1) & (int32_t)0x0000FFFF;
-    s = (((((q31_t)x      ) >> 16) - (((q31_t)y << 16) >> 16)) >> 1) & (int32_t)0x0000FFFF;
+    r = (((((q31_t)_x << 16) >> 16) + (((q31_t)_y      ) >> 16)) >> 1) & (int32_t)0x0000FFFF;
+    s = (((((q31_t)_x      ) >> 16) - (((q31_t)_y << 16) >> 16)) >> 1) & (int32_t)0x0000FFFF;
 
     return ((uint32_t)((s << 16) | (r      )));
   }
@@ -844,22 +844,22 @@ extern "C"
    * @brief C custom defined SMUSDX for M3 and M0 processors
    */
   CMSIS_INLINE __STATIC_INLINE uint32_t __SMUSDX(
-  uint32_t x,
-  uint32_t y)
+  uint32_t _x,
+  uint32_t _y)
   {
-    return ((uint32_t)(((((q31_t)x << 16) >> 16) * (((q31_t)y      ) >> 16)) -
-                       ((((q31_t)x      ) >> 16) * (((q31_t)y << 16) >> 16))   ));
+    return ((uint32_t)(((((q31_t)_x << 16) >> 16) * (((q31_t)_y      ) >> 16)) -
+                       ((((q31_t)_x      ) >> 16) * (((q31_t)_y << 16) >> 16))   ));
   }
 
   /*
    * @brief C custom defined SMUADX for M3 and M0 processors
    */
   CMSIS_INLINE __STATIC_INLINE uint32_t __SMUADX(
-  uint32_t x,
-  uint32_t y)
+  uint32_t _x,
+  uint32_t _y)
   {
-    return ((uint32_t)(((((q31_t)x << 16) >> 16) * (((q31_t)y      ) >> 16)) +
-                       ((((q31_t)x      ) >> 16) * (((q31_t)y << 16) >> 16))   ));
+    return ((uint32_t)(((((q31_t)_x << 16) >> 16) * (((q31_t)_y      ) >> 16)) +
+                       ((((q31_t)_x      ) >> 16) * (((q31_t)_y << 16) >> 16))   ));
   }
 
 
@@ -867,10 +867,10 @@ extern "C"
    * @brief C custom defined QADD for M3 and M0 processors
    */
   CMSIS_INLINE __STATIC_INLINE int32_t __QADD(
-  int32_t x,
-  int32_t y)
+  int32_t _x,
+  int32_t _y)
   {
-    return ((int32_t)(clip_q63_to_q31((q63_t)x + (q31_t)y)));
+    return ((int32_t)(clip_q63_to_q31((q63_t)_x + (q31_t)_y)));
   }
 
 
@@ -878,10 +878,10 @@ extern "C"
    * @brief C custom defined QSUB for M3 and M0 processors
    */
   CMSIS_INLINE __STATIC_INLINE int32_t __QSUB(
-  int32_t x,
-  int32_t y)
+  int32_t _x,
+  int32_t _y)
   {
-    return ((int32_t)(clip_q63_to_q31((q63_t)x - (q31_t)y)));
+    return ((int32_t)(clip_q63_to_q31((q63_t)_x - (q31_t)_y)));
   }
 
 
@@ -889,12 +889,12 @@ extern "C"
    * @brief C custom defined SMLAD for M3 and M0 processors
    */
   CMSIS_INLINE __STATIC_INLINE uint32_t __SMLAD(
-  uint32_t x,
-  uint32_t y,
+  uint32_t _x,
+  uint32_t _y,
   uint32_t sum)
   {
-    return ((uint32_t)(((((q31_t)x << 16) >> 16) * (((q31_t)y << 16) >> 16)) +
-                       ((((q31_t)x      ) >> 16) * (((q31_t)y      ) >> 16)) +
+    return ((uint32_t)(((((q31_t)_x << 16) >> 16) * (((q31_t)_y << 16) >> 16)) +
+                       ((((q31_t)_x      ) >> 16) * (((q31_t)_y      ) >> 16)) +
                        ( ((q31_t)sum    )                                  )   ));
   }
 
@@ -903,12 +903,12 @@ extern "C"
    * @brief C custom defined SMLADX for M3 and M0 processors
    */
   CMSIS_INLINE __STATIC_INLINE uint32_t __SMLADX(
-  uint32_t x,
-  uint32_t y,
+  uint32_t _x,
+  uint32_t _y,
   uint32_t sum)
   {
-    return ((uint32_t)(((((q31_t)x << 16) >> 16) * (((q31_t)y      ) >> 16)) +
-                       ((((q31_t)x      ) >> 16) * (((q31_t)y << 16) >> 16)) +
+    return ((uint32_t)(((((q31_t)_x << 16) >> 16) * (((q31_t)_y      ) >> 16)) +
+                       ((((q31_t)_x      ) >> 16) * (((q31_t)_y << 16) >> 16)) +
                        ( ((q31_t)sum    )                                  )   ));
   }
 
@@ -917,12 +917,12 @@ extern "C"
    * @brief C custom defined SMLSDX for M3 and M0 processors
    */
   CMSIS_INLINE __STATIC_INLINE uint32_t __SMLSDX(
-  uint32_t x,
-  uint32_t y,
+  uint32_t _x,
+  uint32_t _y,
   uint32_t sum)
   {
-    return ((uint32_t)(((((q31_t)x << 16) >> 16) * (((q31_t)y      ) >> 16)) -
-                       ((((q31_t)x      ) >> 16) * (((q31_t)y << 16) >> 16)) +
+    return ((uint32_t)(((((q31_t)_x << 16) >> 16) * (((q31_t)_y      ) >> 16)) -
+                       ((((q31_t)_x      ) >> 16) * (((q31_t)_y << 16) >> 16)) +
                        ( ((q31_t)sum    )                                  )   ));
   }
 
@@ -931,13 +931,13 @@ extern "C"
    * @brief C custom defined SMLALD for M3 and M0 processors
    */
   CMSIS_INLINE __STATIC_INLINE uint64_t __SMLALD(
-  uint32_t x,
-  uint32_t y,
+  uint32_t _x,
+  uint32_t _y,
   uint64_t sum)
   {
-/*  return (sum + ((q15_t) (x >> 16) * (q15_t) (y >> 16)) + ((q15_t) x * (q15_t) y)); */
-    return ((uint64_t)(((((q31_t)x << 16) >> 16) * (((q31_t)y << 16) >> 16)) +
-                       ((((q31_t)x      ) >> 16) * (((q31_t)y      ) >> 16)) +
+/*  return (sum + ((q15_t) (_x >> 16) * (q15_t) (_y >> 16)) + ((q15_t) _x * (q15_t) _y)); */
+    return ((uint64_t)(((((q31_t)_x << 16) >> 16) * (((q31_t)_y << 16) >> 16)) +
+                       ((((q31_t)_x      ) >> 16) * (((q31_t)_y      ) >> 16)) +
                        ( ((q63_t)sum    )                                  )   ));
   }
 
@@ -946,13 +946,13 @@ extern "C"
    * @brief C custom defined SMLALDX for M3 and M0 processors
    */
   CMSIS_INLINE __STATIC_INLINE uint64_t __SMLALDX(
-  uint32_t x,
-  uint32_t y,
+  uint32_t _x,
+  uint32_t _y,
   uint64_t sum)
   {
-/*  return (sum + ((q15_t) (x >> 16) * (q15_t) y)) + ((q15_t) x * (q15_t) (y >> 16)); */
-    return ((uint64_t)(((((q31_t)x << 16) >> 16) * (((q31_t)y      ) >> 16)) +
-                       ((((q31_t)x      ) >> 16) * (((q31_t)y << 16) >> 16)) +
+/*  return (sum + ((q15_t) (_x >> 16) * (q15_t) _y)) + ((q15_t) _x * (q15_t) (_y >> 16)); */
+    return ((uint64_t)(((((q31_t)_x << 16) >> 16) * (((q31_t)_y      ) >> 16)) +
+                       ((((q31_t)_x      ) >> 16) * (((q31_t)_y << 16) >> 16)) +
                        ( ((q63_t)sum    )                                  )   ));
   }
 
@@ -961,11 +961,11 @@ extern "C"
    * @brief C custom defined SMUAD for M3 and M0 processors
    */
   CMSIS_INLINE __STATIC_INLINE uint32_t __SMUAD(
-  uint32_t x,
-  uint32_t y)
+  uint32_t _x,
+  uint32_t _y)
   {
-    return ((uint32_t)(((((q31_t)x << 16) >> 16) * (((q31_t)y << 16) >> 16)) +
-                       ((((q31_t)x      ) >> 16) * (((q31_t)y      ) >> 16))   ));
+    return ((uint32_t)(((((q31_t)_x << 16) >> 16) * (((q31_t)_y << 16) >> 16)) +
+                       ((((q31_t)_x      ) >> 16) * (((q31_t)_y      ) >> 16))   ));
   }
 
 
@@ -973,11 +973,11 @@ extern "C"
    * @brief C custom defined SMUSD for M3 and M0 processors
    */
   CMSIS_INLINE __STATIC_INLINE uint32_t __SMUSD(
-  uint32_t x,
-  uint32_t y)
+  uint32_t _x,
+  uint32_t _y)
   {
-    return ((uint32_t)(((((q31_t)x << 16) >> 16) * (((q31_t)y << 16) >> 16)) -
-                       ((((q31_t)x      ) >> 16) * (((q31_t)y      ) >> 16))   ));
+    return ((uint32_t)(((((q31_t)_x << 16) >> 16) * (((q31_t)_y << 16) >> 16)) -
+                       ((((q31_t)_x      ) >> 16) * (((q31_t)_y      ) >> 16))   ));
   }
 
 
@@ -985,21 +985,21 @@ extern "C"
    * @brief C custom defined SXTB16 for M3 and M0 processors
    */
   CMSIS_INLINE __STATIC_INLINE uint32_t __SXTB16(
-  uint32_t x)
+  uint32_t _x)
   {
-    return ((uint32_t)(((((q31_t)x << 24) >> 24) & (q31_t)0x0000FFFF) |
-                       ((((q31_t)x <<  8) >>  8) & (q31_t)0xFFFF0000)  ));
+    return ((uint32_t)(((((q31_t)_x << 24) >> 24) & (q31_t)0x0000FFFF) |
+                       ((((q31_t)_x <<  8) >>  8) & (q31_t)0xFFFF0000)  ));
   }
 
   /*
    * @brief C custom defined SMMLA for M3 and M0 processors
    */
   CMSIS_INLINE __STATIC_INLINE int32_t __SMMLA(
-  int32_t x,
-  int32_t y,
+  int32_t _x,
+  int32_t _y,
   int32_t sum)
   {
-    return (sum + (int32_t) (((int64_t) x * y) >> 32));
+    return (sum + (int32_t) (((int64_t) _x * _y) >> 32));
   }
 
 #endif /* !defined (ARM_MATH_DSP) */
@@ -4721,7 +4721,7 @@ void arm_rfft_fast_f32(
    *
    * \par Algorithm:
    * <pre>
-   *    y[n] = y[n-1] + A0 * x[n] + A1 * x[n-1] + A2 * x[n-2]
+   *    _y[n] = _y[n-1] + A0 * _x[n] + A1 * _x[n-1] + A2 * _x[n-2]
    *    A0 = Kp + Ki + Kd
    *    A1 = (-Kp ) - (2 * Kd )
    *    A2 = Kd  </pre>
@@ -4780,7 +4780,7 @@ void arm_rfft_fast_f32(
   {
     float32_t out;
 
-    /* y[n] = y[n-1] + A0 * x[n] + A1 * x[n-1] + A2 * x[n-2]  */
+    /* _y[n] = _y[n-1] + A0 * _x[n] + A1 * _x[n-1] + A2 * _x[n-2]  */
     out = (S->A0 * in) +
       (S->A1 * S->state[0]) + (S->A2 * S->state[1]) + (S->state[2]);
 
@@ -4815,19 +4815,19 @@ void arm_rfft_fast_f32(
     q63_t acc;
     q31_t out;
 
-    /* acc = A0 * x[n]  */
+    /* acc = A0 * _x[n]  */
     acc = (q63_t) S->A0 * in;
 
-    /* acc += A1 * x[n-1] */
+    /* acc += A1 * _x[n-1] */
     acc += (q63_t) S->A1 * S->state[0];
 
-    /* acc += A2 * x[n-2]  */
+    /* acc += A2 * _x[n-2]  */
     acc += (q63_t) S->A2 * S->state[1];
 
-    /* convert output to 1.31 format to add y[n-1] */
+    /* convert output to 1.31 format to add _y[n-1] */
     out = (q31_t) (acc >> 31U);
 
-    /* out += y[n-1] */
+    /* out += _y[n-1] */
     out += S->state[2];
 
     /* Update state */
@@ -4867,22 +4867,22 @@ void arm_rfft_fast_f32(
 
     /* Implementation of PID controller */
 
-    /* acc = A0 * x[n]  */
+    /* acc = A0 * _x[n]  */
     acc = (q31_t) __SMUAD((uint32_t)S->A0, (uint32_t)in);
 
-    /* acc += A1 * x[n-1] + A2 * x[n-2]  */
+    /* acc += A1 * _x[n-1] + A2 * _x[n-2]  */
     vstate = __SIMD32_CONST(S->state);
     acc = (q63_t)__SMLALD((uint32_t)S->A1, (uint32_t)*vstate, (uint64_t)acc);
 #else
-    /* acc = A0 * x[n]  */
+    /* acc = A0 * _x[n]  */
     acc = ((q31_t) S->A0) * in;
 
-    /* acc += A1 * x[n-1] + A2 * x[n-2]  */
+    /* acc += A1 * _x[n-1] + A2 * _x[n-2]  */
     acc += (q31_t) S->A1 * S->state[0];
     acc += (q31_t) S->A2 * S->state[1];
 #endif
 
-    /* acc += y[n-1] */
+    /* acc += _y[n-1] */
     acc += (q31_t) S->state[2] << 15;
 
     /* saturate the output */
@@ -5378,14 +5378,14 @@ void arm_rfft_fast_f32(
    * \image html LinearInterp.gif "Linear interpolation"
    *
    * \par
-   * A  Linear Interpolate function calculates an output value(y), for the input(x)
+   * A  Linear Interpolate function calculates an output value(_y), for the input(_x)
    * using linear interpolation of the input values x0, x1( nearest input values) and the output values y0 and y1(nearest output values)
    *
    * \par Algorithm:
    * <pre>
-   *       y = y0 + (x - x0) * ((y1 - y0)/(x1-x0))
-   *       where x0, x1 are nearest values of input x
-   *             y0, y1 are nearest values to output y
+   *       _y = y0 + (_x - x0) * ((y1 - y0)/(x1-x0))
+   *       where x0, x1 are nearest values of input _x
+   *             y0, y1 are nearest values to output _y
    * </pre>
    *
    * \par
@@ -5393,11 +5393,11 @@ void arm_rfft_fast_f32(
    * for Q7, Q15, Q31, and floating-point data types.  The functions operate on a single
    * sample of data and each call to the function returns a single processed value.
    * <code>S</code> points to an instance of the Linear Interpolate function data structure.
-   * <code>x</code> is the input sample value. The functions returns the output value.
+   * <code>_x</code> is the input sample value. The functions returns the output value.
    *
    * \par
-   * if x is outside of the table boundary, Linear interpolation returns first value of the table
-   * if x is below input range and returns last value of table if x is above range.
+   * if _x is outside of the table boundary, Linear interpolation returns first value of the table
+   * if _x is below input range and returns last value of table if _x is above range.
    */
 
   /**
@@ -5409,7 +5409,7 @@ void arm_rfft_fast_f32(
    * @brief  Process function for the floating-point Linear Interpolation Function.
    * @param[in,out] S  is an instance of the floating-point Linear Interpolation structure
    * @param[in]     x  input sample to process
-   * @return y processed output sample.
+   * @return _y processed output sample.
    *
    */
   CMSIS_INLINE __STATIC_INLINE float32_t arm_linear_interp_f32(
@@ -5462,10 +5462,10 @@ void arm_rfft_fast_f32(
    * @param[in] pYData   pointer to Q31 Linear Interpolation table
    * @param[in] x        input sample to process
    * @param[in] nValues  number of table values
-   * @return y processed output sample.
+   * @return _y processed output sample.
    *
    * \par
-   * Input sample <code>x</code> is in 12.20 format which contains 12 bits for table index and 20 bits for fractional part.
+   * Input sample <code>_x</code> is in 12.20 format which contains 12 bits for table index and 20 bits for fractional part.
    * This function can support maximum of table size 2^12.
    *
    */
@@ -5502,13 +5502,13 @@ void arm_rfft_fast_f32(
       y0 = pYData[index];
       y1 = pYData[index + 1];
 
-      /* Calculation of y0 * (1-fract) and y is in 2.30 format */
+      /* Calculation of y0 * (1-fract) and _y is in 2.30 format */
       y = ((q31_t) ((q63_t) y0 * (0x7FFFFFFF - fract) >> 32));
 
-      /* Calculation of y0 * (1-fract) + y1 *fract and y is in 2.30 format */
+      /* Calculation of y0 * (1-fract) + y1 *fract and _y is in 2.30 format */
       y += ((q31_t) (((q63_t) y1 * fract) >> 32));
 
-      /* Convert y to 1.31 format */
+      /* Convert _y to 1.31 format */
       return (y << 1U);
     }
   }
@@ -5520,10 +5520,10 @@ void arm_rfft_fast_f32(
    * @param[in] pYData   pointer to Q15 Linear Interpolation table
    * @param[in] x        input sample to process
    * @param[in] nValues  number of table values
-   * @return y processed output sample.
+   * @return _y processed output sample.
    *
    * \par
-   * Input sample <code>x</code> is in 12.20 format which contains 12 bits for table index and 20 bits for fractional part.
+   * Input sample <code>_x</code> is in 12.20 format which contains 12 bits for table index and 20 bits for fractional part.
    * This function can support maximum of table size 2^12.
    *
    */
@@ -5560,13 +5560,13 @@ void arm_rfft_fast_f32(
       y0 = pYData[index];
       y1 = pYData[index + 1];
 
-      /* Calculation of y0 * (1-fract) and y is in 13.35 format */
+      /* Calculation of y0 * (1-fract) and _y is in 13.35 format */
       y = ((q63_t) y0 * (0xFFFFF - fract));
 
-      /* Calculation of (y0 * (1-fract) + y1 * fract) and y is in 13.35 format */
+      /* Calculation of (y0 * (1-fract) + y1 * fract) and _y is in 13.35 format */
       y += ((q63_t) y1 * (fract));
 
-      /* convert y to 1.15 format */
+      /* convert _y to 1.15 format */
       return (q15_t) (y >> 20);
     }
   }
@@ -5578,10 +5578,10 @@ void arm_rfft_fast_f32(
    * @param[in] pYData   pointer to Q7 Linear Interpolation table
    * @param[in] x        input sample to process
    * @param[in] nValues  number of table values
-   * @return y processed output sample.
+   * @return _y processed output sample.
    *
    * \par
-   * Input sample <code>x</code> is in 12.20 format which contains 12 bits for table index and 20 bits for fractional part.
+   * Input sample <code>_x</code> is in 12.20 format which contains 12 bits for table index and 20 bits for fractional part.
    * This function can support maximum of table size 2^12.
    */
   CMSIS_INLINE __STATIC_INLINE q7_t arm_linear_interp_q7(
@@ -5617,13 +5617,13 @@ void arm_rfft_fast_f32(
       y0 = pYData[index];
       y1 = pYData[index + 1];
 
-      /* Calculation of y0 * (1-fract ) and y is in 13.27(q27) format */
+      /* Calculation of y0 * (1-fract ) and _y is in 13.27(q27) format */
       y = ((y0 * (0xFFFFF - fract)));
 
-      /* Calculation of y1 * fract + y0 * (1-fract) and y is in 13.27(q27) format */
+      /* Calculation of y1 * fract + y0 * (1-fract) and _y is in 13.27(q27) format */
       y += (y1 * fract);
 
-      /* convert y to 1.7(q7) format */
+      /* convert _y to 1.7(q7) format */
       return (q7_t) (y >> 20);
      }
   }
@@ -5635,7 +5635,7 @@ void arm_rfft_fast_f32(
   /**
    * @brief  Fast approximation to the trigonometric sine function for floating-point data.
    * @param[in] x  input value in radians.
-   * @return  sin(x).
+   * @return  sin(_x).
    */
   float32_t arm_sin_f32(
   float32_t x);
@@ -5644,7 +5644,7 @@ void arm_rfft_fast_f32(
   /**
    * @brief  Fast approximation to the trigonometric sine function for Q31 data.
    * @param[in] x  Scaled input value in radians.
-   * @return  sin(x).
+   * @return  sin(_x).
    */
   q31_t arm_sin_q31(
   q31_t x);
@@ -5653,7 +5653,7 @@ void arm_rfft_fast_f32(
   /**
    * @brief  Fast approximation to the trigonometric sine function for Q15 data.
    * @param[in] x  Scaled input value in radians.
-   * @return  sin(x).
+   * @return  sin(_x).
    */
   q15_t arm_sin_q15(
   q15_t x);
@@ -5662,7 +5662,7 @@ void arm_rfft_fast_f32(
   /**
    * @brief  Fast approximation to the trigonometric cosine function for floating-point data.
    * @param[in] x  input value in radians.
-   * @return  cos(x).
+   * @return  cos(_x).
    */
   float32_t arm_cos_f32(
   float32_t x);
@@ -5671,7 +5671,7 @@ void arm_rfft_fast_f32(
   /**
    * @brief Fast approximation to the trigonometric cosine function for Q31 data.
    * @param[in] x  Scaled input value in radians.
-   * @return  cos(x).
+   * @return  cos(_x).
    */
   q31_t arm_cos_q31(
   q31_t x);
@@ -5680,7 +5680,7 @@ void arm_rfft_fast_f32(
   /**
    * @brief  Fast approximation to the trigonometric cosine function for Q15 data.
    * @param[in] x  Scaled input value in radians.
-   * @return  cos(x).
+   * @return  cos(_x).
    */
   q15_t arm_cos_q15(
   q15_t x);
@@ -6669,9 +6669,9 @@ void arm_rfft_fast_f32(
    * @defgroup BilinearInterpolate Bilinear Interpolation
    *
    * Bilinear interpolation is an extension of linear interpolation applied to a two dimensional grid.
-   * The underlying function <code>f(x, y)</code> is sampled on a regular grid and the interpolation process
+   * The underlying function <code>f(_x, _y)</code> is sampled on a regular grid and the interpolation process
    * determines values between the grid points.
-   * Bilinear interpolation is equivalent to two step linear interpolation, first in the x-dimension and then in the y-dimension.
+   * Bilinear interpolation is equivalent to two step linear interpolation, first in the _x-dimension and then in the _y-dimension.
    * Bilinear interpolation is often used in image processing to rescale images.
    * The CMSIS DSP library provides bilinear interpolation functions for Q7, Q15, Q31, and floating-point data types.
    *
@@ -6693,28 +6693,28 @@ void arm_rfft_fast_f32(
    * <code>numCols</code> specifies the number of columns in the table;
    * and <code>pData</code> points to an array of size <code>numRows*numCols</code> values.
    * The data table <code>pTable</code> is organized in row order and the supplied data values fall on integer indexes.
-   * That is, table element (x,y) is located at <code>pTable[x + y*numCols]</code> where x and y are integers.
+   * That is, table element (_x,_y) is located at <code>pTable[_x + _y*numCols]</code> where _x and _y are integers.
    *
    * \par
-   * Let <code>(x, y)</code> specify the desired interpolation point.  Then define:
+   * Let <code>(_x, _y)</code> specify the desired interpolation point.  Then define:
    * <pre>
-   *     XF = floor(x)
-   *     YF = floor(y)
+   *     XF = floor(_x)
+   *     YF = floor(_y)
    * </pre>
    * \par
    * The interpolated output point is computed as:
    * <pre>
-   *  f(x, y) = f(XF, YF) * (1-(x-XF)) * (1-(y-YF))
-   *           + f(XF+1, YF) * (x-XF)*(1-(y-YF))
-   *           + f(XF, YF+1) * (1-(x-XF))*(y-YF)
-   *           + f(XF+1, YF+1) * (x-XF)*(y-YF)
+   *  f(_x, _y) = f(XF, YF) * (1-(_x-XF)) * (1-(_y-YF))
+   *           + f(XF+1, YF) * (_x-XF)*(1-(_y-YF))
+   *           + f(XF, YF+1) * (1-(_x-XF))*(_y-YF)
+   *           + f(XF+1, YF+1) * (_x-XF)*(_y-YF)
    * </pre>
-   * Note that the coordinates (x, y) contain integer and fractional components.
+   * Note that the coordinates (_x, _y) contain integer and fractional components.
    * The integer components specify which portion of the table to use while the
    * fractional components control the interpolation processor.
    *
    * \par
-   * if (x,y) are outside of the table boundary, Bilinear interpolation returns zero output.
+   * if (_x,_y) are outside of the table boundary, Bilinear interpolation returns zero output.
    */
 
   /**
@@ -6753,19 +6753,19 @@ void arm_rfft_fast_f32(
       return (0);
     }
 
-    /* Calculation of index for two nearest points in X-direction */
+    /* Calculation of index for two nearest points in X-_direction */
     index = (xIndex - 1) + (yIndex - 1) * S->numCols;
 
 
-    /* Read two nearest points in X-direction */
+    /* Read two nearest points in X-_direction */
     f00 = pData[index];
     f01 = pData[index + 1];
 
-    /* Calculation of index for two nearest points in Y-direction */
+    /* Calculation of index for two nearest points in Y-_direction */
     index = (xIndex - 1) + (yIndex) * S->numCols;
 
 
-    /* Read two nearest points in Y-direction */
+    /* Read two nearest points in Y-_direction */
     f10 = pData[index];
     f11 = pData[index + 1];
 

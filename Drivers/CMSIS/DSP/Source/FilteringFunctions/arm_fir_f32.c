@@ -43,9 +43,9 @@
 *
 * \par Algorithm:
 * The FIR filter algorithm is based upon a sequence of multiply-accumulate (MAC) operations.
-* Each filter coefficient <code>b[n]</code> is multiplied by a state variable which equals a previous input sample <code>x[n]</code>.
+* Each filter coefficient <code>b[n]</code> is multiplied by a state variable which equals a previous input sample <code>_x[n]</code>.
 * <pre>
-*    y[n] = b[0] * x[n] + b[1] * x[n-1] + b[2] * x[n-2] + ...+ b[numTaps-1] * x[n-numTaps+1]
+*    _y[n] = b[0] * _x[n] + b[1] * _x[n-1] + b[2] * _x[n-2] + ...+ b[numTaps-1] * _x[n-numTaps+1]
 * </pre>
 * \par
 * \image html FIR.gif "Finite Impulse Response filter"
@@ -61,7 +61,7 @@
 * Samples in the state buffer are stored in the following order.
 * \par
 * <pre>
-*    {x[n-numTaps+1], x[n-numTaps], x[n-numTaps-1], x[n-numTaps-2]....x[0], x[1], ..., x[blockSize-1]}
+*    {_x[n-numTaps+1], _x[n-numTaps], _x[n-numTaps-1], _x[n-numTaps-2]...._x[0], _x[1], ..., _x[blockSize-1]}
 * </pre>
 * \par
 * Note that the length of the state buffer exceeds the length of the coefficient array by <code>blockSize-1</code>.
@@ -143,10 +143,10 @@ uint32_t blockSize)
    /* Apply loop unrolling and compute 8 output values simultaneously.
     * The variables acc0 ... acc7 hold output values that are being computed:
     *
-    *    acc0 =  b[numTaps-1] * x[n-numTaps-1] + b[numTaps-2] * x[n-numTaps-2] + b[numTaps-3] * x[n-numTaps-3] +...+ b[0] * x[0]
-    *    acc1 =  b[numTaps-1] * x[n-numTaps] +   b[numTaps-2] * x[n-numTaps-1] + b[numTaps-3] * x[n-numTaps-2] +...+ b[0] * x[1]
-    *    acc2 =  b[numTaps-1] * x[n-numTaps+1] + b[numTaps-2] * x[n-numTaps] +   b[numTaps-3] * x[n-numTaps-1] +...+ b[0] * x[2]
-    *    acc3 =  b[numTaps-1] * x[n-numTaps+2] + b[numTaps-2] * x[n-numTaps+1] + b[numTaps-3] * x[n-numTaps]   +...+ b[0] * x[3]
+    *    acc0 =  b[numTaps-1] * _x[n-numTaps-1] + b[numTaps-2] * _x[n-numTaps-2] + b[numTaps-3] * _x[n-numTaps-3] +...+ b[0] * _x[0]
+    *    acc1 =  b[numTaps-1] * _x[n-numTaps] +   b[numTaps-2] * _x[n-numTaps-1] + b[numTaps-3] * _x[n-numTaps-2] +...+ b[0] * _x[1]
+    *    acc2 =  b[numTaps-1] * _x[n-numTaps+1] + b[numTaps-2] * _x[n-numTaps] +   b[numTaps-3] * _x[n-numTaps-1] +...+ b[0] * _x[2]
+    *    acc3 =  b[numTaps-1] * _x[n-numTaps+2] + b[numTaps-2] * _x[n-numTaps+1] + b[numTaps-3] * _x[n-numTaps]   +...+ b[0] * _x[3]
     */
    blkCnt = blockSize >> 3;
 
@@ -184,7 +184,7 @@ uint32_t blockSize)
       *pStateCurnt++ = *pSrc++;
       *pStateCurnt++ = *pSrc++;
 
-      /* Read the first seven samples from the state buffer:  x[n-numTaps], x[n-numTaps-1], x[n-numTaps-2] */
+      /* Read the first seven samples from the state buffer:  _x[n-numTaps], _x[n-numTaps-1], _x[n-numTaps-2] */
       x0 = *px++;
       x1 = *px++;
       x2 = *px++;
@@ -203,37 +203,37 @@ uint32_t blockSize)
          /* Read the b[numTaps-1] coefficient */
          c0 = *(pb++);
 
-         /* Read x[n-numTaps-3] sample */
+         /* Read _x[n-numTaps-3] sample */
          x7 = *(px++);
 
-         /* acc0 +=  b[numTaps-1] * x[n-numTaps] */
+         /* acc0 +=  b[numTaps-1] * _x[n-numTaps] */
          acc0 += x0 * c0;
 
-         /* acc1 +=  b[numTaps-1] * x[n-numTaps-1] */
+         /* acc1 +=  b[numTaps-1] * _x[n-numTaps-1] */
          acc1 += x1 * c0;
 
-         /* acc2 +=  b[numTaps-1] * x[n-numTaps-2] */
+         /* acc2 +=  b[numTaps-1] * _x[n-numTaps-2] */
          acc2 += x2 * c0;
 
-         /* acc3 +=  b[numTaps-1] * x[n-numTaps-3] */
+         /* acc3 +=  b[numTaps-1] * _x[n-numTaps-3] */
          acc3 += x3 * c0;
 
-         /* acc4 +=  b[numTaps-1] * x[n-numTaps-4] */
+         /* acc4 +=  b[numTaps-1] * _x[n-numTaps-4] */
          acc4 += x4 * c0;
 
-         /* acc1 +=  b[numTaps-1] * x[n-numTaps-5] */
+         /* acc1 +=  b[numTaps-1] * _x[n-numTaps-5] */
          acc5 += x5 * c0;
 
-         /* acc2 +=  b[numTaps-1] * x[n-numTaps-6] */
+         /* acc2 +=  b[numTaps-1] * _x[n-numTaps-6] */
          acc6 += x6 * c0;
 
-         /* acc3 +=  b[numTaps-1] * x[n-numTaps-7] */
+         /* acc3 +=  b[numTaps-1] * _x[n-numTaps-7] */
          acc7 += x7 * c0;
 
          /* Read the b[numTaps-2] coefficient */
          c0 = *(pb++);
 
-         /* Read x[n-numTaps-4] sample */
+         /* Read _x[n-numTaps-4] sample */
          x0 = *(px++);
 
          /* Perform the multiply-accumulate */
@@ -249,7 +249,7 @@ uint32_t blockSize)
          /* Read the b[numTaps-3] coefficient */
          c0 = *(pb++);
 
-         /* Read x[n-numTaps-5] sample */
+         /* Read _x[n-numTaps-5] sample */
          x1 = *(px++);
 
          /* Perform the multiply-accumulates */
@@ -265,7 +265,7 @@ uint32_t blockSize)
          /* Read the b[numTaps-4] coefficient */
          c0 = *(pb++);
 
-         /* Read x[n-numTaps-6] sample */
+         /* Read _x[n-numTaps-6] sample */
          x2 = *(px++);
 
          /* Perform the multiply-accumulates */
@@ -281,7 +281,7 @@ uint32_t blockSize)
          /* Read the b[numTaps-4] coefficient */
          c0 = *(pb++);
 
-         /* Read x[n-numTaps-6] sample */
+         /* Read _x[n-numTaps-6] sample */
          x3 = *(px++);
          /* Perform the multiply-accumulates */
          acc0 += x4 * c0;
@@ -296,7 +296,7 @@ uint32_t blockSize)
          /* Read the b[numTaps-4] coefficient */
          c0 = *(pb++);
 
-         /* Read x[n-numTaps-6] sample */
+         /* Read _x[n-numTaps-6] sample */
          x4 = *(px++);
 
          /* Perform the multiply-accumulates */
@@ -312,7 +312,7 @@ uint32_t blockSize)
          /* Read the b[numTaps-4] coefficient */
          c0 = *(pb++);
 
-         /* Read x[n-numTaps-6] sample */
+         /* Read _x[n-numTaps-6] sample */
          x5 = *(px++);
 
          /* Perform the multiply-accumulates */
@@ -328,7 +328,7 @@ uint32_t blockSize)
          /* Read the b[numTaps-4] coefficient */
          c0 = *(pb++);
 
-         /* Read x[n-numTaps-6] sample */
+         /* Read _x[n-numTaps-6] sample */
          x6 = *(px++);
 
          /* Perform the multiply-accumulates */
@@ -510,7 +510,7 @@ uint32_t blockSize)
       /* Perform the multiply-accumulates */
       do
       {
-         /* acc =  b[numTaps-1] * x[n-numTaps-1] + b[numTaps-2] * x[n-numTaps-2] + b[numTaps-3] * x[n-numTaps-3] +...+ b[0] * x[0] */
+         /* acc =  b[numTaps-1] * _x[n-numTaps-1] + b[numTaps-2] * _x[n-numTaps-2] + b[numTaps-3] * _x[n-numTaps-3] +...+ b[0] * _x[0] */
          acc += *px++ * *pb++;
          i--;
 
@@ -573,10 +573,10 @@ uint32_t blockSize)
    /* Apply loop unrolling and compute 8 output values simultaneously.
     * The variables acc0 ... acc7 hold output values that are being computed:
     *
-    *    acc0 =  b[numTaps-1] * x[n-numTaps-1] + b[numTaps-2] * x[n-numTaps-2] + b[numTaps-3] * x[n-numTaps-3] +...+ b[0] * x[0]
-    *    acc1 =  b[numTaps-1] * x[n-numTaps] +   b[numTaps-2] * x[n-numTaps-1] + b[numTaps-3] * x[n-numTaps-2] +...+ b[0] * x[1]
-    *    acc2 =  b[numTaps-1] * x[n-numTaps+1] + b[numTaps-2] * x[n-numTaps] +   b[numTaps-3] * x[n-numTaps-1] +...+ b[0] * x[2]
-    *    acc3 =  b[numTaps-1] * x[n-numTaps+2] + b[numTaps-2] * x[n-numTaps+1] + b[numTaps-3] * x[n-numTaps]   +...+ b[0] * x[3]
+    *    acc0 =  b[numTaps-1] * _x[n-numTaps-1] + b[numTaps-2] * _x[n-numTaps-2] + b[numTaps-3] * _x[n-numTaps-3] +...+ b[0] * _x[0]
+    *    acc1 =  b[numTaps-1] * _x[n-numTaps] +   b[numTaps-2] * _x[n-numTaps-1] + b[numTaps-3] * _x[n-numTaps-2] +...+ b[0] * _x[1]
+    *    acc2 =  b[numTaps-1] * _x[n-numTaps+1] + b[numTaps-2] * _x[n-numTaps] +   b[numTaps-3] * _x[n-numTaps-1] +...+ b[0] * _x[2]
+    *    acc3 =  b[numTaps-1] * _x[n-numTaps+2] + b[numTaps-2] * _x[n-numTaps+1] + b[numTaps-3] * _x[n-numTaps]   +...+ b[0] * _x[3]
     */
    blkCnt = blockSize >> 3;
 
@@ -614,7 +614,7 @@ uint32_t blockSize)
       *pStateCurnt++ = *pSrc++;
       *pStateCurnt++ = *pSrc++;
 
-      /* Read the first seven samples from the state buffer:  x[n-numTaps], x[n-numTaps-1], x[n-numTaps-2] */
+      /* Read the first seven samples from the state buffer:  _x[n-numTaps], _x[n-numTaps-1], _x[n-numTaps-2] */
       x0 = *px++;
       x1 = *px++;
       x2 = *px++;
@@ -633,37 +633,37 @@ uint32_t blockSize)
          /* Read the b[numTaps-1] coefficient */
          c0 = *(pb++);
 
-         /* Read x[n-numTaps-3] sample */
+         /* Read _x[n-numTaps-3] sample */
          x7 = *(px++);
 
-         /* acc0 +=  b[numTaps-1] * x[n-numTaps] */
+         /* acc0 +=  b[numTaps-1] * _x[n-numTaps] */
          p0 = x0 * c0;
 
-         /* acc1 +=  b[numTaps-1] * x[n-numTaps-1] */
+         /* acc1 +=  b[numTaps-1] * _x[n-numTaps-1] */
          p1 = x1 * c0;
 
-         /* acc2 +=  b[numTaps-1] * x[n-numTaps-2] */
+         /* acc2 +=  b[numTaps-1] * _x[n-numTaps-2] */
          p2 = x2 * c0;
 
-         /* acc3 +=  b[numTaps-1] * x[n-numTaps-3] */
+         /* acc3 +=  b[numTaps-1] * _x[n-numTaps-3] */
          p3 = x3 * c0;
 
-         /* acc4 +=  b[numTaps-1] * x[n-numTaps-4] */
+         /* acc4 +=  b[numTaps-1] * _x[n-numTaps-4] */
          p4 = x4 * c0;
 
-         /* acc1 +=  b[numTaps-1] * x[n-numTaps-5] */
+         /* acc1 +=  b[numTaps-1] * _x[n-numTaps-5] */
          p5 = x5 * c0;
 
-         /* acc2 +=  b[numTaps-1] * x[n-numTaps-6] */
+         /* acc2 +=  b[numTaps-1] * _x[n-numTaps-6] */
          p6 = x6 * c0;
 
-         /* acc3 +=  b[numTaps-1] * x[n-numTaps-7] */
+         /* acc3 +=  b[numTaps-1] * _x[n-numTaps-7] */
          p7 = x7 * c0;
 
          /* Read the b[numTaps-2] coefficient */
          c0 = *(pb++);
 
-         /* Read x[n-numTaps-4] sample */
+         /* Read _x[n-numTaps-4] sample */
          x0 = *(px++);
 
          acc0 += p0;
@@ -689,7 +689,7 @@ uint32_t blockSize)
          /* Read the b[numTaps-3] coefficient */
          c0 = *(pb++);
 
-         /* Read x[n-numTaps-5] sample */
+         /* Read _x[n-numTaps-5] sample */
          x1 = *(px++);
 
          acc0 += p0;
@@ -714,7 +714,7 @@ uint32_t blockSize)
          /* Read the b[numTaps-4] coefficient */
          c0 = *(pb++);
 
-         /* Read x[n-numTaps-6] sample */
+         /* Read _x[n-numTaps-6] sample */
          x2 = *(px++);
 
          acc0 += p0;
@@ -739,7 +739,7 @@ uint32_t blockSize)
          /* Read the b[numTaps-4] coefficient */
          c0 = *(pb++);
 
-         /* Read x[n-numTaps-6] sample */
+         /* Read _x[n-numTaps-6] sample */
          x3 = *(px++);
 
          acc0 += p0;
@@ -764,7 +764,7 @@ uint32_t blockSize)
          /* Read the b[numTaps-4] coefficient */
          c0 = *(pb++);
 
-         /* Read x[n-numTaps-6] sample */
+         /* Read _x[n-numTaps-6] sample */
          x4 = *(px++);
 
          acc0 += p0;
@@ -789,7 +789,7 @@ uint32_t blockSize)
          /* Read the b[numTaps-4] coefficient */
          c0 = *(pb++);
 
-         /* Read x[n-numTaps-6] sample */
+         /* Read _x[n-numTaps-6] sample */
          x5 = *(px++);
 
          acc0 += p0;
@@ -814,7 +814,7 @@ uint32_t blockSize)
          /* Read the b[numTaps-4] coefficient */
          c0 = *(pb++);
 
-         /* Read x[n-numTaps-6] sample */
+         /* Read _x[n-numTaps-6] sample */
          x6 = *(px++);
 
          acc0 += p0;

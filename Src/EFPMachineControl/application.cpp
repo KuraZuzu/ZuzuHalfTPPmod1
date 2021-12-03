@@ -11,8 +11,10 @@
 #define ZUZUHALFTPPMOD1_APPLICATION_H
 
 #include "test.h"
-#include "my_timer.h"
+#include "../MSLH/timer.h"
 #include "stm32f4xx_it.h"
+
+extern uint32_t timer::us_counter;
 
 #ifdef __cplusplus
 extern "C" {
@@ -24,7 +26,7 @@ void test_myself_wait_led() {
     MX_TIM6_Init();
     while (1) {
 //        printf("%d\r\n", my_timer::time_us_count);
-        my_timer::wait_us(1000000);
+        timer::wait_us(1000000);
 //        HAL_Delay(1000);
         HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_3);
     }
@@ -134,7 +136,6 @@ void test_all_console() {
     Test test;
     test.buzzer_debug();
     test.led_debug();
-    test.wheel_move_debug();
     test.measure_speed_debug();
     while(1) {
         test.all_sensor_console_debug();
@@ -170,6 +171,34 @@ void test_wheel_move() {
 void test_gyro() {
     Test test;
     test.gyro_read();
+}
+
+
+void test_motor_output() {
+    Motor left_motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, true);
+    Motor right_motor(htim1, TIM_CHANNEL_2, GPIOA, GPIO_PIN_7, false);
+
+    left_motor.start();
+    right_motor.start();
+    left_motor.update(1.0f);
+    right_motor.update(1.0f);
+}
+
+
+void test_wait() {
+    DigitalOut led1(GPIOC, GPIO_PIN_3);
+    MX_TIM6_Init();
+    MX_GPIO_Init();
+    while (1) {
+        printf("%d\r\n", timer::us_counter);
+    }
+
+    while (1) {
+        led1 = 1;
+        timer::wait_us(1000000);
+        led1 = 0;
+        timer::wait_us(1000000);
+    }
 }
 
 #ifdef __cplusplus

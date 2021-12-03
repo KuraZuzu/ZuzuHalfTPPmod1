@@ -57,7 +57,7 @@
  * \par Algorithm:
  * The FIR portion of the algorithm uses the standard form filter:
  * <pre>
- *    y[n] = b[0] * x[n] + b[1] * x[n-1] + b[2] * x[n-2] + ...+ b[numTaps-1] * x[n-numTaps+1]
+ *    _y[n] = b[0] * _x[n] + b[1] * _x[n-1] + b[2] * _x[n-2] + ...+ b[numTaps-1] * _x[n-numTaps+1]
  * </pre>
  * where, <code>b[n]</code> are the filter coefficients.
  * \par
@@ -72,7 +72,7 @@
  * Samples in the state buffer are stored in the order:
  * \par
  * <pre>
- *    {x[n-numTaps+1], x[n-numTaps], x[n-numTaps-1], x[n-numTaps-2]....x[0], x[1], ..., x[blockSize-1]}
+ *    {_x[n-numTaps+1], _x[n-numTaps], _x[n-numTaps-1], _x[n-numTaps-2]...._x[0], _x[1], ..., _x[blockSize-1]}
  * </pre>
  * The state variables are updated after each block of data is processed, the coefficients are untouched.
  *
@@ -195,13 +195,13 @@ void arm_fir_decimate_f32(
       /* Read the b[numTaps-1] coefficient */
       c0 = *(pb++);
 
-      /* Read x[n-numTaps-1] sample for acc0 */
+      /* Read _x[n-numTaps-1] sample for acc0 */
       x0 = *(px0++);
-      /* Read x[n-numTaps-1] sample for acc1 */
+      /* Read _x[n-numTaps-1] sample for acc1 */
       x1 = *(px1++);
-      /* Read x[n-numTaps-1] sample for acc2 */
+      /* Read _x[n-numTaps-1] sample for acc2 */
       x2 = *(px2++);
-      /* Read x[n-numTaps-1] sample for acc3 */
+      /* Read _x[n-numTaps-1] sample for acc3 */
       x3 = *(px3++);
 
       /* Perform the multiply-accumulate */
@@ -213,7 +213,7 @@ void arm_fir_decimate_f32(
       /* Read the b[numTaps-2] coefficient */
       c0 = *(pb++);
 
-      /* Read x[n-numTaps-2] sample for acc0, acc1, acc2, acc3 */
+      /* Read _x[n-numTaps-2] sample for acc0, acc1, acc2, acc3 */
       x0 = *(px0++);
       x1 = *(px1++);
       x2 = *(px2++);
@@ -228,7 +228,7 @@ void arm_fir_decimate_f32(
       /* Read the b[numTaps-3] coefficient */
       c0 = *(pb++);
 
-      /* Read x[n-numTaps-3] sample acc0, acc1, acc2, acc3 */
+      /* Read _x[n-numTaps-3] sample acc0, acc1, acc2, acc3 */
       x0 = *(px0++);
       x1 = *(px1++);
       x2 = *(px2++);
@@ -243,7 +243,7 @@ void arm_fir_decimate_f32(
       /* Read the b[numTaps-4] coefficient */
       c0 = *(pb++);
 
-      /* Read x[n-numTaps-4] sample acc0, acc1, acc2, acc3 */
+      /* Read _x[n-numTaps-4] sample acc0, acc1, acc2, acc3 */
       x0 = *(px0++);
       x1 = *(px1++);
       x2 = *(px2++);
@@ -327,7 +327,7 @@ void arm_fir_decimate_f32(
       /* Read the b[numTaps-1] coefficient */
       c0 = *(pb++);
 
-      /* Read x[n-numTaps-1] sample */
+      /* Read _x[n-numTaps-1] sample */
       x0 = *(px++);
 
       /* Perform the multiply-accumulate */
@@ -336,7 +336,7 @@ void arm_fir_decimate_f32(
       /* Read the b[numTaps-2] coefficient */
       c0 = *(pb++);
 
-      /* Read x[n-numTaps-2] sample */
+      /* Read _x[n-numTaps-2] sample */
       x0 = *(px++);
 
       /* Perform the multiply-accumulate */
@@ -345,7 +345,7 @@ void arm_fir_decimate_f32(
       /* Read the b[numTaps-3] coefficient */
       c0 = *(pb++);
 
-      /* Read x[n-numTaps-3] sample */
+      /* Read _x[n-numTaps-3] sample */
       x0 = *(px++);
 
       /* Perform the multiply-accumulate */
@@ -354,7 +354,7 @@ void arm_fir_decimate_f32(
       /* Read the b[numTaps-4] coefficient */
       c0 = *(pb++);
 
-      /* Read x[n-numTaps-4] sample */
+      /* Read _x[n-numTaps-4] sample */
       x0 = *(px++);
 
       /* Perform the multiply-accumulate */

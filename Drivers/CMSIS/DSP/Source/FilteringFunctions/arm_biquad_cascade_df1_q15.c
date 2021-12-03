@@ -97,17 +97,17 @@ void arm_biquad_cascade_df1_q15(
     /* Read the a1 and a2 coefficients using SIMD */
     a1 = *__SIMD32(pCoeffs)++;
 
-    /* Read the input state values from the state buffer:  x[n-1], x[n-2] */
+    /* Read the input state values from the state buffer:  _x[n-1], _x[n-2] */
     state_in = *__SIMD32(pState)++;
 
-    /* Read the output state values from the state buffer:  y[n-1], y[n-2] */
+    /* Read the output state values from the state buffer:  _y[n-1], _y[n-2] */
     state_out = *__SIMD32(pState)--;
 
     /* Apply loop unrolling and compute 2 output values simultaneously. */
     /*      The variable acc hold output values that are being computed:
      *
-     *    acc =  b0 * x[n] + b1 * x[n-1] + b2 * x[n-2] + a1 * y[n-1] + a2 * y[n-2]
-     *    acc =  b0 * x[n] + b1 * x[n-1] + b2 * x[n-2] + a1 * y[n-1] + a2 * y[n-2]
+     *    acc =  b0 * _x[n] + b1 * _x[n-1] + b2 * _x[n-2] + a1 * _y[n-1] + a2 * _y[n-2]
+     *    acc =  b0 * _x[n] + b1 * _x[n-1] + b2 * _x[n-2] + a1 * _y[n-1] + a2 * _y[n-2]
      */
     sample = blockSize >> 1U;
 
@@ -119,12 +119,12 @@ void arm_biquad_cascade_df1_q15(
       /* Read the input */
       in = *__SIMD32(pIn)++;
 
-      /* out =  b0 * x[n] + 0 * 0 */
+      /* out =  b0 * _x[n] + 0 * 0 */
       out = __SMUAD(b0, in);
 
-      /* acc +=  b1 * x[n-1] +  b2 * x[n-2] + out */
+      /* acc +=  b1 * _x[n-1] +  b2 * _x[n-2] + out */
       acc = __SMLALD(b1, state_in, out);
-      /* acc +=  a1 * y[n-1] +  a2 * y[n-2] */
+      /* acc +=  a1 * _y[n-1] +  a2 * _y[n-2] */
       acc = __SMLALD(a1, state_out, acc);
 
       /* The result is converted from 3.29 to 1.31 if postShift = 1, and then saturation is applied */
@@ -145,8 +145,8 @@ void arm_biquad_cascade_df1_q15(
       /* Xn1 = Xn     */
       /* Yn2 = Yn1    */
       /* Yn1 = acc   */
-      /* x[n-N], x[n-N-1] are packed together to make state_in of type q31 */
-      /* y[n-N], y[n-N-1] are packed together to make state_out of type q31 */
+      /* _x[n-N], _x[n-N-1] are packed together to make state_in of type q31 */
+      /* _y[n-N], _y[n-N-1] are packed together to make state_out of type q31 */
 
 #ifndef  ARM_MATH_BIG_ENDIAN
 
@@ -160,11 +160,11 @@ void arm_biquad_cascade_df1_q15(
 
 #endif /* #ifndef  ARM_MATH_BIG_ENDIAN */
 
-      /* out =  b0 * x[n] + 0 * 0 */
+      /* out =  b0 * _x[n] + 0 * 0 */
       out = __SMUADX(b0, in);
-      /* acc +=  b1 * x[n-1] +  b2 * x[n-2] + out */
+      /* acc +=  b1 * _x[n-1] +  b2 * _x[n-2] + out */
       acc = __SMLALD(b1, state_in, out);
-      /* acc +=  a1 * y[n-1] + a2 * y[n-2] */
+      /* acc +=  a1 * _y[n-1] + a2 * _y[n-2] */
       acc = __SMLALD(a1, state_out, acc);
 
       /* The result is converted from 3.29 to 1.31 if postShift = 1, and then saturation is applied */
@@ -197,8 +197,8 @@ void arm_biquad_cascade_df1_q15(
       /* Xn1 = Xn     */
       /* Yn2 = Yn1    */
       /* Yn1 = acc   */
-      /* x[n-N], x[n-N-1] are packed together to make state_in of type q31 */
-      /* y[n-N], y[n-N-1] are packed together to make state_out of type q31 */
+      /* _x[n-N], _x[n-N-1] are packed together to make state_in of type q31 */
+      /* _y[n-N], _y[n-N-1] are packed together to make state_out of type q31 */
 #ifndef  ARM_MATH_BIG_ENDIAN
 
       state_in = __PKHBT(in >> 16, state_in, 16);
@@ -225,7 +225,7 @@ void arm_biquad_cascade_df1_q15(
       /* Read the input */
       in = *pIn++;
 
-      /* out =  b0 * x[n] + 0 * 0 */
+      /* out =  b0 * _x[n] + 0 * 0 */
 
 #ifndef  ARM_MATH_BIG_ENDIAN
 
@@ -237,9 +237,9 @@ void arm_biquad_cascade_df1_q15(
 
 #endif /* #ifndef  ARM_MATH_BIG_ENDIAN */
 
-      /* acc =  b1 * x[n-1] + b2 * x[n-2] + out */
+      /* acc =  b1 * _x[n-1] + b2 * _x[n-2] + out */
       acc = __SMLALD(b1, state_in, out);
-      /* acc +=  a1 * y[n-1] + a2 * y[n-2] */
+      /* acc +=  a1 * _y[n-1] + a2 * _y[n-2] */
       acc = __SMLALD(a1, state_out, acc);
 
       /* The result is converted from 3.29 to 1.31 if postShift = 1, and then saturation is applied */
@@ -263,8 +263,8 @@ void arm_biquad_cascade_df1_q15(
       /* Xn1 = Xn     */
       /* Yn2 = Yn1    */
       /* Yn1 = acc   */
-      /* x[n-N], x[n-N-1] are packed together to make state_in of type q31 */
-      /* y[n-N], y[n-N-1] are packed together to make state_out of type q31 */
+      /* _x[n-N], _x[n-N-1] are packed together to make state_in of type q31 */
+      /* _y[n-N], _y[n-N-1] are packed together to make state_out of type q31 */
 
 #ifndef  ARM_MATH_BIG_ENDIAN
 
@@ -329,7 +329,7 @@ void arm_biquad_cascade_df1_q15(
     Yn2 = pState[3];
 
     /*      The variables acc holds the output value that is computed:
-     *    acc =  b0 * x[n] + b1 * x[n-1] + b2 * x[n-2] + a1 * y[n-1] + a2 * y[n-2]
+     *    acc =  b0 * _x[n] + b1 * _x[n-1] + b2 * _x[n-2] + a1 * _y[n-1] + a2 * _y[n-2]
      */
 
     sample = blockSize;
@@ -339,17 +339,17 @@ void arm_biquad_cascade_df1_q15(
       /* Read the input */
       Xn = *pIn++;
 
-      /* acc =  b0 * x[n] + b1 * x[n-1] + b2 * x[n-2] + a1 * y[n-1] + a2 * y[n-2] */
-      /* acc =  b0 * x[n] */
+      /* acc =  b0 * _x[n] + b1 * _x[n-1] + b2 * _x[n-2] + a1 * _y[n-1] + a2 * _y[n-2] */
+      /* acc =  b0 * _x[n] */
       acc = (q31_t) b0 *Xn;
 
-      /* acc +=  b1 * x[n-1] */
+      /* acc +=  b1 * _x[n-1] */
       acc += (q31_t) b1 *Xn1;
-      /* acc +=  b[2] * x[n-2] */
+      /* acc +=  b[2] * _x[n-2] */
       acc += (q31_t) b2 *Xn2;
-      /* acc +=  a1 * y[n-1] */
+      /* acc +=  a1 * _y[n-1] */
       acc += (q31_t) a1 *Yn1;
-      /* acc +=  a2 * y[n-2] */
+      /* acc +=  a2 * _y[n-2] */
       acc += (q31_t) a2 *Yn2;
 
       /* The result is converted to 1.31  */

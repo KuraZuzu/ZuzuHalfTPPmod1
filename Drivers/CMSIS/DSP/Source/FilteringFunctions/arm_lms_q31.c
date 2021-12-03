@@ -118,16 +118,16 @@ void arm_lms_q31(
     while (tapCnt > 0U)
     {
       /* Perform the multiply-accumulate */
-      /* acc +=  b[N] * x[n-N] */
+      /* acc +=  b[N] * _x[n-N] */
       acc += ((q63_t) (*px++)) * (*pb++);
 
-      /* acc +=  b[N-1] * x[n-N-1] */
+      /* acc +=  b[N-1] * _x[n-N-1] */
       acc += ((q63_t) (*px++)) * (*pb++);
 
-      /* acc +=  b[N-2] * x[n-N-2] */
+      /* acc +=  b[N-2] * _x[n-N-2] */
       acc += ((q63_t) (*px++)) * (*pb++);
 
-      /* acc +=  b[N-3] * x[n-N-3] */
+      /* acc +=  b[N-3] * _x[n-N-3] */
       acc += ((q63_t) (*px++)) * (*pb++);
 
       /* Decrement the loop counter */

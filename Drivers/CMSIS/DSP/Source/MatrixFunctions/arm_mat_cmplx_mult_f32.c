@@ -37,8 +37,8 @@
  *
  * Complex Matrix multiplication is only defined if the number of columns of the
  * first matrix equals the number of rows of the second matrix.
- * Multiplying an <code>M x N</code> matrix with an <code>N x P</code> matrix results
- * in an <code>M x P</code> matrix.
+ * Multiplying an <code>M _x N</code> matrix with an <code>N _x P</code> matrix results
+ * in an <code>M _x P</code> matrix.
  * When matrix size checking is enabled, the functions check: (1) that the inner dimensions of
  * <code>pSrcA</code> and <code>pSrcB</code> are equal; and (2) that the size of the output
  * matrix equals the outer dimensions of <code>pSrcA</code> and <code>pSrcB</code>.

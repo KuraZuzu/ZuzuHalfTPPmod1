@@ -110,7 +110,7 @@ typedef enum
   * @brief GPIO Configuration Mode 
   *        Elements values convention: 0xX0yz00YZ
   *           - X  : GPIO mode or EXTI Mode
-  *           - y  : External IT or Event trigger detection 
+  *           - _y  : External IT or Event trigger detection
   *           - z  : IO configuration on External IT or Event
   *           - Y  : Output type (Push Pull or Open Drain)
   *           - Z  : IO Direction mode (Input, Output, Alternate or Analog)
@@ -171,7 +171,7 @@ typedef enum
 /**
   * @brief  Checks whether the specified EXTI line flag is set or not.
   * @param  __EXTI_LINE__ specifies the EXTI line flag to check.
-  *         This parameter can be GPIO_PIN_x where x can be(0..15)
+  *         This parameter can be GPIO_PIN_x where _x can be(0..15)
   * @retval The new state of __EXTI_LINE__ (SET or RESET).
   */
 #define __HAL_GPIO_EXTI_GET_FLAG(__EXTI_LINE__) (EXTI->PR & (__EXTI_LINE__))
@@ -179,7 +179,7 @@ typedef enum
 /**
   * @brief  Clears the EXTI's line pending flags.
   * @param  __EXTI_LINE__ specifies the EXTI lines flags to clear.
-  *         This parameter can be any combination of GPIO_PIN_x where x can be (0..15)
+  *         This parameter can be any combination of GPIO_PIN_x where _x can be (0..15)
   * @retval None
   */
 #define __HAL_GPIO_EXTI_CLEAR_FLAG(__EXTI_LINE__) (EXTI->PR = (__EXTI_LINE__))
@@ -187,7 +187,7 @@ typedef enum
 /**
   * @brief  Checks whether the specified EXTI line is asserted or not.
   * @param  __EXTI_LINE__ specifies the EXTI line to check.
-  *          This parameter can be GPIO_PIN_x where x can be(0..15)
+  *          This parameter can be GPIO_PIN_x where _x can be(0..15)
   * @retval The new state of __EXTI_LINE__ (SET or RESET).
   */
 #define __HAL_GPIO_EXTI_GET_IT(__EXTI_LINE__) (EXTI->PR & (__EXTI_LINE__))
@@ -195,7 +195,7 @@ typedef enum
 /**
   * @brief  Clears the EXTI's line pending bits.
   * @param  __EXTI_LINE__ specifies the EXTI lines to clear.
-  *          This parameter can be any combination of GPIO_PIN_x where x can be (0..15)
+  *          This parameter can be any combination of GPIO_PIN_x where _x can be (0..15)
   * @retval None
   */
 #define __HAL_GPIO_EXTI_CLEAR_IT(__EXTI_LINE__) (EXTI->PR = (__EXTI_LINE__))
@@ -203,7 +203,7 @@ typedef enum
 /**
   * @brief  Generates a Software interrupt on selected EXTI line.
   * @param  __EXTI_LINE__ specifies the EXTI line to check.
-  *          This parameter can be GPIO_PIN_x where x can be(0..15)
+  *          This parameter can be GPIO_PIN_x where _x can be(0..15)
   * @retval None
   */
 #define __HAL_GPIO_EXTI_GENERATE_SWIT(__EXTI_LINE__) (EXTI->SWIER |= (__EXTI_LINE__))

@@ -257,7 +257,7 @@ static HAL_StatusTypeDef TIM_SlaveTimer_SetConfig(TIM_HandleTypeDef *htim,
   * @brief  Initializes the TIM Time base Unit according to the specified
   *         parameters in the TIM_HandleTypeDef and initialize the associated handle.
   * @note   Switching from Center Aligned counter mode to Edge counter mode (or reverse)
-  *         requires a timer reset to avoid unexpected direction
+  *         requires a timer reset to avoid unexpected _direction
   *         due to DIR bit readonly in center aligned mode.
   *         Ex: call @ref HAL_TIM_Base_DeInit() before HAL_TIM_Base_Init()
   * @param  htim TIM Base handle
@@ -639,7 +639,7 @@ HAL_StatusTypeDef HAL_TIM_Base_Stop_DMA(TIM_HandleTypeDef *htim)
   * @brief  Initializes the TIM Output Compare according to the specified
   *         parameters in the TIM_HandleTypeDef and initializes the associated handle.
   * @note   Switching from Center Aligned counter mode to Edge counter mode (or reverse)
-  *         requires a timer reset to avoid unexpected direction
+  *         requires a timer reset to avoid unexpected _direction
   *         due to DIR bit readonly in center aligned mode.
   *         Ex: call @ref HAL_TIM_OC_DeInit() before HAL_TIM_OC_Init()
   * @param  htim TIM Output Compare handle
@@ -1276,7 +1276,7 @@ HAL_StatusTypeDef HAL_TIM_OC_Stop_DMA(TIM_HandleTypeDef *htim, uint32_t Channel)
   * @brief  Initializes the TIM PWM Time Base according to the specified
   *         parameters in the TIM_HandleTypeDef and initializes the associated handle.
   * @note   Switching from Center Aligned counter mode to Edge counter mode (or reverse)
-  *         requires a timer reset to avoid unexpected direction
+  *         requires a timer reset to avoid unexpected _direction
   *         due to DIR bit readonly in center aligned mode.
   *         Ex: call @ref HAL_TIM_PWM_DeInit() before HAL_TIM_PWM_Init()
   * @param  htim TIM PWM handle
@@ -1911,7 +1911,7 @@ HAL_StatusTypeDef HAL_TIM_PWM_Stop_DMA(TIM_HandleTypeDef *htim, uint32_t Channel
   * @brief  Initializes the TIM Input Capture Time base according to the specified
   *         parameters in the TIM_HandleTypeDef and initializes the associated handle.
   * @note   Switching from Center Aligned counter mode to Edge counter mode (or reverse)
-  *         requires a timer reset to avoid unexpected direction
+  *         requires a timer reset to avoid unexpected _direction
   *         due to DIR bit readonly in center aligned mode.
   *         Ex: call @ref HAL_TIM_IC_DeInit() before HAL_TIM_IC_Init()
   * @param  htim TIM Input Capture handle
@@ -2526,7 +2526,7 @@ HAL_StatusTypeDef HAL_TIM_IC_Stop_DMA(TIM_HandleTypeDef *htim, uint32_t Channel)
   * @brief  Initializes the TIM One Pulse Time Base according to the specified
   *         parameters in the TIM_HandleTypeDef and initializes the associated handle.
   * @note   Switching from Center Aligned counter mode to Edge counter mode (or reverse)
-  *         requires a timer reset to avoid unexpected direction
+  *         requires a timer reset to avoid unexpected _direction
   *         due to DIR bit readonly in center aligned mode.
   *         Ex: call @ref HAL_TIM_OnePulse_DeInit() before HAL_TIM_OnePulse_Init()
   * @note   When the timer instance is initialized in One Pulse mode, timer
@@ -2916,7 +2916,7 @@ HAL_StatusTypeDef HAL_TIM_OnePulse_Stop_IT(TIM_HandleTypeDef *htim, uint32_t Out
 /**
   * @brief  Initializes the TIM Encoder Interface and initialize the associated handle.
   * @note   Switching from Center Aligned counter mode to Edge counter mode (or reverse)
-  *         requires a timer reset to avoid unexpected direction
+  *         requires a timer reset to avoid unexpected _direction
   *         due to DIR bit readonly in center aligned mode.
   *         Ex: call @ref HAL_TIM_Encoder_DeInit() before HAL_TIM_Encoder_Init()
   * @note   Encoder mode and External clock mode 2 are not compatible and must not be selected together
@@ -7358,7 +7358,7 @@ void TIM_ETR_SetConfig(TIM_TypeDef *TIMx, uint32_t TIM_ExtTRGPrescaler,
 }
 
 /**
-  * @brief  Enables or disables the TIM Capture Compare Channel x.
+  * @brief  Enables or disables the TIM Capture Compare Channel _x.
   * @param  TIMx to select the TIM peripheral
   * @param  Channel specifies the TIM Channel
   *          This parameter can be one of the following values:

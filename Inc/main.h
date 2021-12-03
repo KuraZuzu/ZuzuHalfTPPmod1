@@ -70,6 +70,9 @@ extern void test_battery_warning();
 extern void test_buss3out();
 extern void test_measure_speed();
 extern void test_wheel_move();
+extern void test_gyro();
+void test_motor_output();
+extern void test_wait();
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/

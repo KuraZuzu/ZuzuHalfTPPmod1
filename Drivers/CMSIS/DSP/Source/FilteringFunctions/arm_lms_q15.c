@@ -115,7 +115,7 @@ void arm_lms_q15(
 
     while (tapCnt > 0U)
     {
-      /* acc +=  b[N] * x[n-N] + b[N-1] * x[n-N-1] */
+      /* acc +=  b[N] * _x[n-N] + b[N-1] * _x[n-N-1] */
       /* Perform the multiply-accumulate */
 #ifndef UNALIGNED_SUPPORT_DISABLE
 

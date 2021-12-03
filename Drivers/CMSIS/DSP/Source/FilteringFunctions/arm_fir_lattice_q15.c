@@ -80,7 +80,7 @@ void arm_fir_lattice_q15(
   {
 
     /* Read two samples from input buffer */
-    /* f0(n) = x(n) */
+    /* f0(n) = _x(n) */
     fcurnt1 = *pSrc++;
     fcurnt2 = *pSrc++;
 
@@ -112,7 +112,7 @@ void arm_fir_lattice_q15(
 
 
     /* Read next two samples from input buffer */
-    /* f0(n+2) = x(n+2) */
+    /* f0(n+2) = _x(n+2) */
     fcurnt3 = *pSrc++;
     fcurnt4 = *pSrc++;
 
@@ -346,7 +346,7 @@ void arm_fir_lattice_q15(
     }
 
     /* The results in the 4 accumulators, store in the destination buffer. */
-    /* y(n) = fN(n) */
+    /* _y(n) = fN(n) */
 
 #ifndef  ARM_MATH_BIG_ENDIAN
 
@@ -369,7 +369,7 @@ void arm_fir_lattice_q15(
 
   while (blkCnt > 0U)
   {
-    /* f0(n) = x(n) */
+    /* f0(n) = _x(n) */
     fcurnt1 = *pSrc++;
 
     /* Initialize coeff pointer */
@@ -427,7 +427,7 @@ void arm_fir_lattice_q15(
 
     }
 
-    /* y(n) = fN(n) */
+    /* _y(n) = fN(n) */
     *pDst++ = __SSAT(fcurnt1, 16);
 
 
@@ -449,7 +449,7 @@ void arm_fir_lattice_q15(
 
   while (blkCnt > 0U)
   {
-    /* f0(n) = x(n) */
+    /* f0(n) = _x(n) */
     fcurnt = *pSrc++;
 
     /* Initialize coeff pointer */
@@ -507,7 +507,7 @@ void arm_fir_lattice_q15(
 
     }
 
-    /* y(n) = fN(n) */
+    /* _y(n) = fN(n) */
     *pDst++ = __SSAT(fcurnt, 16);
 
 

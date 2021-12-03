@@ -48,10 +48,10 @@
  * \image html FIRLattice.gif "Finite Impulse Response Lattice filter"
  * The following difference equation is implemented:
  * <pre>
- *    f0[n] = g0[n] = x[n]
+ *    f0[n] = g0[n] = _x[n]
  *    fm[n] = fm-1[n] + km * gm-1[n-1] for m = 1, 2, ...M
  *    gm[n] = km * fm-1[n] + gm-1[n-1] for m = 1, 2, ...M
- *    y[n] = fM[n]
+ *    _y[n] = fM[n]
  * </pre>
  * \par
  * <code>pCoeffs</code> points to tha array of reflection coefficients of size <code>numStages</code>.
@@ -150,7 +150,7 @@ void arm_fir_lattice_f32(
   {
 
     /* Read two samples from input buffer */
-    /* f0(n) = x(n) */
+    /* f0(n) = _x(n) */
     fcurr1 = *pSrc++;
     fcurr2 = *pSrc++;
 
@@ -175,7 +175,7 @@ void arm_fir_lattice_f32(
     gnext2 = (fcurr2 * (*pk)) + fcurr1;
 
     /* Read next two samples from input buffer */
-    /* f0(n+2) = x(n+2) */
+    /* f0(n+2) = _x(n+2) */
     fcurr3 = *pSrc++;
     fcurr4 = *pSrc++;
 
@@ -342,7 +342,7 @@ void arm_fir_lattice_f32(
     }
 
     /* The results in the 4 accumulators, store in the destination buffer. */
-    /* y(n) = fN(n) */
+    /* _y(n) = fN(n) */
     *pDst++ = fcurr1;
     *pDst++ = fcurr2;
     *pDst++ = fcurr3;
@@ -357,7 +357,7 @@ void arm_fir_lattice_f32(
 
   while (blkCnt > 0U)
   {
-    /* f0(n) = x(n) */
+    /* f0(n) = _x(n) */
     fcurr1 = *pSrc++;
 
     /* Initialize coeff pointer */
@@ -407,7 +407,7 @@ void arm_fir_lattice_f32(
 
     }
 
-    /* y(n) = fN(n) */
+    /* _y(n) = fN(n) */
     *pDst++ = fcurr1;
 
     blkCnt--;
@@ -428,7 +428,7 @@ void arm_fir_lattice_f32(
 
   while (blkCnt > 0U)
   {
-    /* f0(n) = x(n) */
+    /* f0(n) = _x(n) */
     fcurr = *pSrc++;
 
     /* Initialize coeff pointer */
@@ -478,7 +478,7 @@ void arm_fir_lattice_f32(
 
     }
 
-    /* y(n) = fN(n) */
+    /* _y(n) = fN(n) */
     *pDst++ = fcurr;
 
     blkCnt--;

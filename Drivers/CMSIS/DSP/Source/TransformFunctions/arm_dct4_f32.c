@@ -154,7 +154,7 @@ void arm_dct4_f32(
    */
 
         /*-------- Pre-processing ------------*/
-  /* Multiplying input with cos factor i.e. r(n) = 2 * x(n) * cos(pi*(2*n+1)/(4*n)) */
+  /* Multiplying input with cos factor i.e. r(n) = 2 * _x(n) * cos(pi*(2*n+1)/(4*n)) */
   arm_scale_f32(pInlineBuffer, 2.0f, pInlineBuffer, S->N);
   arm_mult_f32(pInlineBuffer, cosFact, pInlineBuffer, S->N);
 

@@ -87,10 +87,10 @@ void arm_fir_q31(
   /* Apply loop unrolling and compute 4 output values simultaneously.
    * The variables acc0 ... acc3 hold output values that are being computed:
    *
-   *    acc0 =  b[numTaps-1] * x[n-numTaps-1] + b[numTaps-2] * x[n-numTaps-2] + b[numTaps-3] * x[n-numTaps-3] +...+ b[0] * x[0]
-   *    acc1 =  b[numTaps-1] * x[n-numTaps] +   b[numTaps-2] * x[n-numTaps-1] + b[numTaps-3] * x[n-numTaps-2] +...+ b[0] * x[1]
-   *    acc2 =  b[numTaps-1] * x[n-numTaps+1] + b[numTaps-2] * x[n-numTaps] +   b[numTaps-3] * x[n-numTaps-1] +...+ b[0] * x[2]
-   *    acc3 =  b[numTaps-1] * x[n-numTaps+2] + b[numTaps-2] * x[n-numTaps+1] + b[numTaps-3] * x[n-numTaps]   +...+ b[0] * x[3]
+   *    acc0 =  b[numTaps-1] * _x[n-numTaps-1] + b[numTaps-2] * _x[n-numTaps-2] + b[numTaps-3] * _x[n-numTaps-3] +...+ b[0] * _x[0]
+   *    acc1 =  b[numTaps-1] * _x[n-numTaps] +   b[numTaps-2] * _x[n-numTaps-1] + b[numTaps-3] * _x[n-numTaps-2] +...+ b[0] * _x[1]
+   *    acc2 =  b[numTaps-1] * _x[n-numTaps+1] + b[numTaps-2] * _x[n-numTaps] +   b[numTaps-3] * _x[n-numTaps-1] +...+ b[0] * _x[2]
+   *    acc3 =  b[numTaps-1] * _x[n-numTaps+2] + b[numTaps-2] * _x[n-numTaps+1] + b[numTaps-3] * _x[n-numTaps]   +...+ b[0] * _x[3]
    */
   blkCnt = blockSize / 3;
   blockSize = blockSize - (3 * blkCnt);
@@ -119,7 +119,7 @@ void arm_fir_q31(
     pb = pCoeffs;
 
     /* Read the first two samples from the state buffer:
-     *  x[n-numTaps], x[n-numTaps-1] */
+     *  _x[n-numTaps], _x[n-numTaps-1] */
     x0 = *(px++);
     x1 = *(px++);
 
@@ -131,7 +131,7 @@ void arm_fir_q31(
       /* Read the b[numTaps] coefficient */
       c0 = *pb;
 
-      /* Read x[n-numTaps-2] sample */
+      /* Read _x[n-numTaps-2] sample */
       x2 = *(px++);
 
       /* Perform the multiply-accumulates */
@@ -308,7 +308,7 @@ void arm_fir_q31(
     /* Perform the multiply-accumulates */
     do
     {
-      /* acc =  b[numTaps-1] * x[n-numTaps-1] + b[numTaps-2] * x[n-numTaps-2] + b[numTaps-3] * x[n-numTaps-3] +...+ b[0] * x[0] */
+      /* acc =  b[numTaps-1] * _x[n-numTaps-1] + b[numTaps-2] * _x[n-numTaps-2] + b[numTaps-3] * _x[n-numTaps-3] +...+ b[0] * _x[0] */
       acc += (q63_t) * px++ * *pb++;
       i--;
     } while (i > 0U);

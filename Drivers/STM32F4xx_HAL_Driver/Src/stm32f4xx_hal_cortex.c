@@ -60,7 +60,7 @@
 
    (+) To adjust the SysTick time base, use the following formula:
                             
-       Reload Value = SysTick Counter Clock (Hz) x  Desired Time base (s)
+       Reload Value = SysTick Counter Clock (Hz) _x  Desired Time base (s)
        (++) Reload Value is the parameter to be passed for HAL_SYSTICK_Config() function
        (++) Reload Value should not exceed 0xFFFFFF
    

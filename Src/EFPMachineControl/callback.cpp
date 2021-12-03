@@ -8,7 +8,7 @@
 */
 
 #include "../MSLH/defines.h"
-#include "my_timer.h"
+#include "../MSLH/timer.h"
 #include "stm32f4xx.h"
 #include "test.h"
 
@@ -22,7 +22,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
      *     1,000,000 [Hz] = 1 u[sec]
      */
     if(htim == &htim6) {
-        my_timer::time_us_count++;
+        timer::count_us();
     }
 
 
@@ -33,7 +33,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
      *     1000 [Hz] = 1 m[sec]
      */
     if(htim == &htim7) {
-//        MachineControl::measureSpeedSetCallback(); //<  WheelControlの両側タイヤ measureSpeed() を実行．
-//        Test::measureSpeedSetCallback();
+//        速度計測関数(); //<  WheelControlの両側タイヤ measureSpeed() を実行．
     }
 }
