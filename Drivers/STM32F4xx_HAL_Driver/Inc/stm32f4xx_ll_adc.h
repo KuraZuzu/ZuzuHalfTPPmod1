@@ -2239,7 +2239,7 @@ __STATIC_INLINE uint32_t LL_ADC_REG_GetTriggerEdge(ADC_TypeDef *ADCx)
 
 
 /**
-  * @brief  Set ADC group regular sequencer length and scan _direction.
+  * @brief  Set ADC group regular sequencer length and scan direction.
   * @note   Description of ADC group regular sequencer features:
   *         - For devices with sequencer fully configurable
   *           (function "LL_ADC_REG_SetSequencerRanks()" available):
@@ -2247,8 +2247,8 @@ __STATIC_INLINE uint32_t LL_ADC_REG_GetTriggerEdge(ADC_TypeDef *ADCx)
   *           are configurable.
   *           This function performs configuration of:
   *           - Sequence length: Number of ranks in the scan sequence.
-  *           - Sequence _direction: Unless specified in parameters, sequencer
-  *             scan _direction is forward (from rank 1 to rank n).
+  *           - Sequence direction: Unless specified in parameters, sequencer
+  *             scan direction is forward (from rank 1 to rank n).
   *           Sequencer ranks are selected using
   *           function "LL_ADC_REG_SetSequencerRanks()".
   *         - For devices with sequencer not fully configurable
@@ -2260,8 +2260,8 @@ __STATIC_INLINE uint32_t LL_ADC_REG_GetTriggerEdge(ADC_TypeDef *ADCx)
   *             defined by number of channels set in the sequence,
   *             rank of each channel is fixed by channel HW number.
   *             (channel 0 fixed on rank 0, channel 1 fixed on rank1, ...).
-  *           - Sequence _direction: Unless specified in parameters, sequencer
-  *             scan _direction is forward (from lowest channel number to
+  *           - Sequence direction: Unless specified in parameters, sequencer
+  *             scan direction is forward (from lowest channel number to
   *             highest channel number).
   *           Sequencer ranks are selected using
   *           function "LL_ADC_REG_SetSequencerChannels()".
@@ -2300,7 +2300,7 @@ __STATIC_INLINE void LL_ADC_REG_SetSequencerLength(ADC_TypeDef *ADCx, uint32_t S
 }
 
 /**
-  * @brief  Get ADC group regular sequencer length and scan _direction.
+  * @brief  Get ADC group regular sequencer length and scan direction.
   * @note   Description of ADC group regular sequencer features:
   *         - For devices with sequencer fully configurable
   *           (function "LL_ADC_REG_SetSequencerRanks()" available):
@@ -2308,8 +2308,8 @@ __STATIC_INLINE void LL_ADC_REG_SetSequencerLength(ADC_TypeDef *ADCx, uint32_t S
   *           are configurable.
   *           This function retrieves:
   *           - Sequence length: Number of ranks in the scan sequence.
-  *           - Sequence _direction: Unless specified in parameters, sequencer
-  *             scan _direction is forward (from rank 1 to rank n).
+  *           - Sequence direction: Unless specified in parameters, sequencer
+  *             scan direction is forward (from rank 1 to rank n).
   *           Sequencer ranks are selected using
   *           function "LL_ADC_REG_SetSequencerRanks()".
   *         - For devices with sequencer not fully configurable
@@ -2321,8 +2321,8 @@ __STATIC_INLINE void LL_ADC_REG_SetSequencerLength(ADC_TypeDef *ADCx, uint32_t S
   *             defined by number of channels set in the sequence,
   *             rank of each channel is fixed by channel HW number.
   *             (channel 0 fixed on rank 0, channel 1 fixed on rank1, ...).
-  *           - Sequence _direction: Unless specified in parameters, sequencer
-  *             scan _direction is forward (from lowest channel number to
+  *           - Sequence direction: Unless specified in parameters, sequencer
+  *             scan direction is forward (from lowest channel number to
   *             highest channel number).
   *           Sequencer ranks are selected using
   *           function "LL_ADC_REG_SetSequencerChannels()".
@@ -2871,11 +2871,11 @@ __STATIC_INLINE uint32_t LL_ADC_INJ_GetTriggerEdge(ADC_TypeDef *ADCx)
 }
 
 /**
-  * @brief  Set ADC group injected sequencer length and scan _direction.
+  * @brief  Set ADC group injected sequencer length and scan direction.
   * @note   This function performs configuration of:
   *         - Sequence length: Number of ranks in the scan sequence.
-  *         - Sequence _direction: Unless specified in parameters, sequencer
-  *           scan _direction is forward (from rank 1 to rank n).
+  *         - Sequence direction: Unless specified in parameters, sequencer
+  *           scan direction is forward (from rank 1 to rank n).
   * @note   On this STM32 series, group injected sequencer configuration
   *         is conditioned to ADC instance sequencer mode.
   *         If ADC instance sequencer mode is disabled, sequencers of
@@ -2899,11 +2899,11 @@ __STATIC_INLINE void LL_ADC_INJ_SetSequencerLength(ADC_TypeDef *ADCx, uint32_t S
 }
 
 /**
-  * @brief  Get ADC group injected sequencer length and scan _direction.
+  * @brief  Get ADC group injected sequencer length and scan direction.
   * @note   This function retrieves:
   *         - Sequence length: Number of ranks in the scan sequence.
-  *         - Sequence _direction: Unless specified in parameters, sequencer
-  *           scan _direction is forward (from rank 1 to rank n).
+  *         - Sequence direction: Unless specified in parameters, sequencer
+  *           scan direction is forward (from rank 1 to rank n).
   * @note   On this STM32 series, group injected sequencer configuration
   *         is conditioned to ADC instance sequencer mode.
   *         If ADC instance sequencer mode is disabled, sequencers of

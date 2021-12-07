@@ -14,7 +14,7 @@
 #include "../MSLH/timer.h"
 #include "stm32f4xx_it.h"
 
-extern uint32_t timer::us_counter;
+//extern volatile uint32_t timer::counter_us; //debug
 
 #ifdef __cplusplus
 extern "C" {
@@ -26,7 +26,7 @@ void test_myself_wait_led() {
     MX_TIM6_Init();
     while (1) {
 //        printf("%d\r\n", my_timer::time_us_count);
-        timer::wait_us(1000000);
+        timer::waitMicroSeconds(1000000);
 //        HAL_Delay(1000);
         HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_3);
     }
@@ -136,7 +136,6 @@ void test_all_console() {
     Test test;
     test.buzzer_debug();
     test.led_debug();
-    test.measure_speed_debug();
     while(1) {
         test.all_sensor_console_debug();
         printf("\r\n");
@@ -187,18 +186,18 @@ void test_motor_output() {
 
 void test_wait() {
     DigitalOut led1(GPIOC, GPIO_PIN_3);
-    MX_TIM6_Init();
     MX_GPIO_Init();
+    MX_TIM2_Init();
+    timer::initTimer(&htim2);
     while (1) {
-        printf("%d\r\n", timer::us_counter);
+        printf("%d\r\n", timer::counter_us);
     }
-
-    while (1) {
-        led1 = 1;
-        timer::wait_us(1000000);
-        led1 = 0;
-        timer::wait_us(1000000);
-    }
+//    while (1) {
+//        led1.write(1);
+//        timer::waitMicroSeconds(2000000);
+//        led1.write(0);
+//        timer::waitMicroSeconds(2000000);
+//    }
 }
 
 #ifdef __cplusplus

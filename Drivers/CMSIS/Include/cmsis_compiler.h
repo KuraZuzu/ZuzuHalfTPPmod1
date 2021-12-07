@@ -93,7 +93,7 @@
   #endif
   #ifndef   __UNALIGNED_UINT32        /* deprecated */
     struct __attribute__((packed)) T_UINT32 { uint32_t v; };
-    #define __UNALIGNED_UINT32(_x)                  (((struct T_UINT32 *)(_x))->v)
+    #define __UNALIGNED_UINT32(x)                  (((struct T_UINT32 *)(x))->v)
   #endif
   #ifndef   __UNALIGNED_UINT16_WRITE
     __PACKED_STRUCT T_UINT16_WRITE { uint16_t v; };
@@ -112,7 +112,7 @@
     #define __UNALIGNED_UINT32_READ(addr)          (((const struct T_UINT32_READ *)(const void *)(addr))->v)
   #endif
   #ifndef   __ALIGNED
-    #define __ALIGNED(_x)                           __attribute__((aligned(_x)))
+    #define __ALIGNED(x)                           __attribute__((aligned(x)))
   #endif
   #ifndef   __RESTRICT
     #warning No compiler specific solution for __RESTRICT. __RESTRICT is ignored.
@@ -162,7 +162,7 @@
   #endif
   #ifndef   __UNALIGNED_UINT32        /* deprecated */
     struct __packed__ T_UINT32 { uint32_t v; };
-    #define __UNALIGNED_UINT32(_x)                  (((struct T_UINT32 *)(_x))->v)
+    #define __UNALIGNED_UINT32(x)                  (((struct T_UINT32 *)(x))->v)
   #endif
   #ifndef   __UNALIGNED_UINT16_WRITE
     __PACKED_STRUCT T_UINT16_WRITE { uint16_t v; };
@@ -181,7 +181,7 @@
     #define __UNALIGNED_UINT32_READ(addr)          (((const struct T_UINT32_READ *)(const void *)(addr))->v)
   #endif
   #ifndef   __ALIGNED
-    #define __ALIGNED(_x)              __align(_x)
+    #define __ALIGNED(x)              __align(x)
   #endif
   #ifndef   __RESTRICT
     #warning No compiler specific solution for __RESTRICT. __RESTRICT is ignored.
@@ -229,7 +229,7 @@
   #endif
   #ifndef   __UNALIGNED_UINT32        /* deprecated */
     @packed struct T_UINT32 { uint32_t v; };
-    #define __UNALIGNED_UINT32(_x)                  (((struct T_UINT32 *)(_x))->v)
+    #define __UNALIGNED_UINT32(x)                  (((struct T_UINT32 *)(x))->v)
   #endif
   #ifndef   __UNALIGNED_UINT16_WRITE
     __PACKED_STRUCT T_UINT16_WRITE { uint16_t v; };
@@ -249,7 +249,7 @@
   #endif
   #ifndef   __ALIGNED
     #warning No compiler specific solution for __ALIGNED. __ALIGNED is ignored.
-    #define __ALIGNED(_x)
+    #define __ALIGNED(x)
   #endif
   #ifndef   __RESTRICT
     #warning No compiler specific solution for __RESTRICT. __RESTRICT is ignored.

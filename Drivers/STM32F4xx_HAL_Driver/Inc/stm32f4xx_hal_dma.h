@@ -221,13 +221,13 @@ typedef struct __DMA_HandleTypeDef
   * @}
   */
 
-/** @defgroup DMA_Data_transfer_direction DMA Data transfer _direction
-  * @brief    DMA data transfer _direction
+/** @defgroup DMA_Data_transfer_direction DMA Data transfer direction
+  * @brief    DMA data transfer direction 
   * @{
   */ 
-#define DMA_PERIPH_TO_MEMORY          0x00000000U                 /*!< Peripheral to memory _direction */
-#define DMA_MEMORY_TO_PERIPH          ((uint32_t)DMA_SxCR_DIR_0)  /*!< Memory to peripheral _direction */
-#define DMA_MEMORY_TO_MEMORY          ((uint32_t)DMA_SxCR_DIR_1)  /*!< Memory to memory _direction     */
+#define DMA_PERIPH_TO_MEMORY          0x00000000U                 /*!< Peripheral to memory direction */
+#define DMA_MEMORY_TO_PERIPH          ((uint32_t)DMA_SxCR_DIR_0)  /*!< Memory to peripheral direction */
+#define DMA_MEMORY_TO_MEMORY          ((uint32_t)DMA_SxCR_DIR_1)  /*!< Memory to memory direction     */
 /**
   * @}
   */
@@ -536,7 +536,7 @@ typedef struct __DMA_HandleTypeDef
   *            @arg DMA_FLAG_TEIFx: Transfer error flag.
   *            @arg DMA_FLAG_DMEIFx: Direct mode error flag.
   *            @arg DMA_FLAG_FEIFx: FIFO error flag.
-  *         Where _x can be 0_4, 1_5, 2_6 or 3_7 to select the DMA Stream flag.
+  *         Where x can be 0_4, 1_5, 2_6 or 3_7 to select the DMA Stream flag.   
   * @retval The state of FLAG (SET or RESET).
   */
 #define __HAL_DMA_GET_FLAG(__HANDLE__, __FLAG__)\
@@ -554,7 +554,7 @@ typedef struct __DMA_HandleTypeDef
   *            @arg DMA_FLAG_TEIFx: Transfer error flag.
   *            @arg DMA_FLAG_DMEIFx: Direct mode error flag.
   *            @arg DMA_FLAG_FEIFx: FIFO error flag.
-  *         Where _x can be 0_4, 1_5, 2_6 or 3_7 to select the DMA Stream flag.
+  *         Where x can be 0_4, 1_5, 2_6 or 3_7 to select the DMA Stream flag.   
   * @retval None
   */
 #define __HAL_DMA_CLEAR_FLAG(__HANDLE__, __FLAG__) \

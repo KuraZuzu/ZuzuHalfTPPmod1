@@ -931,7 +931,7 @@ HAL_StatusTypeDef HAL_RCCEx_PeriphCLKConfig(RCC_PeriphCLKInitTypeDef  *PeriphClk
       /* check for Parameters */
       assert_param(IS_RCC_PLLI2SR_VALUE(PeriphClkInit->PLLI2S.PLLI2SR));
       /* Configure the PLLI2S division factors */
-      /* PLLI2S_VCO = f(VCO clock) = f(PLLI2S clock input) _x (PLLI2SN/PLLM) */
+      /* PLLI2S_VCO = f(VCO clock) = f(PLLI2S clock input) x (PLLI2SN/PLLM) */
       /* I2SCLK = f(PLLI2S clock output) = f(VCO clock) / PLLI2SR */
       __HAL_RCC_PLLI2S_CONFIG(PeriphClkInit->PLLI2S.PLLI2SN , PeriphClkInit->PLLI2S.PLLI2SR);
     }
@@ -2859,7 +2859,7 @@ HAL_StatusTypeDef HAL_RCCEx_EnablePLLI2S(RCC_PLLI2SInitTypeDef  *PLLI2SInit)
   /* I2SRCLK = PLLI2S_VCO / PLLI2SR */
   __HAL_RCC_PLLI2S_I2SCLK_CONFIG(PLLI2SInit->PLLI2SM, PLLI2SInit->PLLI2SN, PLLI2SInit->PLLI2SR);
 #else
-  /* PLLI2S_VCO = f(VCO clock) = f(PLLI2S clock input) _x PLLI2SN */
+  /* PLLI2S_VCO = f(VCO clock) = f(PLLI2S clock input) x PLLI2SN */
   /* I2SRCLK = PLLI2S_VCO / PLLI2SR */
   __HAL_RCC_PLLI2S_CONFIG(PLLI2SInit->PLLI2SN, PLLI2SInit->PLLI2SR);
 #endif /* STM32F446xx */
@@ -2962,7 +2962,7 @@ HAL_StatusTypeDef HAL_RCCEx_EnablePLLSAI(RCC_PLLSAIInitTypeDef  *PLLSAIInit)
   __HAL_RCC_PLLSAI_CONFIG(PLLSAIInit->PLLSAIN, PLLSAIInit->PLLSAIP, \
                           PLLSAIInit->PLLSAIQ, PLLSAIInit->PLLSAIR);
 #else
-  /* PLLSAI_VCO = f(VCO clock) = f(PLLSAI clock input) _x PLLSAIN */
+  /* PLLSAI_VCO = f(VCO clock) = f(PLLSAI clock input) x PLLSAIN */
   /* SAIQCLK = PLLSAI_VCO / PLLSAIQ */
   /* SAIRCLK = PLLSAI_VCO / PLLSAIR */
   __HAL_RCC_PLLSAI_CONFIG(PLLSAIInit->PLLSAIN, PLLSAIInit->PLLSAIQ, PLLSAIInit->PLLSAIR);

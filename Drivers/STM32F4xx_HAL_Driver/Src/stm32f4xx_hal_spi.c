@@ -810,10 +810,10 @@ HAL_StatusTypeDef HAL_SPI_Transmit(SPI_HandleTypeDef *hspi, uint8_t *pData, uint
   hspi->TxISR       = NULL;
   hspi->RxISR       = NULL;
 
-  /* Configure communication _direction : 1Line */
+  /* Configure communication direction : 1Line */
   if (hspi->Init.Direction == SPI_DIRECTION_1LINE)
   {
-    /* Disable SPI Peripheral before set 1Line _direction (BIDIOE bit) */
+    /* Disable SPI Peripheral before set 1Line direction (BIDIOE bit) */
     __HAL_SPI_DISABLE(hspi);
     SPI_1LINE_TX(hspi);
   }
@@ -990,10 +990,10 @@ HAL_StatusTypeDef HAL_SPI_Receive(SPI_HandleTypeDef *hspi, uint8_t *pData, uint1
   }
 #endif /* USE_SPI_CRC */
 
-  /* Configure communication _direction: 1Line */
+  /* Configure communication direction: 1Line */
   if (hspi->Init.Direction == SPI_DIRECTION_1LINE)
   {
-    /* Disable SPI Peripheral before set 1Line _direction (BIDIOE bit) */
+    /* Disable SPI Peripheral before set 1Line direction (BIDIOE bit) */
     __HAL_SPI_DISABLE(hspi);
     SPI_1LINE_RX(hspi);
   }
@@ -1400,10 +1400,10 @@ HAL_StatusTypeDef HAL_SPI_Transmit_IT(SPI_HandleTypeDef *hspi, uint8_t *pData, u
     hspi->TxISR = SPI_TxISR_8BIT;
   }
 
-  /* Configure communication _direction : 1Line */
+  /* Configure communication direction : 1Line */
   if (hspi->Init.Direction == SPI_DIRECTION_1LINE)
   {
-    /* Disable SPI Peripheral before set 1Line _direction (BIDIOE bit) */
+    /* Disable SPI Peripheral before set 1Line direction (BIDIOE bit) */
     __HAL_SPI_DISABLE(hspi);
     SPI_1LINE_TX(hspi);
   }
@@ -1489,10 +1489,10 @@ HAL_StatusTypeDef HAL_SPI_Receive_IT(SPI_HandleTypeDef *hspi, uint8_t *pData, ui
     hspi->RxISR = SPI_RxISR_8BIT;
   }
 
-  /* Configure communication _direction : 1Line */
+  /* Configure communication direction : 1Line */
   if (hspi->Init.Direction == SPI_DIRECTION_1LINE)
   {
-    /* Disable SPI Peripheral before set 1Line _direction (BIDIOE bit) */
+    /* Disable SPI Peripheral before set 1Line direction (BIDIOE bit) */
     __HAL_SPI_DISABLE(hspi);
     SPI_1LINE_RX(hspi);
   }
@@ -1661,10 +1661,10 @@ HAL_StatusTypeDef HAL_SPI_Transmit_DMA(SPI_HandleTypeDef *hspi, uint8_t *pData, 
   hspi->RxXferSize  = 0U;
   hspi->RxXferCount = 0U;
 
-  /* Configure communication _direction : 1Line */
+  /* Configure communication direction : 1Line */
   if (hspi->Init.Direction == SPI_DIRECTION_1LINE)
   {
-    /* Disable SPI Peripheral before set 1Line _direction (BIDIOE bit) */
+    /* Disable SPI Peripheral before set 1Line direction (BIDIOE bit) */
     __HAL_SPI_DISABLE(hspi);
     SPI_1LINE_TX(hspi);
   }
@@ -1722,7 +1722,7 @@ error :
 
 /**
   * @brief  Receive an amount of data in non-blocking mode with DMA.
-  * @note   In case of MASTER mode and SPI_DIRECTION_2LINES _direction, hdmatx shall be defined.
+  * @note   In case of MASTER mode and SPI_DIRECTION_2LINES direction, hdmatx shall be defined.
   * @param  hspi pointer to a SPI_HandleTypeDef structure that contains
   *               the configuration information for SPI module.
   * @param  pData pointer to data buffer
@@ -1776,10 +1776,10 @@ HAL_StatusTypeDef HAL_SPI_Receive_DMA(SPI_HandleTypeDef *hspi, uint8_t *pData, u
   hspi->TxXferSize  = 0U;
   hspi->TxXferCount = 0U;
 
-  /* Configure communication _direction : 1Line */
+  /* Configure communication direction : 1Line */
   if (hspi->Init.Direction == SPI_DIRECTION_1LINE)
   {
-    /* Disable SPI Peripheral before set 1Line _direction (BIDIOE bit) */
+    /* Disable SPI Peripheral before set 1Line direction (BIDIOE bit) */
     __HAL_SPI_DISABLE(hspi);
     SPI_1LINE_RX(hspi);
   }
@@ -1984,7 +1984,7 @@ error :
   * @note   This procedure could be used for aborting any ongoing transfer (Tx and Rx),
   *         started in Interrupt or DMA mode.
   *         This procedure performs following operations :
-  *           - Disable SPI Interrupts (depending of transfer _direction)
+  *           - Disable SPI Interrupts (depending of transfer direction)
   *           - Disable the DMA transfer in the peripheral register (if enabled)
   *           - Abort DMA transfer by calling HAL_DMA_Abort (in case of transfer in DMA mode)
   *           - Set handle State to READY
@@ -2127,7 +2127,7 @@ HAL_StatusTypeDef HAL_SPI_Abort(SPI_HandleTypeDef *hspi)
   * @note   This procedure could be used for aborting any ongoing transfer (Tx and Rx),
   *         started in Interrupt or DMA mode.
   *         This procedure performs following operations :
-  *           - Disable SPI Interrupts (depending of transfer _direction)
+  *           - Disable SPI Interrupts (depending of transfer direction)
   *           - Disable the DMA transfer in the peripheral register (if enabled)
   *           - Abort DMA transfer by calling HAL_DMA_Abort_IT (in case of transfer in DMA mode)
   *           - Set handle State to READY
@@ -2764,7 +2764,7 @@ static void SPI_DMAReceiveCplt(DMA_HandleTypeDef *hdma)
     /* Check if we are in Master RX 2 line mode */
     if ((hspi->Init.Direction == SPI_DIRECTION_2LINES) && (hspi->Init.Mode == SPI_MODE_MASTER))
     {
-      /* Disable Rx/Tx DMA Request (done by default to handle the case master rx _direction 2 lines) */
+      /* Disable Rx/Tx DMA Request (done by default to handle the case master rx direction 2 lines) */
       CLEAR_BIT(hspi->Instance->CR2, SPI_CR2_TXDMAEN | SPI_CR2_RXDMAEN);
     }
     else

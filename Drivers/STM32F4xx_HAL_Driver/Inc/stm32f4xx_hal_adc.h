@@ -72,7 +72,7 @@ typedef struct
                                               If disabled: Conversion is performed in single mode (one channel converted, the one defined in rank 1).
                                                            Parameters 'NbrOfConversion' and 'InjectedNbrOfConversion' are discarded (equivalent to set to 1).
                                               If enabled:  Conversions are performed in sequence mode (multiple ranks defined by 'NbrOfConversion'/'InjectedNbrOfConversion' and each channel rank).
-                                                           Scan _direction is upward: from rank1 to rank 'n'.
+                                                           Scan direction is upward: from rank1 to rank 'n'.
                                               This parameter can be set to ENABLE or DISABLE */
   uint32_t EOCSelection;                 /*!< Specifies what EOC (End Of Conversion) flag is used for conversion by polling and interruption: end of conversion of each rank or complete sequence.
                                               This parameter can be a value of @ref ADC_EOCSelection.

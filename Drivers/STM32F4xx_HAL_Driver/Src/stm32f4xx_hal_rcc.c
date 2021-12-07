@@ -748,7 +748,7 @@ HAL_StatusTypeDef HAL_RCC_ClockConfig(RCC_ClkInitTypeDef  *RCC_ClkInitStruct, ui
 /**
   * @brief  Selects the clock source to output on MCO1 pin(PA8) or on MCO2 pin(PC9).
   * @note   PA8/PC9 should be configured in alternate function mode.
-  * @param  RCC_MCOx specifies the output _direction for the clock source.
+  * @param  RCC_MCOx specifies the output direction for the clock source.
   *          This parameter can be one of the following values:
   *            @arg RCC_MCO1: Clock source to output on MCO1 pin(PA8).
   *            @arg RCC_MCO2: Clock source to output on MCO2 pin(PC9).
