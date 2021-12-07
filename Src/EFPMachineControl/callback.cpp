@@ -12,6 +12,11 @@
 #include "stm32f4xx.h"
 #include "test.h"
 
+extern DistanceSensor lf_sensor;
+extern DistanceSensor ls_sensor;
+extern DistanceSensor rs_sensor;
+extern DistanceSensor rf_sensor;
+
 // タイマーコールバック
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 
@@ -23,6 +28,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
      *     100 [Hz] = 1 m[sec]
      */
     if(htim == &htim2) {
+        lf_sensor.interruptResetValue();
+        ls_sensor.interruptResetValue();
+        rs_sensor.interruptResetValue();
+        rf_sensor.interruptResetValue();
+        HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_3);;
     }
 
     /**
@@ -33,6 +43,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
      *     10,000 [Hz] = 100 u[sec]  //<
      */
     if(htim == &htim6) {
+        lf_sensor.interruptSamplingValue();
+        ls_sensor.interruptSamplingValue();
+        rs_sensor.interruptSamplingValue();
+        rf_sensor.interruptSamplingValue();
+        HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_3);;
     }
 
 
@@ -44,6 +59,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
      *     1,000 [Hz] = 1 m[sec]
      */
     if(htim == &htim7) {
-//        速度計測関数(); //<  WheelControlの両側タイヤ measureSpeed() を実行．
+//        速度計測関数(); //<  WheelControlの両側タイヤ interruptMeasureSpeed() を実行．
     }
 }

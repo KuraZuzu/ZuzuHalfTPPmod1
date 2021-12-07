@@ -15,6 +15,10 @@
 #include "stm32f4xx_it.h"
 
 //extern volatile uint32_t timer::counter_us; //debug
+DistanceSensor lf_sensor(PWMOut(htim2, TIM_CHANNEL_1), AnalogInDMAStream(hadc1, 1), htim6);
+DistanceSensor ls_sensor(PWMOut(htim2, TIM_CHANNEL_2), AnalogInDMAStream(hadc1, 2), htim6);
+DistanceSensor rs_sensor(PWMOut(htim2, TIM_CHANNEL_3), AnalogInDMAStream(hadc1, 3), htim6);
+DistanceSensor rf_sensor(PWMOut(htim2, TIM_CHANNEL_4), AnalogInDMAStream(hadc1, 4), htim6);
 
 #ifdef __cplusplus
 extern "C" {
@@ -198,6 +202,25 @@ void test_wait() {
 //        led1.write(0);
 //        timer::waitMicroSeconds(2000000);
 //    }
+}
+
+void test_global_sensor() {
+    MX_DMA_Init();
+    MX_ADC1_Init();
+    MX_TIM2_Init();
+    MX_TIM6_Init();
+    MX_USART2_UART_Init();
+    lf_sensor.start();
+    ls_sensor.start();
+    rs_sensor.start();
+    rf_sensor.start();
+    while (1) {
+        printf("LF:%d   LS:%d   RS:%d   RF:%d \r\n"
+                , static_cast<int>(lf_sensor.read())
+                , static_cast<int>(ls_sensor.read())
+                , static_cast<int>(rs_sensor.read())
+                , static_cast<int>(rf_sensor.read()) );
+    }
 }
 
 #ifdef __cplusplus
