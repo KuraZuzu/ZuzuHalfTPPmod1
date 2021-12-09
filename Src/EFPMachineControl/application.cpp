@@ -12,6 +12,8 @@
 
 #include "test.h"
 #include "../MSLH/timer.h"
+//#include <iostream>
+#include <cinttypes>
 #include "stm32f4xx_it.h"
 
 //extern volatile uint32_t timer::counter_us; //debug
@@ -215,11 +217,11 @@ void test_global_sensor() {
     rs_sensor.start();
     rf_sensor.start();
     while (1) {
-        printf("LF:%6d   LS:%6d   RS:%6d   RF:%6d \r\n"
-                , static_cast<int>(lf_sensor.read())
-                , static_cast<int>(ls_sensor.read())
-                , static_cast<int>(rs_sensor.read())
-                , static_cast<int>(rf_sensor.read()) );
+        printf("LF:%" PRIu16 "   LS:%" PRIu16 "   RS:%" PRIu16 "   RF:%" PRIu16 "\r\n"
+                , lf_sensor.read()
+                , ls_sensor.read()
+                , rs_sensor.read()
+                , rf_sensor.read() );
     }
 }
 
