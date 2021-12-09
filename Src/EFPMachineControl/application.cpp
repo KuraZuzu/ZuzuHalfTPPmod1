@@ -215,7 +215,7 @@ void test_global_sensor() {
     rs_sensor.start();
     rf_sensor.start();
     while (1) {
-        printf("LF:%d   LS:%d   RS:%d   RF:%d \r\n"
+        printf("LF:%6d   LS:%6d   RS:%6d   RF:%6d \r\n"
                 , static_cast<int>(lf_sensor.read())
                 , static_cast<int>(ls_sensor.read())
                 , static_cast<int>(rs_sensor.read())
