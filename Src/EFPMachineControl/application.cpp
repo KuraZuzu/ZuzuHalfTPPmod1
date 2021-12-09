@@ -217,7 +217,7 @@ void test_global_sensor() {
     rs_sensor.start();
     rf_sensor.start();
     while (1) {
-        printf("LF:%" PRIu16 "   LS:%" PRIu16 "   RS:%" PRIu16 "   RF:%" PRIu16 "\r\n"
+        printf("LF:%6" PRIu16 "   LS:%6" PRIu16 "   RS:%6" PRIu16 "   RF:%6" PRIu16 "\r\n"
                 , lf_sensor.read()
                 , ls_sensor.read()
                 , rs_sensor.read()
