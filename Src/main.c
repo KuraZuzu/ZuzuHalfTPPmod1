@@ -73,11 +73,11 @@ int main(){
     MX_GPIO_Init();
     MX_USART2_UART_Init();
     MX_SPI3_Init();
-//    HAL_TIM_Base_Start_IT(&htim2);
-//    HAL_TIM_Base_Start_IT(&htim6);
-    test_global_sensor();
+    test_gpio_distance_sensor();
     while(1) {
-        printf("main\r\n");
+//        test_battery_console();
+
+//        printf("main\r\n");
     }
 
     return 0;

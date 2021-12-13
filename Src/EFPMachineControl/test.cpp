@@ -47,7 +47,7 @@ Test::Test()
     _l_wheel.start();
     _r_wheel.start();
 //    HAL_TIM_Base_Start_IT(&htim6);
-    HAL_TIM_Base_Start_IT(&htim7);
+//    HAL_TIM_Base_Start_IT(&htim7);
 }
 
 void Test::buzzer_debug() {
@@ -98,7 +98,7 @@ void Test::all_sensor_console_debug() {
            , static_cast<int>(rf)
            , battery_voltage());
 
-//    battery_warning_debug();
+    battery_warning_debug();
 }
 
 void Test::battery_warning_debug() {

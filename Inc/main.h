@@ -74,6 +74,7 @@ extern void test_gyro();
 void test_motor_output();
 extern void test_wait();
 extern void test_global_sensor();
+extern void test_gpio_distance_sensor();
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
@@ -99,20 +100,12 @@ extern void test_global_sensor();
 #define LF_ADC_GPIO_Port GPIOB
 #define Battery_ADC_Pin GPIO_PIN_1
 #define Battery_ADC_GPIO_Port GPIOB
-#define RS_LED_Pin GPIO_PIN_2
-#define RS_LED_GPIO_Port GPIOB
-#define RF_LED_Pin GPIO_PIN_10
-#define RF_LED_GPIO_Port GPIOB
 #define Buzzer_PWM_Pin GPIO_PIN_6
 #define Buzzer_PWM_GPIO_Port GPIOC
 #define Motor2_PWM_Pin GPIO_PIN_8
 #define Motor2_PWM_GPIO_Port GPIOA
 #define Motor1_PWM_Pin GPIO_PIN_9
 #define Motor1_PWM_GPIO_Port GPIOA
-#define LS_LED_Pin GPIO_PIN_15
-#define LS_LED_GPIO_Port GPIOA
-#define LF_LED_Pin GPIO_PIN_3
-#define LF_LED_GPIO_Port GPIOB
 #define ENC1_A_Pin GPIO_PIN_4
 #define ENC1_A_GPIO_Port GPIOB
 #define ENC1_B_Pin GPIO_PIN_5

@@ -15,12 +15,13 @@
 //#include <iostream>
 #include <cinttypes>
 #include "stm32f4xx_it.h"
+#include "../MSLH/gpio_distance_sensor.h"
 
 //extern volatile uint32_t timer::counter_us; //debug
-DistanceSensor lf_sensor(PWMOut(htim2, TIM_CHANNEL_1), AnalogInDMAStream(hadc1, 1), htim6);
-DistanceSensor ls_sensor(PWMOut(htim2, TIM_CHANNEL_2), AnalogInDMAStream(hadc1, 2), htim6);
-DistanceSensor rs_sensor(PWMOut(htim2, TIM_CHANNEL_3), AnalogInDMAStream(hadc1, 3), htim6);
-DistanceSensor rf_sensor(PWMOut(htim2, TIM_CHANNEL_4), AnalogInDMAStream(hadc1, 4), htim6);
+//DistanceSensor lf_sensor(PWMOut(htim2, TIM_CHANNEL_1), AnalogInDMAStream(hadc1, 1), htim6);
+//DistanceSensor ls_sensor(PWMOut(htim2, TIM_CHANNEL_2), AnalogInDMAStream(hadc1, 2), htim6);
+//DistanceSensor rs_sensor(PWMOut(htim2, TIM_CHANNEL_3), AnalogInDMAStream(hadc1, 3), htim6);
+//DistanceSensor rf_sensor(PWMOut(htim2, TIM_CHANNEL_4), AnalogInDMAStream(hadc1, 4), htim6);
 
 #ifdef __cplusplus
 extern "C" {
@@ -134,6 +135,7 @@ void test_battery_console(){
     Test test;  //< ラッパ関数内でインスタンス生成しないとコンストラクタが呼ばれない。
     while (1) {
         test.battery_console_debug();
+        test.battery_warning_debug();
         HAL_Delay(500);
     }
 }
@@ -193,17 +195,16 @@ void test_motor_output() {
 void test_wait() {
     DigitalOut led1(GPIOC, GPIO_PIN_3);
     MX_GPIO_Init();
-    MX_TIM2_Init();
-    timer::initTimer(&htim2);
-    while (1) {
-        printf("%d\r\n", timer::counter_us);
-    }
+//    MX_TIM7_Init();
+//    timer::initTimer(&htim7);
 //    while (1) {
-//        led1.write(1);
-//        timer::waitMicroSeconds(2000000);
-//        led1.write(0);
-//        timer::waitMicroSeconds(2000000);
+//        printf("%d\r\n", timer::counter_us);
 //    }
+    while (1) {
+//        led1.write(1);
+        led1 = !led1;
+        timer::waitMicroSeconds(2);
+    }
 }
 
 void test_global_sensor() {
@@ -212,16 +213,37 @@ void test_global_sensor() {
     MX_TIM2_Init();
     MX_TIM6_Init();
     MX_USART2_UART_Init();
+//    lf_sensor.start();
+//    ls_sensor.start();
+//    rs_sensor.start();
+//    rf_sensor.start();
+//    while (1) {
+//        printf("LF:%6" PRIu16 "   LS:%6" PRIu16 "   RS:%6" PRIu16 "   RF:%6" PRIu16 "\r\n"
+//                , lf_sensor.read()
+//                , ls_sensor.read()
+//                , rs_sensor.read()
+//                , rf_sensor.read() );
+//    }
+}
+
+void test_gpio_distance_sensor() {
+    MX_DMA_Init();
+    MX_ADC1_Init();
+    MX_GPIO_Init();
+    GPIODistanceSensor lf_sensor(DigitalOut(GPIOA,GPIO_PIN_15), AnalogInDMAStream(hadc1, 1));
+    GPIODistanceSensor ls_sensor(DigitalOut(GPIOB, GPIO_PIN_3), AnalogInDMAStream(hadc1, 2));
+    GPIODistanceSensor rs_sensor(DigitalOut(GPIOB, GPIO_PIN_2), AnalogInDMAStream(hadc1, 3));
+    GPIODistanceSensor rf_sensor(DigitalOut(GPIOB, GPIO_PIN_10), AnalogInDMAStream(hadc1, 4));
     lf_sensor.start();
     ls_sensor.start();
     rs_sensor.start();
     rf_sensor.start();
     while (1) {
         printf("LF:%6" PRIu16 "   LS:%6" PRIu16 "   RS:%6" PRIu16 "   RF:%6" PRIu16 "\r\n"
-                , lf_sensor.read()
-                , ls_sensor.read()
-                , rs_sensor.read()
-                , rf_sensor.read() );
+                , lf_sensor.read(5)
+                , ls_sensor.read(5)
+                , rs_sensor.read(5)
+                , rf_sensor.read(5) );
     }
 }
 
