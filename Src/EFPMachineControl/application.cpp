@@ -22,7 +22,8 @@
 //DistanceSensor ls_sensor(PWMOut(htim2, TIM_CHANNEL_2), AnalogInDMAStream(hadc1, 2), htim6);
 //DistanceSensor rs_sensor(PWMOut(htim2, TIM_CHANNEL_3), AnalogInDMAStream(hadc1, 3), htim6);
 //DistanceSensor rf_sensor(PWMOut(htim2, TIM_CHANNEL_4), AnalogInDMAStream(hadc1, 4), htim6);
-
+WheelControl l_wheel(Motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, true),Encoder(htim4,500*4,false), 13.5f, 1);
+WheelControl r_wheel(Motor(htim1, TIM_CHANNEL_2, GPIOA, GPIO_PIN_7, false),Encoder(htim3,500*4,true), 13.5f, 1);
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -162,18 +163,6 @@ void test_buss3out() {
     test.busout_debug();
 }
 
-void test_measure_speed() {
-    Test test;
-    while(1) {
-        test.measure_speed_debug();
-    }
-}
-
-void test_wheel_move() {
-    Test test;
-    test.buzzer_debug();
-    test.wheel_move_debug();
-}
 
 void test_gyro() {
     Test test;
@@ -245,6 +234,49 @@ void test_gpio_distance_sensor() {
                 , rs_sensor.read(5)
                 , rf_sensor.read(5) );
     }
+}
+
+void test_global_measure_speed() {
+    MX_GPIO_Init();
+    MX_TIM1_Init();
+    MX_TIM3_Init();
+    MX_TIM4_Init();
+    MX_TIM7_Init();
+    l_wheel.start();
+    r_wheel.start();
+    HAL_TIM_Base_Start_IT(&htim7);
+    printf("L:%6lf   R:%6lf \r\n" , l_wheel.getSpeed(), r_wheel.getSpeed());
+}
+
+void test_myself_measure_speed() {
+    MX_GPIO_Init();
+    MX_TIM1_Init();
+    MX_TIM3_Init();
+    MX_TIM4_Init();
+    MX_TIM7_Init();
+    WheelControl l_wheel(Motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, true),Encoder(htim4,500*4,false), 13.5f, 1);
+    WheelControl r_wheel(Motor(htim1, TIM_CHANNEL_2, GPIOA, GPIO_PIN_7, false),Encoder(htim3,500*4,true), 13.5f, 1);
+    l_wheel.start();
+    r_wheel.start();
+    while(1) {
+//        printf("L:%d   R:%d \r\n" , (int32_t)l_wheel.test_get_pulse(), (int32_t)r_wheel.test_get_pulse());
+        printf("L:%6lf   R:%6lf \r\n" , l_wheel.getSpeed(), r_wheel.getSpeed());
+        HAL_Delay(1);
+        l_wheel.interruptMeasureSpeed();
+        r_wheel.interruptMeasureSpeed();
+    }
+}
+
+void test_global_run() {
+    MX_GPIO_Init();
+    MX_TIM1_Init();
+    MX_TIM3_Init();
+    MX_TIM4_Init();
+    MX_TIM7_Init();
+    l_wheel.start();
+    r_wheel.start();
+    l_wheel.run(1000, 5000);
+    r_wheel.run(1000, 5000);
 }
 
 #ifdef __cplusplus

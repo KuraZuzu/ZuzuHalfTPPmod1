@@ -68,13 +68,14 @@ extern void test_battery_console();
 extern void test_all_console();
 extern void test_battery_warning();
 extern void test_buss3out();
-extern void test_measure_speed();
-extern void test_wheel_move();
 extern void test_gyro();
-void test_motor_output();
+extern void test_motor_output();
 extern void test_wait();
 extern void test_global_sensor();
 extern void test_gpio_distance_sensor();
+extern void test_global_measure_speed();
+extern void test_myself_measure_speed();
+extern void test_global_run();
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/

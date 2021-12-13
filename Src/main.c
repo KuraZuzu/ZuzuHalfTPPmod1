@@ -73,7 +73,11 @@ int main(){
     MX_GPIO_Init();
     MX_USART2_UART_Init();
     MX_SPI3_Init();
-    test_gpio_distance_sensor();
+    test_global_run();
+//    test_myself_measure_speed();
+//    test_myself_encoder();
+//    test_global_measure_speed();
+//    test_gpio_distance_sensor();
     while(1) {
 //        test_battery_console();
 
