@@ -78,11 +78,11 @@ int main(){
     MX_TIM4_Init();
     MX_TIM7_Init();
     MX_TIM8_Init();
-    test_global_run();
-//    test_myself_move();
+//    test_global_run();
+    test_myself_move();
+//    test_buzzer();
     while(1) {
 //        test_battery_console();
-        test_buzzer();
 //        printf("main\r\n");
     }
 

@@ -22,8 +22,8 @@
 //DistanceSensor ls_sensor(PWMOut(htim2, TIM_CHANNEL_2), AnalogInDMAStream(hadc1, 2), htim6);
 //DistanceSensor rs_sensor(PWMOut(htim2, TIM_CHANNEL_3), AnalogInDMAStream(hadc1, 3), htim6);
 //DistanceSensor rf_sensor(PWMOut(htim2, TIM_CHANNEL_4), AnalogInDMAStream(hadc1, 4), htim6);
-WheelControl l_wheel(Motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, false),Encoder(htim4,500*4,false), 13.5f, 1);
-WheelControl r_wheel(Motor(htim1, TIM_CHANNEL_2, GPIOA, GPIO_PIN_7, true),Encoder(htim3,500*4,true), 13.5f, 1);
+//WheelControl l_wheel(Motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, false),Encoder(htim4,500*4,false), 13.5f, 1);
+//WheelControl r_wheel(Motor(htim1, TIM_CHANNEL_2, GPIOA, GPIO_PIN_7, true),Encoder(htim3,500*4,true), 13.5f, 1);
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -45,7 +45,7 @@ void test_myself_move() {
     MX_GPIO_Init();
     MX_TIM1_Init();
     Motor _l_motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, true);
-    Motor _r_motor(htim1, TIM_CHANNEL_2, GPIOA,  GPIO_PIN_7, false);
+    Motor _r_motor(htim1, TIM_CHANNEL_2, GPIOA,  GPIO_PIN_7, true);
 
     _l_motor.start();
     _r_motor.start();
@@ -242,10 +242,10 @@ void test_global_measure_speed() {
     MX_TIM3_Init();
     MX_TIM4_Init();
     MX_TIM7_Init();
-    l_wheel.start();
-    r_wheel.start();
+//    l_wheel.start();
+//    r_wheel.start();
     HAL_TIM_Base_Start_IT(&htim7);
-    printf("L:%6lf   R:%6lf \r\n" , l_wheel.getSpeed(), r_wheel.getSpeed());
+//    printf("L:%6lf   R:%6lf \r\n" , l_wheel.getSpeed(), r_wheel.getSpeed());
 }
 
 void test_myself_measure_speed() {
@@ -273,11 +273,11 @@ void test_global_run() {
     MX_TIM3_Init();
     MX_TIM4_Init();
     MX_TIM7_Init();
-    l_wheel.start();
-    r_wheel.start();
+//    l_wheel.start();
+//    r_wheel.start();
     while (1) {
-        l_wheel.controlSpeed(100.0f);
-        r_wheel.controlSpeed(100.0f);
+//        l_wheel.controlSpeed(100.0f);
+//        r_wheel.controlSpeed(100.0f);
     }
 }
 

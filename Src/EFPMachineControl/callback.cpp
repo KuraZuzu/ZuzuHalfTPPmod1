@@ -16,8 +16,8 @@
 //extern DistanceSensor ls_sensor;
 //extern DistanceSensor rs_sensor;
 //extern DistanceSensor rf_sensor;
-extern WheelControl l_wheel;
-extern WheelControl r_wheel;
+//extern WheelControl l_wheel;
+//extern WheelControl r_wheel;
 
 // タイマーコールバック
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
@@ -61,7 +61,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
      */
     if(htim == &htim7) {
 //        速度計測関数(); //<  WheelControlの両側タイヤ interruptMeasureSpeed() を実行．
-        l_wheel.interruptMeasureSpeed();
-        r_wheel.interruptMeasureSpeed();
+//        l_wheel.interruptMeasureSpeed();
+//        r_wheel.interruptMeasureSpeed();
     }
 }
