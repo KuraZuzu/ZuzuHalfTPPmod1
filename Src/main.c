@@ -73,14 +73,16 @@ int main(){
     MX_GPIO_Init();
     MX_USART2_UART_Init();
     MX_SPI3_Init();
+    MX_TIM1_Init();
+    MX_TIM3_Init();
+    MX_TIM4_Init();
+    MX_TIM7_Init();
+    MX_TIM8_Init();
     test_global_run();
-//    test_myself_measure_speed();
-//    test_myself_encoder();
-//    test_global_measure_speed();
-//    test_gpio_distance_sensor();
+//    test_myself_move();
     while(1) {
 //        test_battery_console();
-
+        test_buzzer();
 //        printf("main\r\n");
     }
 

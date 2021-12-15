@@ -22,8 +22,8 @@
 //DistanceSensor ls_sensor(PWMOut(htim2, TIM_CHANNEL_2), AnalogInDMAStream(hadc1, 2), htim6);
 //DistanceSensor rs_sensor(PWMOut(htim2, TIM_CHANNEL_3), AnalogInDMAStream(hadc1, 3), htim6);
 //DistanceSensor rf_sensor(PWMOut(htim2, TIM_CHANNEL_4), AnalogInDMAStream(hadc1, 4), htim6);
-WheelControl l_wheel(Motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, true),Encoder(htim4,500*4,false), 13.5f, 1);
-WheelControl r_wheel(Motor(htim1, TIM_CHANNEL_2, GPIOA, GPIO_PIN_7, false),Encoder(htim3,500*4,true), 13.5f, 1);
+WheelControl l_wheel(Motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, false),Encoder(htim4,500*4,false), 13.5f, 1);
+WheelControl r_wheel(Motor(htim1, TIM_CHANNEL_2, GPIOA, GPIO_PIN_7, true),Encoder(htim3,500*4,true), 13.5f, 1);
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -107,8 +107,8 @@ void test_myself_move_wheel() {
     WheelControl _r_wheel(Motor(htim1, TIM_CHANNEL_2, GPIOA, GPIO_PIN_7, false),Encoder(htim3,500*4,true), 13.5f, 1000);
     _l_wheel.start();
     _r_wheel.start();
-    _l_wheel.run(500, 10000);
-    _r_wheel.run(500, 10000);
+//    _l_wheel.run(500, 10000);
+//    _r_wheel.run(500, 10000);
 }
 
 void test_buzzer() {
@@ -275,8 +275,10 @@ void test_global_run() {
     MX_TIM7_Init();
     l_wheel.start();
     r_wheel.start();
-    l_wheel.run(1000, 5000);
-    r_wheel.run(1000, 5000);
+    while (1) {
+        l_wheel.controlSpeed(100.0f);
+        r_wheel.controlSpeed(100.0f);
+    }
 }
 
 #ifdef __cplusplus

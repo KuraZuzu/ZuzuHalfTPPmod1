@@ -125,8 +125,8 @@ void Test::measure_speed_debug() {
 
 void Test::wheel_move_debug() {
     while (1) {
-        _l_wheel.run(100, 1000);
-        _r_wheel.run(100, 1000);
+//        _l_wheel.run(100, 1000);
+//        _r_wheel.run(100, 1000);
     }
 }
 
