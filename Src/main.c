@@ -69,11 +69,7 @@ int main(){
     MX_USART2_UART_Init();  //< Setup Uart.
     setbuf(stdout, NULL);   //< This is needed for printf().
 
-    // Init functions.
-//    test_global_measure_speed();
     test_measure_speed();
-//    test_myself_encoder();
-//    test_buzzer();
     while(1) {
 //        test_battery_console();
 //        printf("main\r\n");

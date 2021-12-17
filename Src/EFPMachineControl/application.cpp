@@ -17,13 +17,10 @@
 #include "application.h"
 #include "stm32f4xx_it.h"
 #include "../MSLH/gpio_distance_sensor.h"
+#include "../MSLH/interrupter.h"
 
-//Motor l_motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, false);
-//Motor r_motor(htim1, TIM_CHANNEL_2, GPIOA,  GPIO_PIN_7, false);
-//Encoder l_encoder(htim4 , 500*4 , false);
-//Encoder r_encoder(htim3, 500*4, true);
-//WheelControl l_wheel(l_motor, l_encoder, 13.5f, 1);
-//WheelControl r_wheel(r_motor, r_encoder, 13.5f, 1);
+//extern Interrupter<WheelControl> l_wheel_interrupt;
+//extern Interrupter<WheelControl> r_wheel_interrupt;
 
 #ifdef __cplusplus
 extern "C" {
@@ -50,19 +47,19 @@ void test_myself_move() {
     _l_motor.start();
     _r_motor.start();
 
-    _l_motor.update(0.2f);
-    _r_motor.update(0.2f);
+    _l_motor.update(0.05f);
+    _r_motor.update(0.05f);
     HAL_Delay(1000);
     _l_motor.update(0.0f);
     _r_motor.update(0.0f);
     HAL_Delay(500);
 //
-    _l_motor.update(-0.2f);
-    _r_motor.update(-0.2f);
+    _l_motor.update(-0.05f);
+    _r_motor.update(-0.05f);
     HAL_Delay(1000);
 
-    _l_motor.update(0.2f);
-    _r_motor.update(0.2f);
+    _l_motor.update(0.05f);
+    _r_motor.update(0.05f);
 //
 //    _r_motor.update(0.2f);
 //    HAL_Delay(500);
@@ -226,41 +223,49 @@ void test_gpio_distance_sensor() {
     ls_sensor.start();
     rs_sensor.start();
     rf_sensor.start();
+
+    uint32_t lf=0, ls=0, rs=0, rf=0;
     while (1) {
-        printf("LF:%6" PRIu16 "   LS:%6" PRIu16 "   RS:%6" PRIu16 "   RF:%6" PRIu16 "\r\n"
-                , lf_sensor.read(5)
-                , ls_sensor.read(5)
-                , rs_sensor.read(5)
-                , rf_sensor.read(5) );
+        for (int i = 0; i < 10; ++i) {
+            lf += lf_sensor.read(5);
+            ls += ls_sensor.read(5);
+            rs += rs_sensor.read(5);
+            rf += rf_sensor.read(5);
+        }
+        lf = lf / 10;
+        ls = ls / 10;
+        rs = rs / 10;
+        rf = rf / 10;
+        printf("LF:%6" PRIu16 "   LS:%6" PRIu16 "   RS:%6" PRIu16 "   RF:%6" PRIu16 "\r\n", lf, ls, rs, rf);
+        lf = 0;
+        ls = 0;
+        rs = 0;
+        rf = 0;
     }
 }
 
 
 void test_measure_speed() {
-    Motor l_motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, false);
-    Motor r_motor(htim1, TIM_CHANNEL_2, GPIOA,  GPIO_PIN_7, false);
-    Encoder l_encoder(htim4 , 500*4 , false);
-    Encoder r_encoder(htim3, 500*4, true);
-    WheelControl l_wheel(l_motor, l_encoder, 13.5f, 1);
-    WheelControl r_wheel(r_motor, r_encoder, 13.5f, 1);
-    l_wheel.start();
-    r_wheel.start();
     MX_GPIO_Init();
     MX_TIM1_Init();
     MX_TIM3_Init();
     MX_TIM4_Init();
     MX_TIM7_Init();
     MX_USART2_UART_Init();
-
+    Motor l_motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, false);
+    Motor r_motor(htim1, TIM_CHANNEL_2, GPIOA,  GPIO_PIN_7, false);
+    Encoder l_encoder(htim4 , 500*4 , false);
+    Encoder r_encoder(htim3, 500*4, true);
+    WheelControl l_wheel(l_motor, l_encoder, 13.5f, 1);
+    WheelControl r_wheel(r_motor, r_encoder, 13.5f, 1);
+//    l_wheel_interrupt.attach(&l_wheel, &WheelControl::interruptMeasureSpeed);
+//    r_wheel_interrupt.attach(&r_wheel, &WheelControl::interruptMeasureSpeed);
+    l_wheel.start();
+    r_wheel.start();
     while(1) {
-//        printf("L:%d   R:%d \r\n" , (int32_t)l_wheel.test_get_pulse(), (int32_t)r_wheel.test_get_pulse());
         printf("L:%6lf   R:%6lf \r\n" , l_wheel.getSpeed(), r_wheel.getSpeed());
-        HAL_Delay(1);
-        l_wheel.interruptMeasureSpeed();
-        r_wheel.interruptMeasureSpeed();
     }
 }
-
 
 
 #ifdef __cplusplus

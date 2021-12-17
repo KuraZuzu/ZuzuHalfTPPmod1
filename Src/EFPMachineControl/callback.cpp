@@ -13,9 +13,11 @@
 #include "test.h"
 #include "callback.h"
 #include "application.h"
+#include "../MSLH/interrupter.h"
 
-//extern WheelControl l_wheel;
-//extern WheelControl r_wheel;
+Interrupter<WheelControl> l_wheel_interrupt;
+Interrupter<WheelControl> r_wheel_interrupt;
+
 // タイマーコールバック
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 
@@ -58,7 +60,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
      */
     if (htim == &htim7) {
 //        速度計測関数(); //<  WheelControlの両側タイヤ interruptMeasureSpeed() を実行．
-//        l_wheel.interruptMeasureSpeed();
-//        r_wheel.interruptMeasureSpeed();
+        l_wheel_interrupt.run();
+        r_wheel_interrupt.run();
     }
 }
