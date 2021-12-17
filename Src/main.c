@@ -70,16 +70,9 @@ int main(){
     setbuf(stdout, NULL);   //< This is needed for printf().
 
     // Init functions.
-    MX_GPIO_Init();
-    MX_USART2_UART_Init();
-    MX_SPI3_Init();
-    MX_TIM1_Init();
-    MX_TIM3_Init();
-    MX_TIM4_Init();
-    MX_TIM7_Init();
-    MX_TIM8_Init();
-//    test_global_run();
-    test_myself_move();
+//    test_global_measure_speed();
+    test_measure_speed();
+//    test_myself_encoder();
 //    test_buzzer();
     while(1) {
 //        test_battery_console();
@@ -164,7 +157,7 @@ void Error_Handler(void)
     __disable_irq();
     while (1)
     {
-        test_buzzer();
+//        test_buzzer();
     }
   /* USER CODE END Error_Handler_Debug */
 }

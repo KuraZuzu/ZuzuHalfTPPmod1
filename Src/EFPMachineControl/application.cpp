@@ -7,23 +7,24 @@
  * see https://opensource.org/licenses/MIT
  */
 
-#ifndef ZUZUHALFTPPMOD1_APPLICATION_H
-#define ZUZUHALFTPPMOD1_APPLICATION_H
+//#ifndef ZUZUHALFTPPMOD1_APPLICATION_H
+//#define ZUZUHALFTPPMOD1_APPLICATION_H
 
 #include "test.h"
 #include "../MSLH/timer.h"
 //#include <iostream>
 #include <cinttypes>
+#include "application.h"
 #include "stm32f4xx_it.h"
 #include "../MSLH/gpio_distance_sensor.h"
 
-//extern volatile uint32_t timer::counter_us; //debug
-//DistanceSensor lf_sensor(PWMOut(htim2, TIM_CHANNEL_1), AnalogInDMAStream(hadc1, 1), htim6);
-//DistanceSensor ls_sensor(PWMOut(htim2, TIM_CHANNEL_2), AnalogInDMAStream(hadc1, 2), htim6);
-//DistanceSensor rs_sensor(PWMOut(htim2, TIM_CHANNEL_3), AnalogInDMAStream(hadc1, 3), htim6);
-//DistanceSensor rf_sensor(PWMOut(htim2, TIM_CHANNEL_4), AnalogInDMAStream(hadc1, 4), htim6);
-//WheelControl l_wheel(Motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, false),Encoder(htim4,500*4,false), 13.5f, 1);
-//WheelControl r_wheel(Motor(htim1, TIM_CHANNEL_2, GPIOA, GPIO_PIN_7, true),Encoder(htim3,500*4,true), 13.5f, 1);
+//Motor l_motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, false);
+//Motor r_motor(htim1, TIM_CHANNEL_2, GPIOA,  GPIO_PIN_7, false);
+//Encoder l_encoder(htim4 , 500*4 , false);
+//Encoder r_encoder(htim3, 500*4, true);
+//WheelControl l_wheel(l_motor, l_encoder, 13.5f, 1);
+//WheelControl r_wheel(r_motor, r_encoder, 13.5f, 1);
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -40,37 +41,35 @@ void test_myself_wait_led() {
     }
 }
 
-
 void test_myself_move() {
     MX_GPIO_Init();
     MX_TIM1_Init();
-    Motor _l_motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, true);
-    Motor _r_motor(htim1, TIM_CHANNEL_2, GPIOA,  GPIO_PIN_7, true);
+    Motor _l_motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, false);
+    Motor _r_motor(htim1, TIM_CHANNEL_2, GPIOA,  GPIO_PIN_7, false);
 
     _l_motor.start();
     _r_motor.start();
 
-    _l_motor.update(0.2);
-    _r_motor.update(0.2);
+    _l_motor.update(0.2f);
+    _r_motor.update(0.2f);
+    HAL_Delay(1000);
+    _l_motor.update(0.0f);
+    _r_motor.update(0.0f);
+    HAL_Delay(500);
+//
+    _l_motor.update(-0.2f);
+    _r_motor.update(-0.2f);
     HAL_Delay(1000);
 
-    _l_motor.update(-0.2);
-    _r_motor.update(-0.2);
-    HAL_Delay(1000);
-
-    _l_motor.stop();
-    _r_motor.stop();
-    HAL_Delay(1000);
-
-    _l_motor.start();
-    _r_motor.start();
-
-    _l_motor.update(0.8);
-    _r_motor.update(0.8);
-    HAL_Delay(1000);
-
-    _l_motor.stop();
-    _r_motor.stop();
+    _l_motor.update(0.2f);
+    _r_motor.update(0.2f);
+//
+//    _r_motor.update(0.2f);
+//    HAL_Delay(500);
+//    _r_motor.update(-1.0);
+//    HAL_Delay(1000);
+//    _r_motor.stop();
+//    HAL_Delay(1000);
 }
 
 void test_myself_encoder() {
@@ -103,10 +102,10 @@ void test_myself_move_wheel() {
     MX_TIM1_Init();
     MX_TIM3_Init();
     MX_TIM4_Init();
-    WheelControl _l_wheel(Motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, true),Encoder(htim4,500*4,false), 13.5f, 1000);
-    WheelControl _r_wheel(Motor(htim1, TIM_CHANNEL_2, GPIOA, GPIO_PIN_7, false),Encoder(htim3,500*4,true), 13.5f, 1000);
-    _l_wheel.start();
-    _r_wheel.start();
+//    WheelControl _l_wheel(Motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, true),Encoder(htim4,500*4,false), 13.5f, 1000);
+//    WheelControl _r_wheel(Motor(htim1, TIM_CHANNEL_2, GPIOA, GPIO_PIN_7, false),Encoder(htim3,500*4,true), 13.5f, 1000);
+//    _l_wheel.start();
+//    _r_wheel.start();
 //    _l_wheel.run(500, 10000);
 //    _r_wheel.run(500, 10000);
 }
@@ -236,28 +235,23 @@ void test_gpio_distance_sensor() {
     }
 }
 
-void test_global_measure_speed() {
-    MX_GPIO_Init();
-    MX_TIM1_Init();
-    MX_TIM3_Init();
-    MX_TIM4_Init();
-    MX_TIM7_Init();
-//    l_wheel.start();
-//    r_wheel.start();
-    HAL_TIM_Base_Start_IT(&htim7);
-//    printf("L:%6lf   R:%6lf \r\n" , l_wheel.getSpeed(), r_wheel.getSpeed());
-}
 
-void test_myself_measure_speed() {
-    MX_GPIO_Init();
-    MX_TIM1_Init();
-    MX_TIM3_Init();
-    MX_TIM4_Init();
-    MX_TIM7_Init();
-    WheelControl l_wheel(Motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, true),Encoder(htim4,500*4,false), 13.5f, 1);
-    WheelControl r_wheel(Motor(htim1, TIM_CHANNEL_2, GPIOA, GPIO_PIN_7, false),Encoder(htim3,500*4,true), 13.5f, 1);
+void test_measure_speed() {
+    Motor l_motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, false);
+    Motor r_motor(htim1, TIM_CHANNEL_2, GPIOA,  GPIO_PIN_7, false);
+    Encoder l_encoder(htim4 , 500*4 , false);
+    Encoder r_encoder(htim3, 500*4, true);
+    WheelControl l_wheel(l_motor, l_encoder, 13.5f, 1);
+    WheelControl r_wheel(r_motor, r_encoder, 13.5f, 1);
     l_wheel.start();
     r_wheel.start();
+    MX_GPIO_Init();
+    MX_TIM1_Init();
+    MX_TIM3_Init();
+    MX_TIM4_Init();
+    MX_TIM7_Init();
+    MX_USART2_UART_Init();
+
     while(1) {
 //        printf("L:%d   R:%d \r\n" , (int32_t)l_wheel.test_get_pulse(), (int32_t)r_wheel.test_get_pulse());
         printf("L:%6lf   R:%6lf \r\n" , l_wheel.getSpeed(), r_wheel.getSpeed());
@@ -267,23 +261,11 @@ void test_myself_measure_speed() {
     }
 }
 
-void test_global_run() {
-    MX_GPIO_Init();
-    MX_TIM1_Init();
-    MX_TIM3_Init();
-    MX_TIM4_Init();
-    MX_TIM7_Init();
-//    l_wheel.start();
-//    r_wheel.start();
-    while (1) {
-//        l_wheel.controlSpeed(100.0f);
-//        r_wheel.controlSpeed(100.0f);
-    }
-}
+
 
 #ifdef __cplusplus
 }
 #endif
 
 
-#endif // ZUZUHALFTPPMOD1_APPLICATION_H
+//#endif // ZUZUHALFTPPMOD1_APPLICATION_H

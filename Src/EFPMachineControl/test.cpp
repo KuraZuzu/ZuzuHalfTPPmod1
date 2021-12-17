@@ -9,6 +9,11 @@
 
 #include "test.h"
 
+//std::vector<callbackMemberFunctions> a;
+//std::vector<std::function> &a;
+//typedef void(Test::*Callback)();
+//Callback a;
+
 Test::Test()
 : _led1(GPIOC, GPIO_PIN_3)
 , _led2(GPIOC, GPIO_PIN_4)
@@ -21,9 +26,8 @@ Test::Test()
 , _rf_sensor(PWMOut(htim2, TIM_CHANNEL_4), AnalogInDMAStream(hadc1, 4), htim6)
 , _battery(hadc1, 5)
 , _gyro_sensor(hspi3, GPIOA, GPIO_PIN_4)
-, _l_wheel(Motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, true),Encoder(htim4,500*4,false), 13.5f, 10)
-, _r_wheel(Motor(htim1, TIM_CHANNEL_2, GPIOA, GPIO_PIN_7, false),Encoder(htim3,500*4,true), 13.5f, 10)
 {
+//    a = measureSpeedSetCallback;
     // Init functions.
     MX_GPIO_Init();
     MX_DMA_Init();
@@ -43,10 +47,7 @@ Test::Test()
     _rs_sensor.start();
     _rf_sensor.start();
     _battery.start();
-
-    _l_wheel.start();
-    _r_wheel.start();
-//    HAL_TIM_Base_Start_IT(&htim6);
+    //    HAL_TIM_Base_Start_IT(&htim6);
 //    HAL_TIM_Base_Start_IT(&htim7);
 }
 
@@ -116,24 +117,6 @@ void Test::busout_debug() {
         _led_buss = i;
         HAL_Delay(300);
     }
-}
-
-void Test::measure_speed_debug() {
-    printf("L: %d  ", static_cast<int>(_l_wheel.getSpeed()));
-    printf("R: %d\r\n", static_cast<int>(_r_wheel.getSpeed()));
-}
-
-void Test::wheel_move_debug() {
-    while (1) {
-//        _l_wheel.run(100, 1000);
-//        _r_wheel.run(100, 1000);
-    }
-}
-
-
-void Test::measureSpeedSetCallback() {
-    _l_wheel.interruptMeasureSpeed();
-    _r_wheel.interruptMeasureSpeed();
 }
 
 void Test::gyro_read() {

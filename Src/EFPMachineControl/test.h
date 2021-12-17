@@ -16,6 +16,9 @@
 #include "dma.h"
 #include "../MSLH/mslh.h"
 #include "arm_math.h"
+#include <vector>
+#include "callback.h"
+#include <functional>
 
 class Test {
 
@@ -41,12 +44,6 @@ public:
 
     void busout_debug();
 
-    void measure_speed_debug();
-
-    void wheel_move_debug();
-
-    void measureSpeedSetCallback();
-
     void gyro_read();
 
 private:
@@ -61,8 +58,6 @@ private:
     DistanceSensor _rf_sensor;
     AnalogInDMAStream _battery;
     GyroSensor _gyro_sensor;
-    WheelControl _l_wheel;
-    WheelControl _r_wheel;
 };
 
 #endif //ZUZUHALFTPPMOD1_TEST_H

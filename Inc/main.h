@@ -73,9 +73,7 @@ extern void test_motor_output();
 extern void test_wait();
 extern void test_global_sensor();
 extern void test_gpio_distance_sensor();
-extern void test_global_measure_speed();
-extern void test_myself_measure_speed();
-extern void test_global_run();
+extern void test_measure_speed();
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
