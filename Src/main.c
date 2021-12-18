@@ -66,13 +66,14 @@ int __io_putchar(int ch);
 int main(){
     HAL_Init(); //< Setup HAL.
     SystemClock_Config();  //< Micro-controller startup functions
-    MX_USART2_UART_Init();  //< Setup Uart.
-    setbuf(stdout, NULL);   //< This is needed for printf().
+    MX_USART2_UART_Init(); //< Setup Uart.
+    setbuf(stdout, NULL);  //< This is needed for printf().
 
-//    machine_measure_speed();
-    test_measure_speed();
+//    machineRun(200.0f);
+//    machineMeasureSpeed();
+//    testMeasureSpeed();
     while(1) {
-//        test_battery_console();
+//        testBatteryConsole();
 //        printf("main\r\n");
     }
 
@@ -154,7 +155,7 @@ void Error_Handler(void)
     __disable_irq();
     while (1)
     {
-//        test_buzzer();
+//        testBuzzer();
     }
   /* USER CODE END Error_Handler_Debug */
 }

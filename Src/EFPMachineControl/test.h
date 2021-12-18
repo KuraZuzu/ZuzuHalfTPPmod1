@@ -17,8 +17,6 @@
 #include "../MSLH/mslh.h"
 #include "arm_math.h"
 #include <vector>
-#include "callback.h"
-#include <functional>
 
 class Test {
 
@@ -26,25 +24,25 @@ public:
 
     Test();
 
-    void buzzer_debug();
+    void buzzerDebug();
 
-    void error_v1_buzzer_debug();
+    void errorBuzzerDebug1();
 
-    void error_v2_buzzer_debug();
+    void errorBuzzerDebug2();
 
-    void led_debug();
+    void ledDebug();
 
-    void battery_console_debug();
+    void batteryConsoleDebug();
 
-    void all_sensor_console_debug();
+    void allSensorConsoleDebug();
 
-    void battery_warning_debug();
+    void batteryWarningDebug();
 
-    float battery_voltage();
+    float batteryVoltage();
 
-    void busout_debug();
+    void bussOutDebug();
 
-    void gyro_read();
+    void gyroRead();
 
 private:
     DigitalOut _led1;

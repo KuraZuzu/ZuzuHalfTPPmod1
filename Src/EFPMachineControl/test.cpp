@@ -51,19 +51,19 @@ Test::Test()
     HAL_TIM_Base_Start_IT(&htim7);
 }
 
-void Test::buzzer_debug() {
+void Test::buzzerDebug() {
     _buzzer.beep_x(3);
 }
 
-void Test::error_v1_buzzer_debug() {
+void Test::errorBuzzerDebug1() {
     _buzzer.error_v1();
 }
 
-void Test::error_v2_buzzer_debug() {
+void Test::errorBuzzerDebug2() {
     _buzzer.error_v2();
 }
 
-void Test::led_debug() {
+void Test::ledDebug() {
     _led1 = 1;
     _led2 = 0;
     _led3 = 0;
@@ -81,12 +81,12 @@ void Test::led_debug() {
     _led3 = 0;
 }
 
-void Test::battery_console_debug() {
-    printf("bat: %f", battery_voltage());
+void Test::batteryConsoleDebug() {
+    printf("bat: %f", batteryVoltage());
     printf("\r\n");
 }
 
-void Test::all_sensor_console_debug() {
+void Test::allSensorConsoleDebug() {
 //        uint16_t sensor1 = adc1_dma_stream::adc_read(ADC1_Rank::LEFT_FRONT);
     uint16_t lf = _lf_sensor.read();
     uint16_t ls = _ls_sensor.read();
@@ -97,28 +97,28 @@ void Test::all_sensor_console_debug() {
            , static_cast<int>(ls)
            , static_cast<int>(rs)
            , static_cast<int>(rf)
-           , battery_voltage());
+           , batteryVoltage());
 
-    battery_warning_debug();
+    batteryWarningDebug();
 }
 
-void Test::battery_warning_debug() {
-    if(battery_voltage() < 3.75) _buzzer.beep_x(4);
+void Test::batteryWarningDebug() {
+    if(batteryVoltage() < 3.75) _buzzer.beep_x(4);
 }
 
-float Test::battery_voltage() {
+float Test::batteryVoltage() {
 //    uint16_t bat = adc1_dma_stream::adc_read(ADC1_Rank::BATTERY);
     uint16_t bat = _battery.read();
     return 3.3f * static_cast<float32_t>(bat) / 0x0FFF * (1000 + 1000) / 1000;
 }
 
-void Test::busout_debug() {
+void Test::bussOutDebug() {
     for (int32_t i = 0; i < 30; ++i) {
         _led_buss = i;
         HAL_Delay(300);
     }
 }
 
-void Test::gyro_read() {
+void Test::gyroRead() {
     _gyro_sensor.temp();
 }

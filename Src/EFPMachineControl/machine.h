@@ -20,7 +20,7 @@ class Machine {
 public:
     Machine()
     : _l_wheel(Motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, false), Encoder(htim4 , 500*4 , false), 13.5f, 1)
-    , _r_wheel(Motor(htim1, TIM_CHANNEL_2, GPIOA,  GPIO_PIN_7, false), Encoder(htim3, 500*4, true), 13.5f, 1)
+    , _r_wheel(Motor(htim1, TIM_CHANNEL_2, GPIOA,  GPIO_PIN_7, true), Encoder(htim3, 500*4, true), 13.5f, 1)
     , _lf_sensor(DigitalOut(GPIOA,GPIO_PIN_15), AnalogInDMAStream(hadc1, 1))
     , _ls_sensor(DigitalOut(GPIOB, GPIO_PIN_3), AnalogInDMAStream(hadc1, 2))
     , _rs_sensor(DigitalOut(GPIOB, GPIO_PIN_2), AnalogInDMAStream(hadc1, 3))
@@ -57,7 +57,14 @@ public:
     void measureSpeed() {
         while (1) {
             printf("L:%6lf   R:%6lf \r\n" , _l_wheel.getSpeed(), _r_wheel.getSpeed());
+        }
+    }
 
+    void run(float32_t speed) {
+        while (1) {
+            _l_wheel.controlSpeed(speed);
+            _r_wheel.controlSpeed(speed);
+            printf("L:%6lf   R:%6lf \r\n" , _l_wheel.getSpeed(), _r_wheel.getSpeed());
         }
     }
 

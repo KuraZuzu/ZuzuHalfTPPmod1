@@ -37,7 +37,7 @@ extern "C" {
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
-
+#include "arm_math.h"
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/
@@ -54,27 +54,9 @@ extern "C" {
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
-extern void test_myself_wait_led();
-
-extern void test_myself_move();
-extern void test_myself_encoder();
-extern void test_myself_move_wheel();
-
-extern void test_buzzer();
-extern void test_error_v1_buzzer();
-extern void test_error_v2_buzzer();
-extern void test_led();
-extern void test_battery_console();
-extern void test_all_console();
-extern void test_battery_warning();
-extern void test_buss3out();
-extern void test_gyro();
-extern void test_motor_output();
-extern void test_wait();
-extern void test_global_sensor();
-extern void test_gpio_distance_sensor();
-extern void test_measure_speed();
-extern void machine_measure_speed();
+extern void machineMeasureSpeed();
+extern void machineRun(float32_t speed);
+extern void testMeasureSpeed();
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/

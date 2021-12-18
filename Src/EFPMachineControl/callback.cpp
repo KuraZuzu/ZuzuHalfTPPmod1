@@ -11,8 +11,6 @@
 #include "../MSLH/timer.h"
 #include "stm32f4xx.h"
 #include "test.h"
-#include "callback.h"
-#include "application.h"
 #include "../MSLH/interrupter.h"
 
 Interrupter<WheelControl> l_wheel_interrupt;
@@ -29,10 +27,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
      *     100 [Hz] = 10 m[sec]
      */
     if (htim == &htim2) {
-//        lf_sensor.interruptSamplingMaxValue();
-//        ls_sensor.interruptSamplingMaxValue();
-//        rs_sensor.interruptSamplingMaxValue();
-//        rf_sensor.interruptSamplingMaxValue();
     }
 
 
@@ -44,10 +38,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
      *     500 [Hz] = 2 m[sec]  //< 最小値を測るだけのものなので、さらに変更できるかも。
      */
     if (htim == &htim6) {
-//        lf_sensor.interruptSamplingMinValue();
-//        ls_sensor.interruptSamplingMinValue();
-//        rs_sensor.interruptSamplingMinValue();
-//        rf_sensor.interruptSamplingMinValue();
     }
 
 
@@ -59,7 +49,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
      *     1,000 [Hz] = 1 m[sec]
      */
     if (htim == &htim7) {
-//        速度計測関数(); //<  WheelControlの両側タイヤ interruptMeasureSpeed() を実行．
         l_wheel_interrupt.run();
         r_wheel_interrupt.run();
     }

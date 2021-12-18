@@ -12,9 +12,8 @@
 
 #include "test.h"
 #include "../MSLH/timer.h"
-//#include <iostream>
+#include "../MSLH/defines.h"
 #include <cinttypes>
-#include "application.h"
 #include "stm32f4xx_it.h"
 #include "../MSLH/gpio_distance_sensor.h"
 #include "../MSLH/interrupter.h"
@@ -30,62 +29,61 @@ extern "C" {
 // ここ(グローバルスコープ内)でインスタンスを生成するとコンストラクタが呼ばれないので注意。
 
 
-void test_buzzer() {
+void testBuzzer() {
     Test test;
-    test.buzzer_debug();
+    test.buzzerDebug();
 }
 
-void test_error_v1_buzzer() {
+void testErrorBuzzer1() {
     Test test;
-    test.error_v1_buzzer_debug();
+    test.errorBuzzerDebug1();
 }
 
-void test_error_v2_buzzer() {
+void testErrorBuzzer2() {
     Test test;
-    test.error_v2_buzzer_debug();
+    test.errorBuzzerDebug2();
 }
 
 
-void test_battery_console(){
+void testBatteryConsole(){
     // 他のラッパ関数内でMachineのインスタンスを生成するとAnalogInが読めない。
     Test test;  //< ラッパ関数内でインスタンス生成しないとコンストラクタが呼ばれない。
     while (1) {
-        test.battery_console_debug();
-        test.battery_warning_debug();
+        test.batteryConsoleDebug();
+        test.batteryWarningDebug();
         HAL_Delay(500);
     }
 }
 
-void test_all_console() {
+void testAllConsole() {
     Test test;
-    test.buzzer_debug();
-    test.led_debug();
+    test.buzzerDebug();
+    test.ledDebug();
     while(1) {
-        test.all_sensor_console_debug();
+        test.allSensorConsoleDebug();
         printf("\r\n");
         HAL_Delay(100);
-        test.battery_warning_debug();
+        test.batteryWarningDebug();
     }
 }
 
-void test_battery_warning() {
+void testBatteryWarning() {
     Test test;
-    test.battery_warning_debug();
+    test.batteryWarningDebug();
 }
 
-void test_buss3out() {
+void testBuss3out() {
     Test test;
-    test.busout_debug();
+    test.bussOutDebug();
+}
+
+void testGyro() {
+    Test test;
+    test.gyroRead();
 }
 
 
-void test_gyro() {
-    Test test;
-    test.gyro_read();
-}
-
-
-void test_motor_output() {
+void testMotorOutput() {
     Motor left_motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, true);
     Motor right_motor(htim1, TIM_CHANNEL_2, GPIOA, GPIO_PIN_7, false);
 
@@ -96,7 +94,7 @@ void test_motor_output() {
 }
 
 
-void test_gpio_distance_sensor() {
+void testGpioDistanceSensor() {
     MX_DMA_Init();
     MX_ADC1_Init();
     MX_GPIO_Init();
@@ -130,7 +128,7 @@ void test_gpio_distance_sensor() {
 }
 
 
-void test_measure_speed() {
+void testMeasureSpeed() {
     MX_GPIO_Init();
     MX_TIM1_Init();
     MX_TIM3_Init();
@@ -153,9 +151,14 @@ void test_measure_speed() {
     }
 }
 
-void machine_measure_speed() {
+void machineMeasureSpeed() {
     Machine machine;
     machine.measureSpeed();
+}
+
+void machineRun(float32_t speed) {
+    Machine machine;
+    machine.run(speed);
 }
 
 #ifdef __cplusplus
