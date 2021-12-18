@@ -74,6 +74,7 @@ extern void test_wait();
 extern void test_global_sensor();
 extern void test_gpio_distance_sensor();
 extern void test_measure_speed();
+extern void machine_measure_speed();
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/

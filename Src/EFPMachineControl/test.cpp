@@ -48,7 +48,7 @@ Test::Test()
     _rf_sensor.start();
     _battery.start();
     //    HAL_TIM_Base_Start_IT(&htim6);
-//    HAL_TIM_Base_Start_IT(&htim7);
+    HAL_TIM_Base_Start_IT(&htim7);
 }
 
 void Test::buzzer_debug() {

@@ -18,6 +18,7 @@
 #include "stm32f4xx_it.h"
 #include "../MSLH/gpio_distance_sensor.h"
 #include "../MSLH/interrupter.h"
+#include "machine.h"
 
 //extern Interrupter<WheelControl> l_wheel_interrupt;
 //extern Interrupter<WheelControl> r_wheel_interrupt;
@@ -27,85 +28,7 @@ extern "C" {
 #endif
 
 // ここ(グローバルスコープ内)でインスタンスを生成するとコンストラクタが呼ばれないので注意。
-void test_myself_wait_led() {
-    MX_GPIO_Init();
-    MX_TIM6_Init();
-    while (1) {
-//        printf("%d\r\n", my_timer::time_us_count);
-        timer::waitMicroSeconds(1000000);
-//        HAL_Delay(1000);
-        HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_3);
-    }
-}
 
-void test_myself_move() {
-    MX_GPIO_Init();
-    MX_TIM1_Init();
-    Motor _l_motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, false);
-    Motor _r_motor(htim1, TIM_CHANNEL_2, GPIOA,  GPIO_PIN_7, false);
-
-    _l_motor.start();
-    _r_motor.start();
-
-    _l_motor.update(0.05f);
-    _r_motor.update(0.05f);
-    HAL_Delay(1000);
-    _l_motor.update(0.0f);
-    _r_motor.update(0.0f);
-    HAL_Delay(500);
-//
-    _l_motor.update(-0.05f);
-    _r_motor.update(-0.05f);
-    HAL_Delay(1000);
-
-    _l_motor.update(0.05f);
-    _r_motor.update(0.05f);
-//
-//    _r_motor.update(0.2f);
-//    HAL_Delay(500);
-//    _r_motor.update(-1.0);
-//    HAL_Delay(1000);
-//    _r_motor.stop();
-//    HAL_Delay(1000);
-}
-
-void test_myself_encoder() {
-
-    MX_TIM3_Init();
-    MX_TIM4_Init();
-    Encoder _l_encoder(htim4 , 500*4 , false);
-    Encoder _r_encoder(htim3, 500*4, true);
-    _l_encoder.reset();
-    _r_encoder.reset();
-    _l_encoder.start();
-    _r_encoder.start();
-    while (1) {
-        _l_encoder.update();
-        _r_encoder.update();
-        printf("LT:%d  LC:%d  LD:%d    RT:%d  RC:%d  RD:%d\r\n"
-               , static_cast<int>(_l_encoder.getTotalPulse())
-               , static_cast<int>(_l_encoder.getRotationCount())
-               , static_cast<int>(_l_encoder.getDeltaPulse())
-               , static_cast<int>(_r_encoder.getTotalPulse())
-               , static_cast<int>(_r_encoder.getRotationCount())
-               , static_cast<int>(_r_encoder.getDeltaPulse()) );
-
-        HAL_Delay(50);
-    }
-}
-
-void test_myself_move_wheel() {
-    MX_GPIO_Init();
-    MX_TIM1_Init();
-    MX_TIM3_Init();
-    MX_TIM4_Init();
-//    WheelControl _l_wheel(Motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, true),Encoder(htim4,500*4,false), 13.5f, 1000);
-//    WheelControl _r_wheel(Motor(htim1, TIM_CHANNEL_2, GPIOA, GPIO_PIN_7, false),Encoder(htim3,500*4,true), 13.5f, 1000);
-//    _l_wheel.start();
-//    _r_wheel.start();
-//    _l_wheel.run(500, 10000);
-//    _r_wheel.run(500, 10000);
-}
 
 void test_buzzer() {
     Test test;
@@ -122,10 +45,6 @@ void test_error_v2_buzzer() {
     test.error_v2_buzzer_debug();
 }
 
-void test_led() {
-    Test test;
-    test.led_debug();
-}
 
 void test_battery_console(){
     // 他のラッパ関数内でMachineのインスタンスを生成するとAnalogInが読めない。
@@ -177,40 +96,6 @@ void test_motor_output() {
 }
 
 
-void test_wait() {
-    DigitalOut led1(GPIOC, GPIO_PIN_3);
-    MX_GPIO_Init();
-//    MX_TIM7_Init();
-//    timer::initTimer(&htim7);
-//    while (1) {
-//        printf("%d\r\n", timer::counter_us);
-//    }
-    while (1) {
-//        led1.write(1);
-        led1 = !led1;
-        timer::waitMicroSeconds(2);
-    }
-}
-
-void test_global_sensor() {
-    MX_DMA_Init();
-    MX_ADC1_Init();
-    MX_TIM2_Init();
-    MX_TIM6_Init();
-    MX_USART2_UART_Init();
-//    lf_sensor.start();
-//    ls_sensor.start();
-//    rs_sensor.start();
-//    rf_sensor.start();
-//    while (1) {
-//        printf("LF:%6" PRIu16 "   LS:%6" PRIu16 "   RS:%6" PRIu16 "   RF:%6" PRIu16 "\r\n"
-//                , lf_sensor.read()
-//                , ls_sensor.read()
-//                , rs_sensor.read()
-//                , rf_sensor.read() );
-//    }
-}
-
 void test_gpio_distance_sensor() {
     MX_DMA_Init();
     MX_ADC1_Init();
@@ -258,8 +143,9 @@ void test_measure_speed() {
     Encoder r_encoder(htim3, 500*4, true);
     WheelControl l_wheel(l_motor, l_encoder, 13.5f, 1);
     WheelControl r_wheel(r_motor, r_encoder, 13.5f, 1);
-//    l_wheel_interrupt.attach(&l_wheel, &WheelControl::interruptMeasureSpeed);
-//    r_wheel_interrupt.attach(&r_wheel, &WheelControl::interruptMeasureSpeed);
+    l_wheel_interrupt.attach(&l_wheel, &WheelControl::interruptMeasureSpeed);
+    r_wheel_interrupt.attach(&r_wheel, &WheelControl::interruptMeasureSpeed);
+    HAL_TIM_Base_Start_IT(&htim7);
     l_wheel.start();
     r_wheel.start();
     while(1) {
@@ -267,6 +153,10 @@ void test_measure_speed() {
     }
 }
 
+void machine_measure_speed() {
+    Machine machine;
+    machine.measureSpeed();
+}
 
 #ifdef __cplusplus
 }

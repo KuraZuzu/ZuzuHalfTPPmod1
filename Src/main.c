@@ -69,6 +69,7 @@ int main(){
     MX_USART2_UART_Init();  //< Setup Uart.
     setbuf(stdout, NULL);   //< This is needed for printf().
 
+//    machine_measure_speed();
     test_measure_speed();
     while(1) {
 //        test_battery_console();
