@@ -15,12 +15,25 @@
 extern Interrupter<WheelControl> l_wheel_interrupt;
 extern Interrupter<WheelControl> r_wheel_interrupt;
 
+//extern WheelControl l_wheel;
+//extern WheelControl r_wheel;
+//Motor l_motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, false);
+//Motor r_motor(htim1, TIM_CHANNEL_2, GPIOA,  GPIO_PIN_7, false);
+//Encoder l_encoder(htim4 , 500*4 , false);
+//Encoder r_encoder(htim3, 500*4, true);
+//WheelControl l_wheel(l_motor, l_encoder, 13.5f, 1);
+//WheelControl r_wheel(r_motor, r_encoder, 13.5f, 1);
+
 class Machine {
 
 public:
     Machine()
-    : _l_wheel(Motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, false), Encoder(htim4 , 500*4 , false), 13.5f, 1)
-    , _r_wheel(Motor(htim1, TIM_CHANNEL_2, GPIOA,  GPIO_PIN_7, true), Encoder(htim3, 500*4, true), 13.5f, 1)
+    : _l_motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, false)
+    , _r_motor(htim1, TIM_CHANNEL_2, GPIOA,  GPIO_PIN_7, false)
+    , _l_encoder(htim4 , 500*4 , false)
+    , _r_encoder(htim3, 500*4, true)
+    , _l_wheel(_l_motor, _l_encoder, 13.5f, 1)
+    , _r_wheel(_r_motor, _r_encoder, 13.5f, 1)
     , _lf_sensor(DigitalOut(GPIOA,GPIO_PIN_15), AnalogInDMAStream(hadc1, 1))
     , _ls_sensor(DigitalOut(GPIOB, GPIO_PIN_3), AnalogInDMAStream(hadc1, 2))
     , _rs_sensor(DigitalOut(GPIOB, GPIO_PIN_2), AnalogInDMAStream(hadc1, 3))
@@ -69,7 +82,10 @@ public:
     }
 
 private:
-
+    Motor _l_motor;
+    Motor _r_motor;
+    Encoder _l_encoder;
+    Encoder _r_encoder;
     WheelControl _l_wheel;
     WheelControl _r_wheel;
     GPIODistanceSensor _lf_sensor;

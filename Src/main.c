@@ -70,7 +70,7 @@ int main(){
     setbuf(stdout, NULL);  //< This is needed for printf().
 
 //    machineRun(200.0f);
-//    machineMeasureSpeed();
+    machineMeasureSpeed();
 //    testMeasureSpeed();
     while(1) {
 //        testBatteryConsole();
