@@ -18,6 +18,7 @@
 #include "../MSLH/gpio_distance_sensor.h"
 #include "../MSLH/interrupter.h"
 #include "machine.h"
+#include <string>
 
 //extern Interrupter<WheelControl> l_wheel_interrupt;
 //extern Interrupter<WheelControl> r_wheel_interrupt;
@@ -160,6 +161,7 @@ void machineRun(float32_t speed) {
     Machine machine;
     machine.run(speed);
 }
+
 
 #ifdef __cplusplus
 }

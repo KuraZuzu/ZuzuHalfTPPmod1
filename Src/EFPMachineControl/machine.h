@@ -15,14 +15,6 @@
 extern Interrupter<WheelControl> l_wheel_interrupt;
 extern Interrupter<WheelControl> r_wheel_interrupt;
 
-//extern WheelControl l_wheel;
-//extern WheelControl r_wheel;
-//Motor l_motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, false);
-//Motor r_motor(htim1, TIM_CHANNEL_2, GPIOA,  GPIO_PIN_7, false);
-//Encoder l_encoder(htim4 , 500*4 , false);
-//Encoder r_encoder(htim3, 500*4, true);
-//WheelControl l_wheel(l_motor, l_encoder, 13.5f, 1);
-//WheelControl r_wheel(r_motor, r_encoder, 13.5f, 1);
 
 class Machine {
 
@@ -42,27 +34,15 @@ public:
     , _led_buss(DigitalOut(GPIOC, GPIO_PIN_3), DigitalOut(GPIOC, GPIO_PIN_4), DigitalOut(GPIOC, GPIO_PIN_5))
     , _buzzer(PWMOut(htim8, TIM_CHANNEL_1)) {
 
-        // Init functions.
-        MX_GPIO_Init();
-        MX_DMA_Init();
-        MX_ADC1_Init();
-        MX_TIM1_Init();
-        MX_TIM3_Init();
-        MX_TIM4_Init();
-        MX_TIM6_Init();
-        MX_TIM7_Init();
-        MX_TIM8_Init();
-        MX_USART2_UART_Init();
-        MX_SPI3_Init();
 
         l_wheel_interrupt.attach(&_l_wheel, &WheelControl::interruptMeasureSpeed);
         r_wheel_interrupt.attach(&_r_wheel, &WheelControl::interruptMeasureSpeed);
         HAL_TIM_Base_Start_IT(&htim7);
-        _lf_sensor.start();
-        _ls_sensor.start();
-        _rs_sensor.start();
-        _rf_sensor.start();
-        _battery.start();
+//        _lf_sensor.start();
+//        _ls_sensor.start();
+//        _rs_sensor.start();
+//        _rf_sensor.start();
+//        _battery.start();
         _l_wheel.start();
         _r_wheel.start();
     }
@@ -70,6 +50,7 @@ public:
     void measureSpeed() {
         while (1) {
             printf("L:%6lf   R:%6lf \r\n" , _l_wheel.getSpeed(), _r_wheel.getSpeed());
+            HAL_Delay(300);
         }
     }
 

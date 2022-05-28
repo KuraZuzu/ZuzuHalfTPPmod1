@@ -69,7 +69,19 @@ int main(){
     MX_USART2_UART_Init(); //< Setup Uart.
     setbuf(stdout, NULL);  //< This is needed for printf().
 
-//    machineRun(200.0f);
+//    MX_GPIO_Init();
+//    MX_DMA_Init();
+//    MX_ADC1_Init();
+//    MX_TIM1_Init();
+//    MX_TIM3_Init();
+//    MX_TIM4_Init();
+//    MX_TIM6_Init();
+//    MX_TIM7_Init();
+//    MX_TIM8_Init();
+//    MX_USART2_UART_Init();
+//    MX_SPI3_Init();
+
+//    machineRun(0.0f);
     machineMeasureSpeed();
 //    testMeasureSpeed();
     while(1) {
