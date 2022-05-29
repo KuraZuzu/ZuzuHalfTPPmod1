@@ -50,7 +50,6 @@ public:
     void measureSpeed() {
         while (1) {
             printf("L:%6lf   R:%6lf \r\n" , _l_wheel.getSpeed(), _r_wheel.getSpeed());
-            HAL_Delay(300);
         }
     }
 
@@ -58,7 +57,8 @@ public:
         while (1) {
             _l_wheel.controlSpeed(speed);
             _r_wheel.controlSpeed(speed);
-//            printf("L:%6lf   R:%6lf \r\n" , _l_wheel.getSpeed(), _r_wheel.getSpeed());
+//            HAL_Delay(50);
+            printf("L:%6lf   R:%6lf \r\n" , _l_wheel.getSpeed(), _r_wheel.getSpeed());
         }
     }
 

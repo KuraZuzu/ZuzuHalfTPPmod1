@@ -85,8 +85,8 @@ void testGyro() {
 
 
 void testMotorOutput() {
-    Motor left_motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, true);
-    Motor right_motor(htim1, TIM_CHANNEL_2, GPIOA, GPIO_PIN_7, false);
+    Motor left_motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, false);
+    Motor right_motor(htim1, TIM_CHANNEL_2, GPIOA, GPIO_PIN_7, true);
 
     left_motor.start();
     right_motor.start();
@@ -129,6 +129,7 @@ void testGpioDistanceSensor() {
 }
 
 
+
 void testMeasureSpeed() {
     MX_GPIO_Init();
     MX_TIM1_Init();
@@ -162,6 +163,32 @@ void machineRun(float32_t speed) {
     machine.run(speed);
 }
 
+void testEncoder() {
+    MX_GPIO_Init();
+    MX_TIM3_Init();
+    MX_TIM4_Init();
+    MX_USART2_UART_Init();
+
+    mslh::Encoder _encoder_1(htim4, machine_parameter::MES6_x4_PULSE, false);
+    mslh::Encoder _encoder_2(htim3, machine_parameter::MES6_x4_PULSE, true);
+    _encoder_1.start();
+    _encoder_2.start();
+    _encoder_1.reset();
+    _encoder_2.reset();
+    while (1) {
+        _encoder_1.update();
+        _encoder_2.update();
+        printf("LT:%d  LC:%d  LD:%d    RT:%d  RC:%d  RD:%d\r\n"
+                , static_cast<int>(_encoder_1.getTotalPulse())
+                , static_cast<int>(_encoder_1.getRotationCount())
+                , static_cast<int>(_encoder_1.getDeltaPulse())
+                , static_cast<int>(_encoder_2.getTotalPulse())
+                , static_cast<int>(_encoder_2.getRotationCount())
+                , static_cast<int>(_encoder_2.getDeltaPulse()) );
+        HAL_Delay(10);
+    }
+
+}
 
 #ifdef __cplusplus
 }
