@@ -81,8 +81,8 @@ int main(){
     MX_USART2_UART_Init();
     MX_SPI3_Init();
 
-//    machineRun(0.0f);
-    machineMeasureSpeed();
+//    machineRun(50.0f);
+//    machineMeasureSpeed();
 //    testMeasureSpeed();
     while(1) {
 //        testBatteryConsole();

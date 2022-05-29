@@ -21,9 +21,9 @@ class Machine {
 public:
     Machine()
     : _l_motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, false)
-    , _r_motor(htim1, TIM_CHANNEL_2, GPIOA,  GPIO_PIN_7, false)
-    , _l_encoder(htim4 , 500*4 , false)
-    , _r_encoder(htim3, 500*4, true)
+    , _r_motor(htim1, TIM_CHANNEL_2, GPIOA,  GPIO_PIN_7, true)
+    , _l_encoder(htim4, machine_parameter::MES6_x4_PULSE, false)
+    , _r_encoder(htim3, machine_parameter::MES6_x4_PULSE, true)
     , _l_wheel(_l_motor, _l_encoder, 13.5f, 0.001)
     , _r_wheel(_r_motor, _r_encoder, 13.5f, 0.001)
     , _lf_sensor(DigitalOut(GPIOA,GPIO_PIN_15), AnalogInDMAStream(hadc1, 1))
@@ -58,7 +58,7 @@ public:
         while (1) {
             _l_wheel.controlSpeed(speed);
             _r_wheel.controlSpeed(speed);
-            printf("L:%6lf   R:%6lf \r\n" , _l_wheel.getSpeed(), _r_wheel.getSpeed());
+//            printf("L:%6lf   R:%6lf \r\n" , _l_wheel.getSpeed(), _r_wheel.getSpeed());
         }
     }
 
