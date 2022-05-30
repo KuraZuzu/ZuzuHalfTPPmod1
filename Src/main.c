@@ -82,7 +82,7 @@ int main(){
     MX_SPI3_Init();
 
 //    testEncoder();
-    machineRun(500.0f);
+    machineRun(1000.0f);
 //    machineMeasureSpeed();
 //    testMeasureSpeed();
     while(1) {
