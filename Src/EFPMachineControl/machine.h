@@ -54,9 +54,11 @@ public:
     }
 
     void run(float32_t speed) {
+        _l_wheel.setSpeed(speed);
+        _r_wheel.setSpeed(speed);
         while (1) {
-            _l_wheel.controlSpeed(speed);
-            _r_wheel.controlSpeed(speed);
+//            _l_wheel.controlSpeed(speed);
+//            _r_wheel.controlSpeed(speed);
 //            HAL_Delay(50);
             printf("L:%6lf   R:%6lf \r\n" , _l_wheel.getSpeed(), _r_wheel.getSpeed());
         }
