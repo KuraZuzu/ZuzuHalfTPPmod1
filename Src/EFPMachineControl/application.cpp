@@ -143,8 +143,8 @@ void testMeasureSpeed() {
     Encoder r_encoder(htim3, 500*4, true);
     WheelControl l_wheel(l_motor, l_encoder, 13.5f, 1);
     WheelControl r_wheel(r_motor, r_encoder, 13.5f, 1);
-    l_wheel_interrupt.attach(&l_wheel, &WheelControl::interruptMeasureSpeed);
-    r_wheel_interrupt.attach(&r_wheel, &WheelControl::interruptMeasureSpeed);
+    l_wheel_interrupt.attach(&l_wheel, &WheelControl::interruptControlWheel);
+    r_wheel_interrupt.attach(&r_wheel, &WheelControl::interruptControlWheel);
     HAL_TIM_Base_Start_IT(&htim7);
     l_wheel.start();
     r_wheel.start();
