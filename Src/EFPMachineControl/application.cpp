@@ -20,8 +20,8 @@
 #include "machine.h"
 #include <string>
 
-//extern Interrupter<WheelControl> l_wheel_interrupt;
-//extern Interrupter<WheelControl> r_wheel_interrupt;
+//extern Interrupter<Wheel> l_wheel_interrupt;
+//extern Interrupter<Wheel> r_wheel_interrupt;
 
 #ifdef __cplusplus
 extern "C" {
@@ -141,10 +141,10 @@ void testMeasureSpeed() {
     Motor r_motor(htim1, TIM_CHANNEL_2, GPIOA,  GPIO_PIN_7, false);
     Encoder l_encoder(htim4 , 500*4 , false);
     Encoder r_encoder(htim3, 500*4, true);
-    WheelControl l_wheel(l_motor, l_encoder, 13.5f, 1);
-    WheelControl r_wheel(r_motor, r_encoder, 13.5f, 1);
-    l_wheel_interrupt.attach(&l_wheel, &WheelControl::interruptControlWheel);
-    r_wheel_interrupt.attach(&r_wheel, &WheelControl::interruptControlWheel);
+    Wheel l_wheel(l_motor, l_encoder, 13.5f, 1);
+    Wheel r_wheel(r_motor, r_encoder, 13.5f, 1);
+    l_wheel_interrupt.attach(&l_wheel, &Wheel::interruptControlWheel);
+    r_wheel_interrupt.attach(&r_wheel, &Wheel::interruptControlWheel);
     HAL_TIM_Base_Start_IT(&htim7);
     l_wheel.start();
     r_wheel.start();
@@ -169,8 +169,8 @@ void testEncoder() {
     MX_TIM4_Init();
     MX_USART2_UART_Init();
 
-    mslh::Encoder _encoder_1(htim4, machine_parameter::MES6_x4_PULSE, false);
-    mslh::Encoder _encoder_2(htim3, machine_parameter::MES6_x4_PULSE, true);
+    mslh::Encoder _encoder_1(htim4, machine_parameter::ENCODER_ONE_ROTATION_PULSE, false);
+    mslh::Encoder _encoder_2(htim3, machine_parameter::ENCODER_ONE_ROTATION_PULSE, true);
     _encoder_1.start();
     _encoder_2.start();
     _encoder_1.reset();

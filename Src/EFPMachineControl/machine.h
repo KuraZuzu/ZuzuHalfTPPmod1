@@ -12,8 +12,8 @@
 
 #include "../MSLH/mslh.h"
 
-extern Interrupter<WheelControl> l_wheel_interrupt;
-extern Interrupter<WheelControl> r_wheel_interrupt;
+extern Interrupter<Wheel> l_wheel_interrupt;
+extern Interrupter<Wheel> r_wheel_interrupt;
 
 
 class Machine {
@@ -22,8 +22,8 @@ public:
     Machine()
     : _l_motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, false)
     , _r_motor(htim1, TIM_CHANNEL_2, GPIOA,  GPIO_PIN_7, true)
-    , _l_encoder(htim4, machine_parameter::MES6_x4_PULSE, false)
-    , _r_encoder(htim3, machine_parameter::MES6_x4_PULSE, true)
+    , _l_encoder(htim4, machine_parameter::ENCODER_ONE_ROTATION_PULSE, false)
+    , _r_encoder(htim3, machine_parameter::ENCODER_ONE_ROTATION_PULSE, true)
     , _l_wheel(_l_motor, _l_encoder, 13.5f, 0.01f)
     , _r_wheel(_r_motor, _r_encoder, 13.5f, 0.01f)
     , _lf_sensor(DigitalOut(GPIOA,GPIO_PIN_15), AnalogInDMAStream(hadc1, 1))
@@ -35,8 +35,8 @@ public:
     , _buzzer(PWMOut(htim8, TIM_CHANNEL_1)) {
 
 
-        l_wheel_interrupt.attach(&_l_wheel, &WheelControl::interruptControlWheel);
-        r_wheel_interrupt.attach(&_r_wheel, &WheelControl::interruptControlWheel);
+        l_wheel_interrupt.attach(&_l_wheel, &Wheel::interruptControlWheel);
+        r_wheel_interrupt.attach(&_r_wheel, &Wheel::interruptControlWheel);
         HAL_TIM_Base_Start_IT(&htim7);
 //        _lf_sensor.start();
 //        _ls_sensor.start();
@@ -69,8 +69,8 @@ private:
     Motor _r_motor;
     Encoder _l_encoder;
     Encoder _r_encoder;
-    WheelControl _l_wheel;
-    WheelControl _r_wheel;
+    Wheel _l_wheel;
+    Wheel _r_wheel;
     GPIODistanceSensor _lf_sensor;
     GPIODistanceSensor _ls_sensor;
     GPIODistanceSensor _rs_sensor;

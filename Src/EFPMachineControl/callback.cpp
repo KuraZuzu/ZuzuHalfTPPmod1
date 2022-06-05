@@ -13,11 +13,11 @@
 #include "test.h"
 #include "../MSLH/interrupter.h"
 
-Interrupter<WheelControl> l_wheel_interrupt;
-Interrupter<WheelControl> r_wheel_interrupt;
-//Motor
-//WheelControl l_wheel(Motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, false), Encoder(htim4 , 500*4 , false), 13.5f, 1);
-//WheelControl r_wheel(Motor(htim1, TIM_CHANNEL_2, GPIOA,  GPIO_PIN_7, true), Encoder(htim3, 500*4, true), 13.5f, 1);
+Interrupter<Wheel> l_wheel_interrupt;
+Interrupter<Wheel> r_wheel_interrupt;
+
+//Wheel l_wheel(Motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, false), Encoder(htim4 , 500*4 , false), 13.5f, 1);
+//Wheel r_wheel(Motor(htim1, TIM_CHANNEL_2, GPIOA,  GPIO_PIN_7, true), Encoder(htim3, 500*4, true), 13.5f, 1);
 
 // タイマーコールバック
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
