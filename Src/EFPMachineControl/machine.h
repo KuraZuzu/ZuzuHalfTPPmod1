@@ -20,17 +20,21 @@ class Machine {
 
 public:
     Machine()
-    : _l_motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, false)
-    , _r_motor(htim1, TIM_CHANNEL_2, GPIOA,  GPIO_PIN_7, true)
+//    : _l_motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, false)
+//    , _r_motor(htim1, TIM_CHANNEL_2, GPIOA,  GPIO_PIN_7, true)
+    : _l_motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_7, false)
+    , _r_motor(htim1, TIM_CHANNEL_2, GPIOA,  GPIO_PIN_6, true)
     , _l_encoder(htim4, machine_parameter::ENCODER_ONE_ROTATION_PULSE, false)
     , _r_encoder(htim3, machine_parameter::ENCODER_ONE_ROTATION_PULSE, true)
-    , _l_wheel(_l_motor, _l_encoder, 13.5f, 0.01f)
-    , _r_wheel(_r_motor, _r_encoder, 13.5f, 0.01f)
+//    , _l_wheel(_l_motor, _l_encoder, 13.5f, 0.01f)
+//    , _r_wheel(_r_motor, _r_encoder, 13.5f, 0.01f)
+    , _battery(hadc1, 5)
+    , _l_wheel(_l_motor, _l_encoder, _battery, 13.5f, 0.01f)
+    , _r_wheel(_r_motor,_r_encoder, _battery, 13.5f, 0.01f)
     , _lf_sensor(DigitalOut(GPIOA,GPIO_PIN_15), AnalogInDMAStream(hadc1, 1))
     , _ls_sensor(DigitalOut(GPIOB, GPIO_PIN_3), AnalogInDMAStream(hadc1, 2))
     , _rs_sensor(DigitalOut(GPIOB, GPIO_PIN_2), AnalogInDMAStream(hadc1, 3))
     , _rf_sensor(DigitalOut(GPIOB, GPIO_PIN_10), AnalogInDMAStream(hadc1, 4))
-    , _battery(hadc1, 5)
     , _led_buss(DigitalOut(GPIOC, GPIO_PIN_3), DigitalOut(GPIOC, GPIO_PIN_4), DigitalOut(GPIOC, GPIO_PIN_5))
     , _buzzer(PWMOut(htim8, TIM_CHANNEL_1)) {
 
@@ -64,6 +68,13 @@ public:
         }
     }
 
+    void ledTurnOn(uint8_t led_buss) {
+        _led_buss = led_buss;
+    }
+
+    void buzzer() {
+        while (1) _buzzer.error_v1();
+    }
 private:
     Motor _l_motor;
     Motor _r_motor;

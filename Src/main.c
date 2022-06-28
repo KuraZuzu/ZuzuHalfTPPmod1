@@ -72,6 +72,7 @@ int main(){
     MX_GPIO_Init();
     MX_DMA_Init();
     MX_ADC1_Init();
+
     MX_TIM1_Init();
     MX_TIM3_Init();
     MX_TIM4_Init();
@@ -81,8 +82,10 @@ int main(){
     MX_USART2_UART_Init();
     MX_SPI3_Init();
 
+//    machineBuzzer();
+    testBatteryConsole();
 //    testEncoder();
-    machineRun(1000.0f);
+//    machineRun(-200.0f);
 //    machineMeasureSpeed();
 //    testMeasureSpeed();
     while(1) {

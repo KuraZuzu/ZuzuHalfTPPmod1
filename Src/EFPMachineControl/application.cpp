@@ -48,8 +48,10 @@ void testErrorBuzzer2() {
 
 void testBatteryConsole(){
     // 他のラッパ関数内でMachineのインスタンスを生成するとAnalogInが読めない。
+
     Test test;  //< ラッパ関数内でインスタンス生成しないとコンストラクタが呼ばれない。
     while (1) {
+//        printf("a")
         test.batteryConsoleDebug();
         test.batteryWarningDebug();
         HAL_Delay(500);
@@ -141,8 +143,9 @@ void testMeasureSpeed() {
     Motor r_motor(htim1, TIM_CHANNEL_2, GPIOA,  GPIO_PIN_7, false);
     Encoder l_encoder(htim4 , 500*4 , false);
     Encoder r_encoder(htim3, 500*4, true);
-    Wheel l_wheel(l_motor, l_encoder, 13.5f, 1);
-    Wheel r_wheel(r_motor, r_encoder, 13.5f, 1);
+    AnalogInDMAStream _battery(hadc1, 5);
+    Wheel l_wheel(l_motor, l_encoder, _battery, 13.5f, 0.01f);
+    Wheel r_wheel(r_motor, r_encoder, _battery, 13.5f, 0.01f);
     l_wheel_interrupt.attach(&l_wheel, &Wheel::interruptControlWheel);
     r_wheel_interrupt.attach(&r_wheel, &Wheel::interruptControlWheel);
     HAL_TIM_Base_Start_IT(&htim7);
@@ -160,6 +163,8 @@ void machineMeasureSpeed() {
 
 void machineRun(float32_t speed) {
     Machine machine;
+    HAL_Delay(3000);
+    machine.ledTurnOn(0b00000111);
     machine.run(speed);
 }
 
@@ -187,7 +192,11 @@ void testEncoder() {
                 , static_cast<int>(_encoder_2.getDeltaPulse()) );
         HAL_Delay(10);
     }
+}
 
+void machineBuzzer() {
+    Machine machine;
+    machine.buzzer();
 }
 
 #ifdef __cplusplus
