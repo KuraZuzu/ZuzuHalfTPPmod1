@@ -58,8 +58,8 @@ public:
     }
 
     void run(float32_t speed) {
-        _l_wheel.setSpeed(speed);
-        _r_wheel.setSpeed(speed);
+//        _l_wheel.setSpeed(speed);
+//        _r_wheel.setSpeed(speed);
         while (1) {
 //            _l_wheel.interruptControlSpeed(speed);
 //            _r_wheel.interruptControlSpeed(speed);

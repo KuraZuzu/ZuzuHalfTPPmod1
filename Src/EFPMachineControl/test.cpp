@@ -46,7 +46,7 @@ Test::Test()
     _ls_sensor.start();
     _rs_sensor.start();
     _rf_sensor.start();
-    _battery.start();
+//    _battery.start();
     //    HAL_TIM_Base_Start_IT(&htim6);
     HAL_TIM_Base_Start_IT(&htim7);
 }
@@ -103,13 +103,13 @@ void Test::allSensorConsoleDebug() {
 }
 
 void Test::batteryWarningDebug() {
-    if(batteryVoltage() < 3.75) _buzzer.beep_x(4);
+//    if(batteryVoltage() < 3.75) _buzzer.beep_x(4);
 }
 
 float Test::batteryVoltage() {
 //    uint16_t bat = adc1_dma_stream::adc_read(ADC1_Rank::BATTERY);
-    uint16_t bat = _battery.read();
-    return 3.3f * static_cast<float32_t>(bat) / 0x0FFF * (1000 + 1000) / 1000;
+//    uint16_t bat = _battery.read();
+//    return 3.3f * static_cast<float32_t>(bat) / 0x0FFF * (1000 + 1000) / 1000;
 }
 
 void Test::bussOutDebug() {
