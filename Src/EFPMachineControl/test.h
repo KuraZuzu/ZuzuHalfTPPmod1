@@ -44,18 +44,26 @@ public:
 
     void gyroRead();
 
+
 private:
-    DigitalOut _led1;
-    DigitalOut _led2;
-    DigitalOut _led3;
-    Bus3Out _led_buss;
-    Buzzer _buzzer;
+
+    Motor _l_motor;
+    Motor _r_motor;
+    Encoder _l_encoder;
+    Encoder _r_encoder;
+    AnalogInDMAStream _battery;
+    Wheel _l_wheel;
+    Wheel _r_wheel;
+    GyroSensor _gyro_sensor;
     DistanceSensor _lf_sensor;
     DistanceSensor _ls_sensor;
     DistanceSensor _rs_sensor;
     DistanceSensor _rf_sensor;
-    AnalogInDMAStream _battery;
-    GyroSensor _gyro_sensor;
+    Bus3Out _led_buss;
+    Buzzer _buzzer;
+    Position _position;
+    Position _start_position;
+    float32_t _odometry_sampling_time;
 };
 
 #endif //ZUZUHALFTPPMOD1_TEST_H
