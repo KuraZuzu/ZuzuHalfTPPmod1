@@ -32,21 +32,19 @@ public:
             , _ls_sensor(PWMOut(htim2, TIM_CHANNEL_2), AnalogInDMAStream(hadc1, 2), htim6)
             , _rs_sensor(PWMOut(htim2, TIM_CHANNEL_3), AnalogInDMAStream(hadc1, 3), htim6)
             , _rf_sensor(PWMOut(htim2, TIM_CHANNEL_4), AnalogInDMAStream(hadc1, 4), htim6)
-            , _led_buss(DigitalOut(GPIOC, GPIO_PIN_3), DigitalOut(GPIOC, GPIO_PIN_4), DigitalOut(GPIOC, GPIO_PIN_5))
+            , _led_buss(DigitalOut(GPIOC, GPIO_PIN_5), DigitalOut(GPIOC, GPIO_PIN_4), DigitalOut(GPIOC, GPIO_PIN_3))
             , _buzzer(PWMOut(htim8, TIM_CHANNEL_1))
             , _odometry_sampling_time(0.01f)
             , _l_wheel_distance(0.0f)
-            , _r_wheel_distance(0.0f) {
+            , _r_wheel_distance(0.0f)
+            , _map(4, 4) {
 
-
-        l_wheel_interrupt.attach(&_l_wheel, &Wheel::interruptControlWheel);
-        r_wheel_interrupt.attach(&_r_wheel, &Wheel::interruptControlWheel);
         HAL_TIM_Base_Start_IT(&htim7);
-//        _lf_sensor.start();
-//        _ls_sensor.start();
-//        _rs_sensor.start();
-//        _rf_sensor.start();
-//        _battery.start();
+        _lf_sensor.start();
+        _ls_sensor.start();
+        _rs_sensor.start();
+        _rf_sensor.start();
+        _battery.start();
         _l_wheel.start();
         _r_wheel.start();
     }
@@ -87,10 +85,10 @@ private:
     Wheel _l_wheel;
     Wheel _r_wheel;
     GyroSensor _gyro_sensor;
-    DistanceSensor _lf_sensor;
-    DistanceSensor _ls_sensor;
-    DistanceSensor _rs_sensor;
-    DistanceSensor _rf_sensor;
+    GPIODistanceSensor _lf_sensor;
+    GPIODistanceSensor _ls_sensor;
+    GPIODistanceSensor _rs_sensor;
+    GPIODistanceSensor _rf_sensor;
     Bus3Out _led_buss;
     Buzzer _buzzer;
     Position _position;
@@ -98,6 +96,7 @@ private:
     float32_t _odometry_sampling_time;
     float32_t _l_wheel_distance;
     float32_t _r_wheel_distance;
+    Map _map;
 };
 
 
