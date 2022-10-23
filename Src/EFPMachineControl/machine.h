@@ -20,23 +20,23 @@ class Machine {
 
 public:
     Machine()
-//    : _l_motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, false)
-//    , _r_motor(htim1, TIM_CHANNEL_2, GPIOA,  GPIO_PIN_7, true)
-    : _l_motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_7, false)
-    , _r_motor(htim1, TIM_CHANNEL_2, GPIOA,  GPIO_PIN_6, true)
-    , _l_encoder(htim4, machine_parameter::ENCODER_ONE_ROTATION_PULSE, false)
-    , _r_encoder(htim3, machine_parameter::ENCODER_ONE_ROTATION_PULSE, true)
-//    , _l_wheel(_l_motor, _l_encoder, 13.5f, 0.01f)
-//    , _r_wheel(_r_motor, _r_encoder, 13.5f, 0.01f)
-    , _battery(hadc1, 5)
-    , _l_wheel(_l_motor, _l_encoder, _battery, 13.5f, 0.01f)
-    , _r_wheel(_r_motor,_r_encoder, _battery, 13.5f, 0.01f)
-    , _lf_sensor(DigitalOut(GPIOA,GPIO_PIN_15), AnalogInDMAStream(hadc1, 1))
-    , _ls_sensor(DigitalOut(GPIOB, GPIO_PIN_3), AnalogInDMAStream(hadc1, 2))
-    , _rs_sensor(DigitalOut(GPIOB, GPIO_PIN_2), AnalogInDMAStream(hadc1, 3))
-    , _rf_sensor(DigitalOut(GPIOB, GPIO_PIN_10), AnalogInDMAStream(hadc1, 4))
-    , _led_buss(DigitalOut(GPIOC, GPIO_PIN_3), DigitalOut(GPIOC, GPIO_PIN_4), DigitalOut(GPIOC, GPIO_PIN_5))
-    , _buzzer(PWMOut(htim8, TIM_CHANNEL_1)) {
+            : _l_motor(htim1, TIM_CHANNEL_2, GPIOA, GPIO_PIN_7, true)
+            , _r_motor(htim1, TIM_CHANNEL_1, GPIOA,  GPIO_PIN_6, false)
+            , _l_encoder(htim4, machine_parameter::ENCODER_ONE_ROTATION_PULSE, false)
+            , _r_encoder(htim3, machine_parameter::ENCODER_ONE_ROTATION_PULSE, true)
+            , _battery(hadc1, 5)
+            , _l_wheel(_l_motor, _l_encoder, _battery, 13.5f, 0.01f)
+            , _r_wheel(_r_motor, _r_encoder, _battery, 13.5f, 0.01f)
+            , _gyro_sensor(hspi3, GPIOA, GPIO_PIN_4)
+            , _lf_sensor(PWMOut(htim2, TIM_CHANNEL_1), AnalogInDMAStream(hadc1, 1), htim6)
+            , _ls_sensor(PWMOut(htim2, TIM_CHANNEL_2), AnalogInDMAStream(hadc1, 2), htim6)
+            , _rs_sensor(PWMOut(htim2, TIM_CHANNEL_3), AnalogInDMAStream(hadc1, 3), htim6)
+            , _rf_sensor(PWMOut(htim2, TIM_CHANNEL_4), AnalogInDMAStream(hadc1, 4), htim6)
+            , _led_buss(DigitalOut(GPIOC, GPIO_PIN_3), DigitalOut(GPIOC, GPIO_PIN_4), DigitalOut(GPIOC, GPIO_PIN_5))
+            , _buzzer(PWMOut(htim8, TIM_CHANNEL_1))
+            , _odometry_sampling_time(0.01f)
+            , _l_wheel_distance(0.0f)
+            , _r_wheel_distance(0.0f) {
 
 
         l_wheel_interrupt.attach(&_l_wheel, &Wheel::interruptControlWheel);
@@ -75,20 +75,29 @@ public:
     void buzzer() {
         while (1) _buzzer.error_v1();
     }
+
+
 private:
+
     Motor _l_motor;
     Motor _r_motor;
     Encoder _l_encoder;
     Encoder _r_encoder;
+    AnalogInDMAStream _battery;
     Wheel _l_wheel;
     Wheel _r_wheel;
-    GPIODistanceSensor _lf_sensor;
-    GPIODistanceSensor _ls_sensor;
-    GPIODistanceSensor _rs_sensor;
-    GPIODistanceSensor _rf_sensor;
+    GyroSensor _gyro_sensor;
+    DistanceSensor _lf_sensor;
+    DistanceSensor _ls_sensor;
+    DistanceSensor _rs_sensor;
+    DistanceSensor _rf_sensor;
     Bus3Out _led_buss;
     Buzzer _buzzer;
-    AnalogInDMAStream _battery;
+    Position _position;
+    Position _start_position;
+    float32_t _odometry_sampling_time;
+    float32_t _l_wheel_distance;
+    float32_t _r_wheel_distance;
 };
 
 
