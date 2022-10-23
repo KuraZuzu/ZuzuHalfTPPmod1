@@ -59,6 +59,7 @@ extern void machineRun(float32_t speed);
 extern void testMeasureSpeed();
 extern void testEncoder();
 extern void testBatteryConsole();
+extern void testDistanceConsole();
 extern void machineBuzzer();
 /* USER CODE END EFP */
 

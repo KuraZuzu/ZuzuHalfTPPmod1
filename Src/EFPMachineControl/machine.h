@@ -12,9 +12,6 @@
 
 #include "../MSLH/mslh.h"
 
-extern Interrupter<Wheel> l_wheel_interrupt;
-extern Interrupter<Wheel> r_wheel_interrupt;
-
 
 class Machine {
 

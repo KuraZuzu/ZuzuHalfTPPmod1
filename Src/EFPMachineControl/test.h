@@ -34,11 +34,11 @@ public:
 
     void batteryConsoleDebug();
 
-    void allSensorConsoleDebug();
+    void DistanceSensorConsoleDebug();
 
     void batteryWarningDebug();
 
-    float batteryVoltage();
+    float32_t batteryVoltage();
 
     void bussOutDebug();
 

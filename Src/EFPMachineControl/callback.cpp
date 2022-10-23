@@ -13,11 +13,7 @@
 #include "test.h"
 #include "../MSLH/interrupter.h"
 
-Interrupter<Wheel> l_wheel_interrupt;
-Interrupter<Wheel> r_wheel_interrupt;
 
-//Wheel l_wheel(Motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, false), Encoder(htim4 , 500*4 , false), 13.5f, 1);
-//Wheel r_wheel(Motor(htim1, TIM_CHANNEL_2, GPIOA,  GPIO_PIN_7, true), Encoder(htim3, 500*4, true), 13.5f, 1);
 
 // タイマーコールバック
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
@@ -52,7 +48,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
      *     100 [Hz] = 10 m[sec]
      */
     if (htim == &htim7) {
-        l_wheel_interrupt.run();
-        r_wheel_interrupt.run();
+//        l_wheel_interrupt.run();
+//        r_wheel_interrupt.run();
     }
 }

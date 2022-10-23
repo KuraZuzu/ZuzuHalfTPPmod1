@@ -51,22 +51,20 @@ void testBatteryConsole(){
 
     Test test;  //< ラッパ関数内でインスタンス生成しないとコンストラクタが呼ばれない。
     while (1) {
-//        printf("a")
         test.batteryConsoleDebug();
+        printf("\r\n");
         test.batteryWarningDebug();
         HAL_Delay(500);
     }
 }
 
-void testAllConsole() {
+void testDistanceConsole() {
     Test test;
-    test.buzzerDebug();
     test.ledDebug();
     while(1) {
-        test.allSensorConsoleDebug();
+        test.DistanceSensorConsoleDebug();
         printf("\r\n");
-        HAL_Delay(100);
-        test.batteryWarningDebug();
+        HAL_Delay(500);
     }
 }
 
@@ -146,8 +144,8 @@ void testMeasureSpeed() {
     AnalogInDMAStream _battery(hadc1, 5);
     Wheel l_wheel(l_motor, l_encoder, _battery, 13.5f, 0.01f);
     Wheel r_wheel(r_motor, r_encoder, _battery, 13.5f, 0.01f);
-    l_wheel_interrupt.attach(&l_wheel, &Wheel::interruptControlWheel);
-    r_wheel_interrupt.attach(&r_wheel, &Wheel::interruptControlWheel);
+//    l_wheel_interrupt.attach(&l_wheel, &Wheel::interruptControlWheel);
+//    r_wheel_interrupt.attach(&r_wheel, &Wheel::interruptControlWheel);
     HAL_TIM_Base_Start_IT(&htim7);
     l_wheel.start();
     r_wheel.start();

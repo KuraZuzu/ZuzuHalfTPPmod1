@@ -82,7 +82,7 @@ int main(){
     MX_USART2_UART_Init();
     MX_SPI3_Init();
 
-//    machineBuzzer();
+//    testDistanceConsole();
     testBatteryConsole();
 //    testEncoder();
 //    machineRun(-200.0f);

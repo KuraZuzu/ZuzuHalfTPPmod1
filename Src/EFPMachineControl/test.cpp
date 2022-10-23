@@ -47,7 +47,7 @@ Test::Test()
     _rf_sensor.start();
 //    _battery.start();
     //    HAL_TIM_Base_Start_IT(&htim6);
-    HAL_TIM_Base_Start_IT(&htim7);
+//    HAL_TIM_Base_Start_IT(&htim7);
 }
 
 void Test::buzzerDebug() {
@@ -67,34 +67,30 @@ void Test::ledDebug() {
 }
 
 void Test::batteryConsoleDebug() {
+    //距離センサとかを実行していると電圧の測定値が下がる。
     printf("bat: %f", batteryVoltage());
-    printf("\r\n");
 }
 
-void Test::allSensorConsoleDebug() {
-//        uint16_t sensor1 = adc1_dma_stream::adc_read(ADC1_Rank::LEFT_FRONT);
+void Test::DistanceSensorConsoleDebug() {
     uint16_t lf = _lf_sensor.read();
     uint16_t ls = _ls_sensor.read();
     uint16_t rs = _rs_sensor.read();
     uint16_t rf = _rf_sensor.read();
-    printf("lf: %d   ls: %d  rs: %d  rf: %d  bat: %f"
+    printf("lf: %d   ls: %d  rs: %d  rf: %d  bat: %f\r\n"
            , static_cast<int>(lf)
            , static_cast<int>(ls)
            , static_cast<int>(rs)
            , static_cast<int>(rf)
-           , batteryVoltage());
-
-    batteryWarningDebug();
+           , batteryVoltage()
+           );
 }
 
 void Test::batteryWarningDebug() {
-//    if(batteryVoltage() < 3.75) _buzzer.beep_x(4);
+    if(batteryVoltage() < 3.75) _buzzer.beep_x(4);
 }
 
-float Test::batteryVoltage() {
-//    uint16_t bat = adc1_dma_stream::adc_read(ADC1_Rank::BATTERY);
-//    uint16_t bat = _battery.read();
-//    return 3.3f * static_cast<float32_t>(bat) / 0x0FFF * (1000 + 1000) / 1000;
+float32_t Test::batteryVoltage() {
+    return 3.3f * static_cast<float32_t>(_battery.read()) / 0x0FFF * machine_parameter::BATTERY_VOLTAGE_RATIO;
 }
 
 void Test::bussOutDebug() {
