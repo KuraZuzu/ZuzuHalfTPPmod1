@@ -55,10 +55,10 @@ private:
     Wheel _l_wheel;
     Wheel _r_wheel;
     GyroSensor _gyro_sensor;
-    DistanceSensor _lf_sensor;
-    DistanceSensor _ls_sensor;
-    DistanceSensor _rs_sensor;
-    DistanceSensor _rf_sensor;
+    GPIODistanceSensor _lf_sensor;
+    GPIODistanceSensor _ls_sensor;
+    GPIODistanceSensor _rs_sensor;
+    GPIODistanceSensor _rf_sensor;
     Bus3Out _led_buss;
     Buzzer _buzzer;
     Position _position;

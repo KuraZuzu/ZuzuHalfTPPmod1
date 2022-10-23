@@ -29,8 +29,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
      *     100 [Hz] / 1 = 100 [Hz]
      *     100 [Hz] = 10 m[sec]
      */
-    if (htim == &htim2) {
-    }
+//    if (htim == &htim2) {
+//    }
 
 
     /**
@@ -40,8 +40,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
      *     1,000,000 [Hz] / 2000 (Period) = 500 [Hz]
      *     500 [Hz] = 2 m[sec]  //< 最小値を測るだけのものなので、さらに変更できるかも。
      */
-    if (htim == &htim6) {
-    }
+//    if (htim == &htim6) {
+//    }
 
 
     /**
