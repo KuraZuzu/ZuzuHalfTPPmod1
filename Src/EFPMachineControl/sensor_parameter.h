@@ -8,12 +8,14 @@
 #include "arm_math.h"
 
 uint16_t lfConvert(uint16_t x){
+    constexpr float32_t a = 0.0f;
+    constexpr float32_t b = 0.0f;
     return a + b*log(x);
 }
 
 uint16_t lsConvert(uint16_t x){
     constexpr float32_t a = 1998.7836;
-    constexpr float32_t b = -0.0496777255
+    constexpr float32_t b = -0.0496777255;
     return a + b*log(x);
 }
 

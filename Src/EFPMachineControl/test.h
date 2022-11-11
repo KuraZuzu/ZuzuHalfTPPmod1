@@ -17,6 +17,7 @@
 #include "../MSLH/mslh.h"
 #include "arm_math.h"
 #include <vector>
+#include <algorithm>
 
 class Test {
 
@@ -35,6 +36,8 @@ public:
     void batteryConsoleDebug();
 
     void DistanceSensorConsoleDebug();
+
+    void TestSensorLogDebug();
 
     void batteryWarningDebug();
 

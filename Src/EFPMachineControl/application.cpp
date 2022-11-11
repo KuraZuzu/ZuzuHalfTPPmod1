@@ -60,11 +60,9 @@ void testBatteryConsole(){
 
 void testDistanceConsole() {
     Test test;
-    test.ledDebug();
     while(1) {
         test.DistanceSensorConsoleDebug();
         printf("\r\n");
-        HAL_Delay(500);
     }
 }
 
@@ -93,41 +91,6 @@ void testMotorOutput() {
     left_motor.update(1.0f);
     right_motor.update(1.0f);
 }
-
-
-void testGpioDistanceSensor() {
-    MX_DMA_Init();
-    MX_ADC1_Init();
-    MX_GPIO_Init();
-    GPIODistanceSensor lf_sensor(DigitalOut(GPIOA,GPIO_PIN_15), AnalogInDMAStream(hadc1, 1));
-    GPIODistanceSensor ls_sensor(DigitalOut(GPIOB, GPIO_PIN_3), AnalogInDMAStream(hadc1, 2));
-    GPIODistanceSensor rs_sensor(DigitalOut(GPIOB, GPIO_PIN_2), AnalogInDMAStream(hadc1, 3));
-    GPIODistanceSensor rf_sensor(DigitalOut(GPIOB, GPIO_PIN_10), AnalogInDMAStream(hadc1, 4));
-    lf_sensor.start();
-    ls_sensor.start();
-    rs_sensor.start();
-    rf_sensor.start();
-
-    uint32_t lf=0, ls=0, rs=0, rf=0;
-    while (1) {
-        for (int i = 0; i < 10; ++i) {
-            lf += lf_sensor.read(5);
-            ls += ls_sensor.read(5);
-            rs += rs_sensor.read(5);
-            rf += rf_sensor.read(5);
-        }
-        lf = lf / 10;
-        ls = ls / 10;
-        rs = rs / 10;
-        rf = rf / 10;
-        printf("LF:%6" PRIu16 "   LS:%6" PRIu16 "   RS:%6" PRIu16 "   RF:%6" PRIu16 "\r\n", lf, ls, rs, rf);
-        lf = 0;
-        ls = 0;
-        rs = 0;
-        rf = 0;
-    }
-}
-
 
 
 void testMeasureSpeed() {
