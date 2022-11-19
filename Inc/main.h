@@ -61,6 +61,7 @@ extern void testEncoder();
 extern void testBatteryConsole();
 extern void testDistanceConsole();
 extern void machineBuzzer();
+extern void timerTest();
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/

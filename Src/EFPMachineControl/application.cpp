@@ -19,6 +19,7 @@
 #include "../MSLH/interrupter.h"
 #include "machine.h"
 #include <string>
+#include "../MSLH/timer.h"
 
 //extern Interrupter<Wheel> l_wheel_interrupt;
 //extern Interrupter<Wheel> r_wheel_interrupt;
@@ -159,6 +160,20 @@ void machineBuzzer() {
     Machine machine;
     machine.buzzer();
 }
+
+void timerTest() {
+
+    Machine machine;
+    Timer timer(htim2);
+    timer.start();
+    int i = 0;
+    while (1) {
+        timer.waitMicroSeconds(1000000);
+        machine.ledTurnOn(i);
+        i++;
+    }
+}
+
 
 #ifdef __cplusplus
 }

@@ -72,6 +72,7 @@ int main(){
     MX_GPIO_Init();
     MX_DMA_Init();
     MX_TIM1_Init();
+    MX_TIM2_Init();
     MX_TIM3_Init();
     MX_TIM4_Init();
     MX_TIM6_Init();
@@ -82,7 +83,8 @@ int main(){
     MX_ADC1_Init();
 
 
-    testDistanceConsole();
+    timerTest();
+//    testDistanceConsole();
 //    testBatteryConsole();
 //    testEncoder();
 //    machineRun(-200.0f);
