@@ -83,16 +83,9 @@ int main(){
     MX_ADC1_Init();
 
 
-    timerTest();
-//    testDistanceConsole();
-//    testBatteryConsole();
-//    testEncoder();
-//    machineRun(-200.0f);
-//    machineMeasureSpeed();
-//    testMeasureSpeed();
+    testConsoleDistSensor();
+
     while(1) {
-//        testBatteryConsole();
-//        printf("main\r\n");
     }
 
     return 0;

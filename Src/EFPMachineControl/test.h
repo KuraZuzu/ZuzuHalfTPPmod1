@@ -35,7 +35,7 @@ public:
 
     void batteryConsoleDebug();
 
-    void DistanceSensorConsoleDebug();
+    void consoleDistSensor();
 
     void TestSensorLogDebug();
 

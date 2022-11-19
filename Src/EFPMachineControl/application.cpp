@@ -59,10 +59,10 @@ void testBatteryConsole(){
     }
 }
 
-void testDistanceConsole() {
+void testConsoleDistSensor() {
     Test test;
     while(1) {
-        test.DistanceSensorConsoleDebug();
+        test.consoleDistSensor();
         printf("\r\n");
     }
 }
@@ -161,7 +161,7 @@ void machineBuzzer() {
     machine.buzzer();
 }
 
-void timerTest() {
+void testTimer() {
 
     Machine machine;
     Timer timer(htim2);

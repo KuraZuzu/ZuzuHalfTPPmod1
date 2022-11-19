@@ -18,10 +18,10 @@ Test::Test()
         , _l_wheel(_l_motor, _l_encoder, _battery, 13.5f, 0.01f)
         , _r_wheel(_r_motor, _r_encoder, _battery, 13.5f, 0.01f)
         , _gyro_sensor(hspi3, GPIOA, GPIO_PIN_4)
-        , _lf_sensor(DigitalOut(DIST_LED1_GPIO_Port, DIST_LED1_Pin), AnalogInDMAStream(hadc1, 1), machine_parameter::convert_lf_func)
-        , _ls_sensor(DigitalOut(DIST_LED2_GPIO_Port, DIST_LED2_Pin), AnalogInDMAStream(hadc1, 2), machine_parameter::convert_ls_func)
-        , _rs_sensor(DigitalOut(DIST_LED3_GPIO_Port, DIST_LED3_Pin), AnalogInDMAStream(hadc1, 3), machine_parameter::convert_rs_func)
-        , _rf_sensor(DigitalOut(DIST_LED4_GPIO_Port, DIST_LED4_Pin), AnalogInDMAStream(hadc1, 4), machine_parameter::convert_rf_func)
+        , _lf_sensor(DigitalOut(DIST_LED1_GPIO_Port, DIST_LED1_Pin), AnalogInDMAStream(hadc1, 1), htim2,  machine_parameter::convert_lf_func)
+        , _ls_sensor(DigitalOut(DIST_LED2_GPIO_Port, DIST_LED2_Pin), AnalogInDMAStream(hadc1, 2), htim2, machine_parameter::convert_ls_func)
+        , _rs_sensor(DigitalOut(DIST_LED3_GPIO_Port, DIST_LED3_Pin), AnalogInDMAStream(hadc1, 3), htim2, machine_parameter::convert_rs_func)
+        , _rf_sensor(DigitalOut(DIST_LED4_GPIO_Port, DIST_LED4_Pin), AnalogInDMAStream(hadc1, 4), htim2, machine_parameter::convert_rf_func)
         , _led_buss(DigitalOut(GPIOC, GPIO_PIN_3), DigitalOut(GPIOC, GPIO_PIN_4), DigitalOut(GPIOC, GPIO_PIN_5))
         , _buzzer(PWMOut(htim8, TIM_CHANNEL_1))
         , _odometry_sampling_time(0.01f) {
@@ -32,7 +32,7 @@ Test::Test()
     MX_DMA_Init();
     MX_ADC1_Init();
     MX_TIM1_Init();
-//    MX_TIM2_Init();
+    MX_TIM2_Init();
     MX_TIM3_Init();
     MX_TIM4_Init();
     MX_TIM6_Init();
@@ -71,17 +71,17 @@ void Test::batteryConsoleDebug() {
     printf("bat: %f", batteryVoltage());
 }
 
-void Test::DistanceSensorConsoleDebug() {
+void Test::consoleDistSensor() {
     float32_t lf=0, ls=0, rs=0, rf=0;
     std::vector<float32_t> lf_values(100, 0);
     std::vector<float32_t> ls_values(100, 0);
     std::vector<float32_t> rs_values(100, 0);
     std::vector<float32_t> rf_values(100, 0);
     for (int i = 0; i < 100; ++i) {
-        lf_values[i] = _lf_sensor.getTestRawValue();
-        ls_values[i] = _ls_sensor.getTestRawValue();
-        rs_values[i] = _rs_sensor.getTestRawValue();
-        rf_values[i] = _rf_sensor.getTestRawValue();
+        lf_values[i] = _lf_sensor.getTestRawValue(1000);
+        ls_values[i] = _ls_sensor.getTestRawValue(1000);
+        rs_values[i] = _rs_sensor.getTestRawValue(1000);
+        rf_values[i] = _rf_sensor.getTestRawValue(1000);
         HAL_Delay(10);
     }
     std::sort(lf_values.begin(), lf_values.end());
@@ -100,32 +100,6 @@ void Test::DistanceSensorConsoleDebug() {
 
     printf("LF: %f   LS: %f  RS: %f  RF: %f\r\n", lf, ls, rs, rf);
     HAL_Delay(10);
-}
-
-void Test::TestSensorLogDebug() {
-    uint32_t lf=0, ls=0, rs=0, rf=0;
-
-    std::vector<uint16_t> lf_log(1000, 0);
-    std::vector<uint16_t> ls_log(1000, 0);
-    std::vector<uint16_t> rs_log(1000, 0);
-    std::vector<uint16_t> rf_log(1000, 0);
-    for (int i = 0; i < 1000; ++i) {
-        lf_log[i] = _lf_sensor.getTestRawValue();
-        ls_log[i] = _ls_sensor.getTestRawValue();
-        rs_log[i] = _rs_sensor.getTestRawValue();
-        rf_log[i] = _rf_sensor.getTestRawValue();
-        HAL_Delay(10);
-    }
-    for (int i = 0; i < 1000; ++i) {
-        printf("LF: %d   LS: %d  RS: %d  RF: %d\r\n"
-                , static_cast<int>(lf_log[i])
-                , static_cast<int>(ls_log[i])
-                , static_cast<int>(rs_log[i])
-                , static_cast<int>(rf_log[i])
-        );
-    }
-    printf("_____END_______\r\n");
-    while (1) {}
 }
 
 void Test::batteryWarningDebug() {
