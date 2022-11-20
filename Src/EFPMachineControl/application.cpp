@@ -184,23 +184,19 @@ void testTimer() {
 void onceExamDistSensor() {
 ///*lf*/GPIODistanceSensor sensor(DigitalOut(DIST_LED1_GPIO_Port, DIST_LED1_Pin), AnalogInDMAStream(hadc1, 1), htim2, machine_parameter::convert_lf_func);
 ///*ls*/GPIODistanceSensor sensor(DigitalOut(DIST_LED2_GPIO_Port, DIST_LED2_Pin), AnalogInDMAStream(hadc1, 2), htim2, machine_parameter::convert_ls_func);
-/*rs*/GPIODistanceSensor sensor(DigitalOut(DIST_LED3_GPIO_Port, DIST_LED3_Pin), AnalogInDMAStream(hadc1, 3), htim2, machine_parameter::convert_rs_func);
-///*rf*/GPIODistanceSensor sensor(DigitalOut(DIST_LED4_GPIO_Port, DIST_LED4_Pin), AnalogInDMAStream(hadc1, 4), htim2, machine_parameter::convert_rf_func);
+///*rs*/GPIODistanceSensor sensor(DigitalOut(DIST_LED3_GPIO_Port, DIST_LED3_Pin), AnalogInDMAStream(hadc1, 3), htim2, machine_parameter::convert_rs_func);
+/*rf*/GPIODistanceSensor sensor(DigitalOut(DIST_LED4_GPIO_Port, DIST_LED4_Pin), AnalogInDMAStream(hadc1, 4), htim2, machine_parameter::convert_rf_func);
 
     sensor.start();
-
     std::vector<uint16_t> sensor_values(100, 0);
 
     while (1) {
         for (int i = 0; i < 100; ++i) {
             sensor_values[i] = sensor.getTestRawValue(4000);
-//            HAL_Delay(10);
         }
         std::sort(sensor_values.begin(), sensor_values.end());
-
         uint16_t sensor_value = sensor_values[49];
-
-        printf("Sensor: %d\r\n", sensor_value);
+        printf("Sen: %d\r\n", sensor_value);
     }
 }
 
