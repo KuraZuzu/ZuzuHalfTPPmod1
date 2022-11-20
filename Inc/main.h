@@ -60,8 +60,10 @@ extern void testMeasureSpeed();
 extern void testEncoder();
 extern void testBatteryConsole();
 extern void testConsoleDistSensor();
+extern void testConsoleDistSensorVoltage();
 extern void machineBuzzer();
 extern void testTimer();
+extern void onceExamDistSensor();
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/

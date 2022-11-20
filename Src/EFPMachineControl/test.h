@@ -37,7 +37,7 @@ public:
 
     void consoleDistSensor();
 
-    void TestSensorLogDebug();
+    void consoleDistSensorVoltage();
 
     void batteryWarningDebug();
 

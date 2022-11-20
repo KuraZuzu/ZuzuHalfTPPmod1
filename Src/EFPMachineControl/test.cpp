@@ -72,34 +72,55 @@ void Test::batteryConsoleDebug() {
 }
 
 void Test::consoleDistSensor() {
+    uint16_t lf=0, ls=0, rs=0, rf=0;
+    std::vector<uint16_t> lf_values(100, 0);
+    std::vector<uint16_t> ls_values(100, 0);
+    std::vector<uint16_t> rs_values(100, 0);
+    std::vector<uint16_t> rf_values(100, 0);
+    for (int i = 0; i < 100; ++i) {
+        lf_values[i] = _lf_sensor.getTestRawValue(4000);
+        ls_values[i] = _ls_sensor.getTestRawValue(4000);
+        rs_values[i] = _rs_sensor.getTestRawValue(4000);
+        rf_values[i] = _rf_sensor.getTestRawValue(4000);
+//        HAL_Delay(10);
+    }
+    std::sort(lf_values.begin(), lf_values.end());
+    std::sort(ls_values.begin(), ls_values.end());
+    std::sort(rs_values.begin(), rs_values.end());
+    std::sort(rf_values.begin(), rf_values.end());
+    lf = lf_values[49];
+    ls = ls_values[49];
+    rs = rs_values[49];
+    rf = rf_values[49];
+
+    printf("LF: %d   LS: %d  RS: %d  RF: %d\r\n", lf, ls, rs, rf);
+//    HAL_Delay(10);
+}
+
+void Test::consoleDistSensorVoltage() {
     float32_t lf=0, ls=0, rs=0, rf=0;
     std::vector<float32_t> lf_values(100, 0);
     std::vector<float32_t> ls_values(100, 0);
     std::vector<float32_t> rs_values(100, 0);
     std::vector<float32_t> rf_values(100, 0);
     for (int i = 0; i < 100; ++i) {
-        lf_values[i] = _lf_sensor.getTestRawValue(1000);
-        ls_values[i] = _ls_sensor.getTestRawValue(1000);
-        rs_values[i] = _rs_sensor.getTestRawValue(1000);
-        rf_values[i] = _rf_sensor.getTestRawValue(1000);
-        HAL_Delay(10);
+        lf_values[i] = _lf_sensor.getVoltage(4000);
+        ls_values[i] = _ls_sensor.getVoltage(4000);
+        rs_values[i] = _rs_sensor.getVoltage(4000);
+        rf_values[i] = _rf_sensor.getVoltage(4000);
+//        HAL_Delay(10);
     }
     std::sort(lf_values.begin(), lf_values.end());
     std::sort(ls_values.begin(), ls_values.end());
     std::sort(rs_values.begin(), rs_values.end());
     std::sort(rf_values.begin(), rf_values.end());
-    lf = lf_values[50];
-    ls = ls_values[50];
-    rs = rs_values[50];
-    rf = rf_values[50];
-
-//    lf = _lf_sensor.getTestRawValue();
-//    ls = _ls_sensor.getTestRawValue();
-//    rs = _rs_sensor.getTestRawValue();
-//    rf = _rf_sensor.getTestRawValue();
+    lf = lf_values[49];
+    ls = ls_values[49];
+    rs = rs_values[49];
+    rf = rf_values[49];
 
     printf("LF: %f   LS: %f  RS: %f  RF: %f\r\n", lf, ls, rs, rf);
-    HAL_Delay(10);
+//    HAL_Delay(10);
 }
 
 void Test::batteryWarningDebug() {
