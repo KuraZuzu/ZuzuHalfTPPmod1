@@ -71,6 +71,13 @@ public:
         while (1) _buzzer.error_v1();
     }
 
+    void measureDistance(uint32_t charge_time) {
+        printf("LF:%d  LS:%d  RS:%d  LF:%d \r\n"
+               , _lf_sensor.getTestRawValue(charge_time)
+               , _ls_sensor.getTestRawValue(charge_time)
+               , _rs_sensor.getTestRawValue(charge_time)
+               , _rf_sensor.getTestRawValue(charge_time));
+    }
 
 private:
 

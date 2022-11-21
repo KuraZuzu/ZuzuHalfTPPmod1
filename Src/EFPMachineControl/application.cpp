@@ -200,6 +200,35 @@ void onceExamDistSensor() {
     }
 }
 
+void independentAnalogIn() {
+    AnalogInDMAStream sensor(hadc1, 3); // 1=lf,2=ls,3=rs,4=rf,5=bat
+    DigitalOut led(DIST_LED3_GPIO_Port, DIST_LED3_Pin);
+    led.write(0);
+    sensor.start();
+
+    while (1) {
+        uint16_t temp_value = 0;
+        uint16_t peak_value = 0;
+        led.write(0);
+        HAL_Delay(1);
+        led.write(1);
+        uint32_t  offset_time = HAL_GetTick();
+        while ((HAL_GetTick() - offset_time) < 3) {
+            temp_value = sensor.read();
+            if(peak_value < temp_value) peak_value = temp_value;
+        }
+        printf("raw_value: %d\r\n", peak_value);
+        HAL_Delay(2);
+
+    }
+}
+
+void measureDistance(uint32_t charge_time) {
+    Machine machine;
+    while (1) {
+        machine.measureDistance(charge_time);
+    }
+}
 
 #ifdef __cplusplus
 }

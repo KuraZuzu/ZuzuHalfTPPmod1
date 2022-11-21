@@ -64,6 +64,8 @@ extern void testConsoleDistSensorVoltage();
 extern void machineBuzzer();
 extern void testTimer();
 extern void onceExamDistSensor();
+extern void independentAnalogIn();
+extern void measureDistance(uint32_t charge_time);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
