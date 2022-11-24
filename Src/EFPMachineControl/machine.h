@@ -79,6 +79,73 @@ public:
                , _rf_sensor.getTestRawValue(charge_time));
     }
 
+    //壁制御なしの距離指定走行
+    void run(float32_t accel, float32_t speed, float32_t distance_mm) {
+        int32_t offset_pulse = _l_encoder.getTotalPulse();
+        if((_l_encoder.getTotalPulse() - offset_pulse) < _l_encoder.getTotalPulse()) {
+            _l_wheel.setSpeed(accel, speed);
+            _r_wheel.setSpeed(accel, speed);
+        }
+    }
+
+    void turnLeft(float32_t accel, float32_t speed, float32_t distance) {
+        float32_t offset_distance = _l_wheel_distance;
+        if((_l_wheel_distance - offset_distance) < _l_wheel_distance/2.0f) {
+            _l_wheel.setSpeed(-accel, -speed);
+            _r_wheel.setSpeed(+accel, +speed);
+        }
+        offset_distance = _l_wheel_distance;
+        if((_l_wheel_distance - offset_distance) > _l_wheel_distance/2.0f) {
+            _l_wheel.setSpeed(+accel, 0.0f);
+            _r_wheel.setSpeed(-accel, 0.0f);
+        }
+    }
+
+    void turnRight(float32_t accel, float32_t speed, float32_t distance) {
+        float32_t offset_distance = _l_wheel_distance;
+        if((_l_wheel_distance - offset_distance) < _l_wheel_distance/2.0f) {
+            _l_wheel.setSpeed(+accel, +speed);
+            _r_wheel.setSpeed(-accel, -speed);
+        }
+        offset_distance = _l_wheel_distance ;
+        if((_l_wheel_distance - offset_distance) > _l_wheel_distance/2.0f) {
+            _l_wheel.setSpeed(-accel, 0.0f);
+            _r_wheel.setSpeed(+accel, 0.0f);
+        }
+    }
+
+    void runLeftMethod(float32_t accel, float32_t speed) {
+        //< ここに最初の距離だけ入れる(後入れ)
+
+        while (1) {
+            HAL_Delay(100);
+            run(+accel, +speed, machine_parameter::HALF_BLOCK_DISTANCE);
+
+            if (_ls_sensor.getDistance(1000) > machine_parameter::OPEN_SIDE_WALL_THRESHOLD) {
+                run(-accel, 0.0f, machine_parameter::HALF_BLOCK_DISTANCE);
+                HAL_Delay(100);
+                turnLeft(+accel, +speed, machine_parameter::TURN_90_DEG_DISTANCE);
+
+            } else if (_lf_sensor.getDistance(1000) < machine_parameter::OPEN_FRONT_WALL_THRESHOLD) {
+                run(+accel, +speed, machine_parameter::HALF_BLOCK_DISTANCE);
+                HAL_Delay(100);
+                run(+accel, +speed, machine_parameter::HALF_BLOCK_DISTANCE);
+
+            } else if (_rs_sensor.getDistance(1000) > machine_parameter::OPEN_SIDE_WALL_THRESHOLD) {
+                run(-accel, 0.0f, machine_parameter::HALF_BLOCK_DISTANCE);
+                HAL_Delay(100);
+                turnRight(+accel, +speed, machine_parameter::TURN_90_DEG_DISTANCE);
+
+            } else {
+                run(-accel, 0.0f, machine_parameter::HALF_BLOCK_DISTANCE);
+                HAL_Delay(100);
+                turnLeft(+accel, +speed, machine_parameter::TURN_180_DEG_DISTANCE);
+            }
+
+        }
+    }
+
+
 private:
 
     Motor _l_motor;
