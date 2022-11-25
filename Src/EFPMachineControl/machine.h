@@ -55,8 +55,10 @@ public:
 
     void buzzer();
 
+    void run(float32_t accel, float32_t speed);
+
     //壁制御なしの距離指定走行
-    void run(float32_t accel, float32_t speed, float32_t distance_mm);
+    void runSpecifiedDistance(float32_t accel, float32_t speed, float32_t distance);
 
     void moveRunAndStop(float32_t accel, float32_t speed, float32_t distance);
 

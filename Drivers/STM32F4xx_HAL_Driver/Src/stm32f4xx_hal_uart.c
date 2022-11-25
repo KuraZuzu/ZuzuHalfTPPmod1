@@ -1111,7 +1111,7 @@ HAL_StatusTypeDef HAL_UART_UnRegisterRxEventCallback(UART_HandleTypeDef *huart)
            This concerns Overrun Error In Interrupt mode reception and all errors in DMA mode.
            Error code is set to allow user to identify error type, and HAL_UART_ErrorCallback() user callback is executed.
 
-    -@- In the Half duplex communication, it is forbidden to run the transmit
+    -@- In the Half duplex communication, it is forbidden to runSpecifiedDistance the transmit
         and receive process in parallel, the UART state HAL_UART_STATE_BUSY_TX_RX can't be useful.
 
 @endverbatim
@@ -2901,8 +2901,8 @@ HAL_StatusTypeDef HAL_HalfDuplex_EnableReceiver(UART_HandleTypeDef *huart)
    This subsection provides a set of functions allowing to return the State of
    UART communication process, return Peripheral Errors occurred during communication
    process
-   (+) HAL_UART_GetState() API can be helpful to check in run-time the state of the UART peripheral.
-   (+) HAL_UART_GetError() check in run-time errors that could be occurred during communication.
+   (+) HAL_UART_GetState() API can be helpful to check in runSpecifiedDistance-time the state of the UART peripheral.
+   (+) HAL_UART_GetError() check in runSpecifiedDistance-time errors that could be occurred during communication.
 
 @endverbatim
   * @{

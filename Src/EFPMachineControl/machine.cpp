@@ -65,37 +65,91 @@ void Machine::buzzer() {
     while (1) _buzzer.error_v1();
 }
 
-void Machine::run(float32_t accel, float32_t speed, float32_t distance_mm) {
+void Machine::run(float32_t accel, float32_t speed) {
+    _l_wheel.setSpeed(+accel, +speed);
+    _r_wheel.setSpeed(+accel, +speed);
+}
+
+void Machine::runSpecifiedDistance(float32_t accel, float32_t speed, float32_t distance) {
     const float32_t offset_distance = _l_wheel_distance;
-    if((_l_wheel_distance - offset_distance) < distance_mm) {
+    while ((_l_wheel_distance - offset_distance) < distance) {
         _l_wheel.setSpeed(+accel, +speed);
         _r_wheel.setSpeed(+accel, +speed);
     }
 }
 
 void Machine::moveRunAndStop(float32_t accel, float32_t speed, float32_t distance) {
-    const float32_t init_l_distance = _l_wheel_distance;
-    const float32_t half_distance = distance / 2.0f;
+    _l_wheel.setSpeed(+accel, +speed);
+    _r_wheel.setSpeed(+accel, +speed);
+    HAL_Delay(1000);
+    _l_wheel.setSpeed(-accel/4.0f, 0.0f);
+    _r_wheel.setSpeed(-accel/4.0f, 0.0f);
+    while (1) {
 
-    _l_wheel.setSpeed(accel, speed);
-    _r_wheel.setSpeed(accel, speed);
-    if(distance > 0) while ( ((_l_wheel_distance - init_l_distance) < half_distance)) {}
-    else while ( ((_l_wheel_distance - init_l_distance) > half_distance)) {}
+    }
 
-    _l_wheel.setSpeed(-accel, 0);
-    _r_wheel.setSpeed(-accel, 0);
-    if(distance > 0) while ( ((_l_wheel_distance - init_l_distance) < half_distance)) {}
-    else while ( ((_l_wheel_distance - init_l_distance) > half_distance)) {}
+
+
+//    const float32_t half_distance = distance / 2.0f;
+//
+//    float32_t offset_x_position = getPositionX();
+//    _l_wheel.setSpeed(+accel, +speed);
+//    _r_wheel.setSpeed(+accel, +speed);
+//    if(distance > 0) {
+//        while (((getPositionX() - offset_x_position) < half_distance)) {}
+//    } else {
+//        while (((getPositionX() - offset_x_position) > half_distance)) {}
+//    }
+//
+//
+//    offset_x_position = getPositionX();
+//    _l_wheel.setSpeed(0.0f, 0.0f);
+//    _r_wheel.setSpeed(0.0f, 0.0f);
+//    if(distance > 0) {
+//        while (((getPositionX() - offset_x_position) < half_distance)) {
+////            buzzer();
+//        }
+//    } else {
+//        while (((getPositionX() - offset_x_position) > half_distance)) {
+//            ledTurnOn(7);
+//        }
+//    }
+//    buzzer();
+//    stopForce();
+
+
+//    float32_t init_l_position = _l_wheel_distance;
+//    const float32_t half_distance = distance / 2.0f;
+//
+//    _l_wheel.setSpeed(+accel, +speed);
+//    _r_wheel.setSpeed(+accel, +speed);
+//    if(distance > 0) {
+//        while (((_l_wheel_distance - init_l_position) < half_distance)) {}
+//    } else {
+//        while (((_l_wheel_distance - init_l_position) > half_distance)) {}
+//    }
+//
+//
+//    init_l_position = _l_wheel_distance;
+//    _l_wheel.setSpeed(-accel, 0.0f);
+//    _r_wheel.setSpeed(-accel, 0.0f);
+//
+//    if(distance > 0) {
+//        while (((_l_wheel_distance - init_l_position) < half_distance)) {}
+//    } else {
+//        while (((_l_wheel_distance - init_l_position) > half_distance)) {}
+//    }
+//    stopForce();
 }
 
 void Machine::turnLeft(float32_t accel, float32_t speed, float32_t distance) {
     float32_t offset_distance = _l_wheel_distance;
-    if((_l_wheel_distance - offset_distance) > distance/2.0f) {
+    while ((_l_wheel_distance - offset_distance) > distance/2.0f) {
         _l_wheel.setSpeed(-accel, -speed);
         _r_wheel.setSpeed(+accel, +speed);
     }
     offset_distance = _l_wheel_distance;
-    if((_l_wheel_distance - offset_distance) < distance/2.0f) {
+    while ((_l_wheel_distance - offset_distance) < distance/2.0f) {
         _l_wheel.setSpeed(+accel, 0.0f);
         _r_wheel.setSpeed(-accel, 0.0f);
     }
@@ -104,12 +158,12 @@ void Machine::turnLeft(float32_t accel, float32_t speed, float32_t distance) {
 
 void Machine::turnRight(float32_t accel, float32_t speed, float32_t distance) {
     float32_t offset_distance = _l_wheel_distance;
-    if((_l_wheel_distance - offset_distance) < distance/2.0f) {
+    while ((_l_wheel_distance - offset_distance) < distance/2.0f) {
         _l_wheel.setSpeed(+accel, +speed);
         _r_wheel.setSpeed(-accel, -speed);
     }
     offset_distance = _l_wheel_distance ;
-    if((_l_wheel_distance - offset_distance) > distance/2.0f) {
+    while ((_l_wheel_distance - offset_distance) > distance/2.0f) {
         _l_wheel.setSpeed(-accel, 0.0f);
         _r_wheel.setSpeed(+accel, 0.0f);
     }
@@ -120,25 +174,26 @@ void Machine::runLeftMethod(float32_t accel, float32_t speed) {
 
     while (1) {
         HAL_Delay(100);
-        run(+accel, +speed, machine_parameter::START_BLOCK_DISTANCE + machine_parameter::HALF_BLOCK_DISTANCE);
+        runSpecifiedDistance(+accel, +speed,
+                             machine_parameter::START_BLOCK_DISTANCE + machine_parameter::HALF_BLOCK_DISTANCE);
 
         if (_ls_sensor.getDistance(1000) > machine_parameter::OPEN_SIDE_WALL_THRESHOLD) {
-            run(-accel, 0.0f, machine_parameter::HALF_BLOCK_DISTANCE);
+            runSpecifiedDistance(-accel, 0.0f, machine_parameter::HALF_BLOCK_DISTANCE);
             stopForce();
             HAL_Delay(100);
             turnLeft(+accel, +speed, machine_parameter::TURN_90_DEG_DISTANCE);
 
         } else if (_lf_sensor.getDistance(1000) < machine_parameter::OPEN_FRONT_WALL_THRESHOLD) {
-            run(+accel, +speed, machine_parameter::ONE_BLOCK_DISTANCE);
+            runSpecifiedDistance(+accel, +speed, machine_parameter::ONE_BLOCK_DISTANCE);
 
         } else if (_rs_sensor.getDistance(1000) > machine_parameter::OPEN_SIDE_WALL_THRESHOLD) {
-            run(-accel, 0.0f, machine_parameter::HALF_BLOCK_DISTANCE);
+            runSpecifiedDistance(-accel, 0.0f, machine_parameter::HALF_BLOCK_DISTANCE);
             stopForce();
             HAL_Delay(100);
             turnRight(+accel, +speed, machine_parameter::TURN_90_DEG_DISTANCE);
 
         } else {
-            run(-accel, 0.0f, machine_parameter::HALF_BLOCK_DISTANCE);
+            runSpecifiedDistance(-accel, 0.0f, machine_parameter::HALF_BLOCK_DISTANCE);
             stopForce();
             HAL_Delay(100);
             turnLeft(+accel, +speed, machine_parameter::TURN_180_DEG_DISTANCE);
@@ -146,3 +201,4 @@ void Machine::runLeftMethod(float32_t accel, float32_t speed) {
 
     }
 }
+

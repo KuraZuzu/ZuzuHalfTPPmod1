@@ -257,7 +257,7 @@
  * within the library project settings.  By default this macro is defined
  * and size checking is enabled. By changing the project settings and
  * undefining this macro size checking is eliminated and the functions
- * run a bit faster. With size checking disabled the functions always
+ * runSpecifiedDistance a bit faster. With size checking disabled the functions always
  * return <code>ARM_MATH_SUCCESS</code>.
  */
 

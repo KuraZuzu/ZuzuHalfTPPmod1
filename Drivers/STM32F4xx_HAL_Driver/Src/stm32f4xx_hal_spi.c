@@ -2621,8 +2621,8 @@ __weak void HAL_SPI_AbortCpltCallback(SPI_HandleTypeDef *hspi)
  ===============================================================================
     [..]
     This subsection provides a set of functions allowing to control the SPI.
-     (+) HAL_SPI_GetState() API can be helpful to check in run-time the state of the SPI peripheral
-     (+) HAL_SPI_GetError() check in run-time Errors occurring during communication
+     (+) HAL_SPI_GetState() API can be helpful to check in runSpecifiedDistance-time the state of the SPI peripheral
+     (+) HAL_SPI_GetError() check in runSpecifiedDistance-time Errors occurring during communication
 @endverbatim
   * @{
   */

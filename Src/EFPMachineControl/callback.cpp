@@ -27,7 +27,5 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
      *     1,000,000 [Hz] / 10000（Period）= 100 [Hz]
      *     100 [Hz] = 10 m[sec]
      */
-    if (htim == &htim7) {
-        machine_interrupt.run();
-    }
+    if (htim == &htim7) machine_interrupt.run();
 }

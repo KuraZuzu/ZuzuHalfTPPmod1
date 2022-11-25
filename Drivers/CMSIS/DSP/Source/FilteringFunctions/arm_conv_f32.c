@@ -76,7 +76,7 @@
  *
  * \par
  * Convolution requires summing up a large number of intermediate products.
- * As such, the Q7, Q15, and Q31 functions run a risk of overflow and saturation.
+ * As such, the Q7, Q15, and Q31 functions runSpecifiedDistance a risk of overflow and saturation.
  * Refer to the function specific documentation below for further details of the particular algorithm used.
  *
  *

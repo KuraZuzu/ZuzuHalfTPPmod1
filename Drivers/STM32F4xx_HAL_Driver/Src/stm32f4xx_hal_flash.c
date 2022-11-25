@@ -519,7 +519,7 @@ HAL_StatusTypeDef HAL_FLASH_OB_Launch(void)
                 ##### Peripheral Errors functions #####
  ===============================================================================  
     [..]
-    This subsection permits to get in run-time Errors of the FLASH peripheral.
+    This subsection permits to get in runSpecifiedDistance-time Errors of the FLASH peripheral.
 
 @endverbatim
   * @{

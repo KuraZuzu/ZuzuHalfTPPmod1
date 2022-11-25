@@ -96,22 +96,32 @@ void machineMeasurePosition() {
     }
 }
 
-void machineRun(float32_t accel, float32_t speed, float32_t distance) {
+void machineRun(float32_t accel, float32_t speed) {
     Machine machine;
     machine_interrupt.attach(&machine, &Machine::interruptMachine);
     machine.start();
     machine.ledTurnOn(0b00000111);
-    machine.run(+accel, +speed, +distance);
-    {}
+    machine.run(+accel, +speed);
+    while (1) {}
+}
+
+void machineRunSpecifiedDistance(float32_t accel, float32_t speed, float32_t distance) {
+    Machine machine;
+    machine_interrupt.attach(&machine, &Machine::interruptMachine);
+    machine.start();
+    machine.ledTurnOn(0b00000111);
+    machine.runSpecifiedDistance(+accel, +speed, +distance);
+    while (1) {}
 }
 
 void machineRunAndStop(float32_t accel, float32_t speed, float32_t distance) {
     Machine machine;
     machine_interrupt.attach(&machine, &Machine::interruptMachine);
     machine.start();
+    machine.run(0.0f, 0.0f);
     machine.ledTurnOn(0b00000100);
     machine.moveRunAndStop(+accel, +speed, +distance);
-    {}
+    while (1) {}
 }
 
 void selfEncoder() {

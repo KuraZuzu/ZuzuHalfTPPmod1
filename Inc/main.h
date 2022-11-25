@@ -55,9 +55,9 @@ void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
 extern void machineMeasureSpeed();
-extern void machineRun(float32_t accel, float32_t speed, float32_t distance);
+extern void machineRun(float32_t accel, float32_t speed);
+extern void machineRunSpecifiedDistance(float32_t accel, float32_t speed, float32_t distance);
 extern void machineRunAndStop(float32_t accel, float32_t speed, float32_t distance);
-extern void selfMeasureSpeed();
 extern void selfEncoder();
 extern void testBatteryConsole();
 extern void testConsoleRawDistance();

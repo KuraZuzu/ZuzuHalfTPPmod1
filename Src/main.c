@@ -82,17 +82,21 @@ int main(){
     MX_SPI3_Init();
     MX_ADC1_Init();
 
+
     HAL_Delay(2000);
+//    selfEncoder();
+//    machineRun(2000.0f, 1000.0f);
 //    selfMotorOutput();
-//    machineRunAndStop(100.0f, 400.0f, 90.0f);
-    machineTurn(2000.0f, 1000.0f);
-//    machineRun(2000.0f, 1000.0f, 90.0f);
+    machineRunAndStop(20.0f, 500.0f, 100.0f);
+//    machineTurn(100.0f, 500.0f);
+//    machineRunSpecifiedDistance(2000.0f, 1000.0f, 90.0f);
 //    selfEncoder();
 
 //    machineMeasurePosition();
 //    machineMeasureSpeed();
 //    testConsoleRawDistance();
 //    testConsoleDistance();
+
     while(1) {
     }
 

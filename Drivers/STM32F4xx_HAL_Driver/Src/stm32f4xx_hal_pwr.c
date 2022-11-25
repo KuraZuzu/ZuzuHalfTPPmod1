@@ -509,7 +509,7 @@ __weak void HAL_PWR_PVDCallback(void)
   * @brief Indicates Sleep-On-Exit when returning from Handler mode to Thread mode. 
   * @note Set SLEEPONEXIT bit of SCR register. When this bit is set, the processor 
   *       re-enters SLEEP mode when an interruption handling is over.
-  *       Setting this bit is useful when the processor is expected to run only on
+  *       Setting this bit is useful when the processor is expected to runSpecifiedDistance only on
   *       interruptions handling.         
   * @retval None
   */
