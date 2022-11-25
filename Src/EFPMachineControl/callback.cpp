@@ -12,7 +12,9 @@
 #include "stm32f4xx.h"
 #include "test.h"
 #include "../MSLH/interrupter.h"
+#include "machine.h"
 
+Interrupter<Machine> machine_interrupt;
 
 
 // タイマーコールバック
@@ -26,7 +28,5 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
      *     100 [Hz] = 10 m[sec]
      */
     if (htim == &htim7) {
-//        l_wheel_interrupt.run();
-//        r_wheel_interrupt.run();
     }
 }

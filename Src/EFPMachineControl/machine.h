@@ -35,7 +35,9 @@ public:
             , _l_wheel_distance(0.0f)
             , _r_wheel_distance(0.0f)
             , _map(4, 4) {
+    }
 
+    void start() {
         HAL_TIM_Base_Start_IT(&htim7);
         _lf_sensor.start();
         _ls_sensor.start();
@@ -46,22 +48,31 @@ public:
         _r_wheel.start();
     }
 
+    inline void interruptMachine() {
+        _l_wheel.interruptControlWheel(); //指定の速度に加減速制御
+        _r_wheel.interruptControlWheel(); //指定の速度に加減速制御
+        interruptCalcOdometry(); //オドメトリによって自己位置を計算する
+    }
+
+    inline void interruptCalcOdometry() {
+        const float32_t l_delta_distance = _l_wheel.getSpeed() * _odometry_sampling_time;
+        const float32_t r_delta_distance = _r_wheel.getSpeed() * _odometry_sampling_time;
+        const float32_t delta_distance = (l_delta_distance + r_delta_distance) * 0.5f;  //< *0.5 は 平均(/2)を示す
+        _position._rad += (r_delta_distance - l_delta_distance) / machine_parameter::MACHINE_TREAD;
+        _position._x += delta_distance * cos(_position._rad);
+        _position._y += delta_distance * sin(_position._rad);
+
+        // オドメトリは関係なく左右のWheelで独立した移動距離を積算する
+        _l_wheel_distance += l_delta_distance;
+        _r_wheel_distance += r_delta_distance;
+    }
+
     void measureSpeed() {
         while (1) {
             printf("L:%6lf   R:%6lf \r\n" , _l_wheel.getSpeed(), _r_wheel.getSpeed());
         }
     }
 
-    void run(float32_t speed) {
-//        _l_wheel.setSpeed(speed);
-//        _r_wheel.setSpeed(speed);
-        while (1) {
-//            _l_wheel.interruptControlSpeed(speed);
-//            _r_wheel.interruptControlSpeed(speed);
-//            HAL_Delay(50);
-            printf("L:%6lf   R:%6lf \r\n" , _l_wheel.getSpeed(), _r_wheel.getSpeed());
-        }
-    }
 
     void ledTurnOn(uint8_t led_buss) {
         _led_buss = led_buss;
@@ -71,18 +82,11 @@ public:
         while (1) _buzzer.error_v1();
     }
 
-    void measureDistance(uint32_t charge_time) {
-        printf("LF:%d  LS:%d  RS:%d  LF:%d \r\n"
-               , _lf_sensor.getTestRawValue(charge_time)
-               , _ls_sensor.getTestRawValue(charge_time)
-               , _rs_sensor.getTestRawValue(charge_time)
-               , _rf_sensor.getTestRawValue(charge_time));
-    }
 
     //壁制御なしの距離指定走行
     void run(float32_t accel, float32_t speed, float32_t distance_mm) {
-        int32_t offset_pulse = _l_encoder.getTotalPulse();
-        if((_l_encoder.getTotalPulse() - offset_pulse) < _l_encoder.getTotalPulse()) {
+        int32_t offset_distance = _l_wheel_distance;
+        if((_l_wheel_distance - offset_distance) < distance_mm) {
             _l_wheel.setSpeed(accel, speed);
             _r_wheel.setSpeed(accel, speed);
         }
@@ -90,12 +94,12 @@ public:
 
     void turnLeft(float32_t accel, float32_t speed, float32_t distance) {
         float32_t offset_distance = _l_wheel_distance;
-        if((_l_wheel_distance - offset_distance) < _l_wheel_distance/2.0f) {
+        if((_l_wheel_distance - offset_distance) > distance/2.0f) {
             _l_wheel.setSpeed(-accel, -speed);
             _r_wheel.setSpeed(+accel, +speed);
         }
         offset_distance = _l_wheel_distance;
-        if((_l_wheel_distance - offset_distance) > _l_wheel_distance/2.0f) {
+        if((_l_wheel_distance - offset_distance) < distance/2.0f) {
             _l_wheel.setSpeed(+accel, 0.0f);
             _r_wheel.setSpeed(-accel, 0.0f);
         }
@@ -103,12 +107,12 @@ public:
 
     void turnRight(float32_t accel, float32_t speed, float32_t distance) {
         float32_t offset_distance = _l_wheel_distance;
-        if((_l_wheel_distance - offset_distance) < _l_wheel_distance/2.0f) {
+        if((_l_wheel_distance - offset_distance) < distance/2.0f) {
             _l_wheel.setSpeed(+accel, +speed);
             _r_wheel.setSpeed(-accel, -speed);
         }
         offset_distance = _l_wheel_distance ;
-        if((_l_wheel_distance - offset_distance) > _l_wheel_distance/2.0f) {
+        if((_l_wheel_distance - offset_distance) > distance/2.0f) {
             _l_wheel.setSpeed(-accel, 0.0f);
             _r_wheel.setSpeed(+accel, 0.0f);
         }
@@ -119,7 +123,7 @@ public:
 
         while (1) {
             HAL_Delay(100);
-            run(+accel, +speed, machine_parameter::HALF_BLOCK_DISTANCE);
+            run(+accel, +speed, machine_parameter::START_BLOCK_DISTANCE + machine_parameter::HALF_BLOCK_DISTANCE);
 
             if (_ls_sensor.getDistance(1000) > machine_parameter::OPEN_SIDE_WALL_THRESHOLD) {
                 run(-accel, 0.0f, machine_parameter::HALF_BLOCK_DISTANCE);

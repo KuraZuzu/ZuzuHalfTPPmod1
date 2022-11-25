@@ -21,8 +21,8 @@
 #include <string>
 #include "../MSLH/timer.h"
 
-//extern Interrupter<Wheel> l_wheel_interrupt;
-//extern Interrupter<Wheel> r_wheel_interrupt;
+
+extern Interrupter<Machine> machine_interrupt;
 
 #ifdef __cplusplus
 extern "C" {
@@ -34,16 +34,6 @@ extern "C" {
 void testBuzzer() {
     Test test;
     test.buzzerDebug();
-}
-
-void testErrorBuzzer1() {
-    Test test;
-    test.errorBuzzerDebug1();
-}
-
-void testErrorBuzzer2() {
-    Test test;
-    test.errorBuzzerDebug2();
 }
 
 
@@ -67,19 +57,6 @@ void testConsoleRawDistance() {
     }
 }
 
-void testConsoleDistSensorVoltage() {
-    Test test;
-    while(1) {
-        test.consoleDistSensorVoltage();
-        printf("\r\n");
-    }
-}
-
-void testBatteryWarning() {
-    Test test;
-    test.batteryWarningDebug();
-}
-
 void testBuss3out() {
     Test test;
     test.bussOutDebug();
@@ -91,7 +68,7 @@ void testGyro() {
 }
 
 
-void testMotorOutput() {
+void selfMotorOutput() {
     Motor left_motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, false);
     Motor right_motor(htim1, TIM_CHANNEL_2, GPIOA, GPIO_PIN_7, true);
 
@@ -102,7 +79,7 @@ void testMotorOutput() {
 }
 
 
-void testMeasureSpeed() {
+void selfMeasureSpeed() {
     MX_GPIO_Init();
     MX_TIM1_Init();
     MX_TIM3_Init();
@@ -135,10 +112,11 @@ void machineRun(float32_t speed) {
     Machine machine;
     HAL_Delay(3000);
     machine.ledTurnOn(0b00000111);
-    machine.run(speed);
+    machine.run(2000.0f, 1000.0f, machine_parameter::ONE_BLOCK_DISTANCE);
+    {}
 }
 
-void testEncoder() {
+void selfEncoder() {
     MX_GPIO_Init();
     MX_TIM3_Init();
     MX_TIM4_Init();
@@ -169,7 +147,7 @@ void machineBuzzer() {
     machine.buzzer();
 }
 
-void testTimer() {
+void machineTimer() {
     Machine machine;
     Timer timer(htim2);
     timer.start();
@@ -181,7 +159,7 @@ void testTimer() {
     }
 }
 
-void onceExamDistSensor() {
+void selfDistSensor() {
 ///*lf*/GPIODistanceSensor sensor(DigitalOut(DIST_LED1_GPIO_Port, DIST_LED1_Pin), AnalogInDMAStream(hadc1, 1), htim2, machine_parameter::convert_lf_func);
 ///*ls*/GPIODistanceSensor sensor(DigitalOut(DIST_LED2_GPIO_Port, DIST_LED2_Pin), AnalogInDMAStream(hadc1, 2), htim2, machine_parameter::convert_ls_func);
 ///*rs*/GPIODistanceSensor sensor(DigitalOut(DIST_LED3_GPIO_Port, DIST_LED3_Pin), AnalogInDMAStream(hadc1, 3), htim2, machine_parameter::convert_rs_func);
@@ -200,36 +178,6 @@ void onceExamDistSensor() {
     }
 }
 
-void independentAnalogIn() {
-    AnalogInDMAStream sensor(hadc1, 3); // 1=lf,2=ls,3=rs,4=rf,5=bat
-    DigitalOut led(DIST_LED3_GPIO_Port, DIST_LED3_Pin);
-    led.write(0);
-    sensor.start();
-
-    while (1) {
-        uint16_t temp_value = 0;
-        uint16_t peak_value = 0;
-        led.write(0);
-        HAL_Delay(1);
-        led.write(1);
-        uint32_t  offset_time = HAL_GetTick();
-        while ((HAL_GetTick() - offset_time) < 3) {
-            temp_value = sensor.read();
-            if(peak_value < temp_value) peak_value = temp_value;
-        }
-        printf("raw_value: %d\r\n", peak_value);
-        HAL_Delay(2);
-
-    }
-}
-
-void measureDistance(uint32_t charge_time) {
-    Machine machine;
-    while (1) {
-        machine.measureDistance(charge_time);
-    }
-}
-
 void testConsoleDistance() {
     Test test;
     while (1) {
@@ -238,10 +186,22 @@ void testConsoleDistance() {
 }
 
 void machineTurn(float32_t accel, float32_t speed) {
+
     Machine machine;
-        machine.turnLeft(accel, speed, machine_parameter::TURN_90_DEG_DISTANCE);
+    machine_interrupt.attach(&machine, &Machine::interruptMachine);
+    machine.start();
+
+    machine.ledTurnOn(2);
+    machine.turnLeft(accel, speed, machine_parameter::TURN_90_DEG_DISTANCE);
+    HAL_Delay(1000);
+    machine.turnRight(accel, speed, machine_parameter::TURN_90_DEG_DISTANCE);
+    HAL_Delay(1000);
+    machine.turnLeft(accel, speed, machine_parameter::TURN_180_DEG_DISTANCE);
+    machine.ledTurnOn(5);
+
     while(1) {}
 }
+
 
 #ifdef __cplusplus
 }

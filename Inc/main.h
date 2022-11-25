@@ -56,17 +56,16 @@ void Error_Handler(void);
 /* USER CODE BEGIN EFP */
 extern void machineMeasureSpeed();
 extern void machineRun(float32_t speed);
-extern void testMeasureSpeed();
-extern void testEncoder();
+extern void selfMeasureSpeed();
+extern void selfEncoder();
 extern void testBatteryConsole();
 extern void testConsoleRawDistance();
-extern void testConsoleDistSensorVoltage();
 extern void testConsoleDistance();
 extern void machineBuzzer();
-extern void testTimer();
-extern void onceExamDistSensor();
-extern void independentAnalogIn();
-extern void measureDistance(uint32_t charge_time);
+extern void machineTimer();
+extern void selfDistSensor();
+extern void machineTurn(float32_t accel, float32_t speed);
+extern void selfMotorOutput();
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/

@@ -27,17 +27,9 @@ public:
 
     void buzzerDebug();
 
-    void errorBuzzerDebug1();
-
-    void errorBuzzerDebug2();
-
-    void ledDebug();
-
     void batteryConsoleDebug();
 
     void consoleRawDistance();
-
-    void consoleDistSensorVoltage();
 
     void consoleDistance();
 
