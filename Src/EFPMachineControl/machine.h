@@ -127,9 +127,7 @@ public:
                 turnLeft(+accel, +speed, machine_parameter::TURN_90_DEG_DISTANCE);
 
             } else if (_lf_sensor.getDistance(1000) < machine_parameter::OPEN_FRONT_WALL_THRESHOLD) {
-                run(+accel, +speed, machine_parameter::HALF_BLOCK_DISTANCE);
-                HAL_Delay(100);
-                run(+accel, +speed, machine_parameter::HALF_BLOCK_DISTANCE);
+                run(+accel, +speed, machine_parameter::ONE_BLOCK_DISTANCE);
 
             } else if (_rs_sensor.getDistance(1000) > machine_parameter::OPEN_SIDE_WALL_THRESHOLD) {
                 run(-accel, 0.0f, machine_parameter::HALF_BLOCK_DISTANCE);
