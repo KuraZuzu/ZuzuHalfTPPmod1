@@ -59,10 +59,10 @@ void testBatteryConsole(){
     }
 }
 
-void testConsoleDistSensor() {
+void testConsoleRawDistance() {
     Test test;
     while(1) {
-        test.consoleDistSensor();
+        test.consoleRawDistance();
         printf("\r\n");
     }
 }
@@ -228,6 +228,19 @@ void measureDistance(uint32_t charge_time) {
     while (1) {
         machine.measureDistance(charge_time);
     }
+}
+
+void testConsoleDistance() {
+    Test test;
+    while (1) {
+        test.consoleDistance();
+    }
+}
+
+void machineTurn(float32_t accel, float32_t speed) {
+    Machine machine;
+        machine.turnLeft(accel, speed, machine_parameter::TURN_90_DEG_DISTANCE);
+    while(1) {}
 }
 
 #ifdef __cplusplus

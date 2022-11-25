@@ -82,12 +82,8 @@ int main(){
     MX_SPI3_Init();
     MX_ADC1_Init();
 
-    measureDistance(1000);
-//    onceExamDistSensor();
-//    testConsoleDistSensor();
-//    testConsoleDistSensorVoltage();
-//    testTimer();
-//    independentAnalogIn();
+//    testConsoleRawDistance();
+//    testConsoleDistance();
     while(1) {
     }
 

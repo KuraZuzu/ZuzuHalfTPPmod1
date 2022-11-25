@@ -35,9 +35,11 @@ public:
 
     void batteryConsoleDebug();
 
-    void consoleDistSensor();
+    void consoleRawDistance();
 
     void consoleDistSensorVoltage();
+
+    void consoleDistance();
 
     void batteryWarningDebug();
 
