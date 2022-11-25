@@ -48,6 +48,18 @@ public:
         _r_wheel.start();
     }
 
+    void reset() {
+        _l_wheel.reset();
+        _r_wheel.reset();
+        _position.reset();
+    }
+
+    void stop() {
+        HAL_TIM_Base_Stop_IT(&htim7);
+        _l_wheel.stop();
+        _r_wheel.stop();
+    }
+
     inline void interruptMachine() {
         _l_wheel.interruptControlWheel(); //指定の速度に加減速制御
         _r_wheel.interruptControlWheel(); //指定の速度に加減速制御
@@ -67,12 +79,13 @@ public:
         _r_wheel_distance += r_delta_distance;
     }
 
-    void measureSpeed() {
-        while (1) {
-            printf("L:%6lf   R:%6lf \r\n" , _l_wheel.getSpeed(), _r_wheel.getSpeed());
-        }
-    }
+    [[gnu::warn_unused_result]] inline float32_t getPositionX() const { return _position._x; }
+    [[gnu::warn_unused_result]] inline float32_t getPositionY() const { return _position._y; }
+    [[gnu::warn_unused_result]] inline float32_t getPositionRad() const { return _position._rad; }
 
+    void measureSpeed() {
+            printf("L:%6lf   R:%6lf \r\n" , _l_wheel.getSpeed(), _r_wheel.getSpeed());
+    }
 
     void ledTurnOn(uint8_t led_buss) {
         _led_buss = led_buss;

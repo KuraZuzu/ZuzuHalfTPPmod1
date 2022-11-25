@@ -71,41 +71,27 @@ void testGyro() {
 void selfMotorOutput() {
     Motor left_motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, false);
     Motor right_motor(htim1, TIM_CHANNEL_2, GPIOA, GPIO_PIN_7, true);
-
     left_motor.start();
     right_motor.start();
     left_motor.update(1.0f);
     right_motor.update(1.0f);
 }
 
-
-void selfMeasureSpeed() {
-    MX_GPIO_Init();
-    MX_TIM1_Init();
-    MX_TIM3_Init();
-    MX_TIM4_Init();
-    MX_TIM7_Init();
-    MX_USART2_UART_Init();
-    Motor l_motor(htim1, TIM_CHANNEL_1, GPIOA, GPIO_PIN_6, false);
-    Motor r_motor(htim1, TIM_CHANNEL_2, GPIOA,  GPIO_PIN_7, false);
-    Encoder l_encoder(htim4 , 500*4 , false);
-    Encoder r_encoder(htim3, 500*4, true);
-    AnalogInDMAStream _battery(hadc1, 5);
-    Wheel l_wheel(l_motor, l_encoder, _battery, 13.5f, 0.01f);
-    Wheel r_wheel(r_motor, r_encoder, _battery, 13.5f, 0.01f);
-//    l_wheel_interrupt.attach(&l_wheel, &Wheel::interruptControlWheel);
-//    r_wheel_interrupt.attach(&r_wheel, &Wheel::interruptControlWheel);
-    HAL_TIM_Base_Start_IT(&htim7);
-    l_wheel.start();
-    r_wheel.start();
-    while(1) {
-        printf("L:%6lf   R:%6lf \r\n" , l_wheel.getSpeed(), r_wheel.getSpeed());
-    }
-}
-
 void machineMeasureSpeed() {
     Machine machine;
-    machine.measureSpeed();
+    machine_interrupt.attach(&machine, &Machine::interruptMachine);
+    machine.start();
+    while (1) machine.measureSpeed();
+}
+
+void machineMeasurePosition() {
+    Machine machine;
+    machine_interrupt.attach(&machine, &Machine::interruptMachine);
+    machine.start();
+    machine.reset();
+    while (1) {
+        printf("X:%6lf   Y:%6lf   RAD:%6lf   \r\n", machine.getPositionX(), machine.getPositionY(), machine.getPositionRad());
+    }
 }
 
 void machineRun(float32_t speed) {
@@ -117,11 +103,6 @@ void machineRun(float32_t speed) {
 }
 
 void selfEncoder() {
-    MX_GPIO_Init();
-    MX_TIM3_Init();
-    MX_TIM4_Init();
-    MX_USART2_UART_Init();
-
     mslh::Encoder _encoder_1(htim4, machine_parameter::ENCODER_ONE_ROTATION_PULSE, false);
     mslh::Encoder _encoder_2(htim3, machine_parameter::ENCODER_ONE_ROTATION_PULSE, true);
     _encoder_1.start();
@@ -186,7 +167,6 @@ void testConsoleDistance() {
 }
 
 void machineTurn(float32_t accel, float32_t speed) {
-
     Machine machine;
     machine_interrupt.attach(&machine, &Machine::interruptMachine);
     machine.start();

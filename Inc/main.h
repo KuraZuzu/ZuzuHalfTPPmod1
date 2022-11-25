@@ -66,6 +66,8 @@ extern void machineTimer();
 extern void selfDistSensor();
 extern void machineTurn(float32_t accel, float32_t speed);
 extern void selfMotorOutput();
+extern void machineMeasurePosition();
+extern void machineMeasurePosition();
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/

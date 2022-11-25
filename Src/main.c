@@ -83,13 +83,13 @@ int main(){
     MX_ADC1_Init();
 
     HAL_Delay(2000);
-
 //    selfMotorOutput();
 //    machineRun(100);
 //    selfEncoder();
 
-
-    machineTurn(2000, 1000);
+    machineMeasurePosition();
+//    machineMeasureSpeed();
+//    machineTurn(2000, 1000);
 //    testConsoleRawDistance();
 //    testConsoleDistance();
     while(1) {
