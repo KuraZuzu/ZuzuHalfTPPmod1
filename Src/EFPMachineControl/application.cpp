@@ -81,7 +81,9 @@ void machineMeasureSpeed() {
     Machine machine;
     machine_interrupt.attach(&machine, &Machine::interruptMachine);
     machine.start();
-    while (1) machine.measureSpeed();
+    while (1) {
+        machine.measureSpeed();
+    }
 }
 
 void machineMeasurePosition() {
@@ -94,11 +96,21 @@ void machineMeasurePosition() {
     }
 }
 
-void machineRun(float32_t speed) {
+void machineRun(float32_t accel, float32_t speed, float32_t distance) {
     Machine machine;
-    HAL_Delay(3000);
+    machine_interrupt.attach(&machine, &Machine::interruptMachine);
+    machine.start();
     machine.ledTurnOn(0b00000111);
-    machine.run(2000.0f, 1000.0f, machine_parameter::ONE_BLOCK_DISTANCE);
+    machine.run(+accel, +speed, +distance);
+    {}
+}
+
+void machineRunAndStop(float32_t accel, float32_t speed, float32_t distance) {
+    Machine machine;
+    machine_interrupt.attach(&machine, &Machine::interruptMachine);
+    machine.start();
+    machine.ledTurnOn(0b00000100);
+    machine.moveRunAndStop(+accel, +speed, +distance);
     {}
 }
 
@@ -172,11 +184,11 @@ void machineTurn(float32_t accel, float32_t speed) {
     machine.start();
 
     machine.ledTurnOn(2);
-    machine.turnLeft(accel, speed, machine_parameter::TURN_90_DEG_DISTANCE);
-    HAL_Delay(1000);
-    machine.turnRight(accel, speed, machine_parameter::TURN_90_DEG_DISTANCE);
-    HAL_Delay(1000);
-    machine.turnLeft(accel, speed, machine_parameter::TURN_180_DEG_DISTANCE);
+    machine.turnLeft(+accel, +speed, machine_parameter::TURN_90_DEG_DISTANCE);
+    HAL_Delay(100);
+    machine.turnRight(+accel, +speed, machine_parameter::TURN_90_DEG_DISTANCE);
+    HAL_Delay(100);
+    machine.turnLeft(+accel, +speed, machine_parameter::TURN_180_DEG_DISTANCE);
     machine.ledTurnOn(5);
 
     while(1) {}

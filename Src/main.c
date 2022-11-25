@@ -84,12 +84,13 @@ int main(){
 
     HAL_Delay(2000);
 //    selfMotorOutput();
-//    machineRun(100);
+//    machineRunAndStop(100.0f, 400.0f, 90.0f);
+    machineTurn(2000.0f, 1000.0f);
+//    machineRun(2000.0f, 1000.0f, 90.0f);
 //    selfEncoder();
 
-    machineMeasurePosition();
+//    machineMeasurePosition();
 //    machineMeasureSpeed();
-//    machineTurn(2000, 1000);
 //    testConsoleRawDistance();
 //    testConsoleDistance();
     while(1) {
