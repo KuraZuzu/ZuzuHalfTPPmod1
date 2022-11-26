@@ -79,13 +79,20 @@ void Machine::runSpecifiedDistance(float32_t accel, float32_t speed, float32_t d
 }
 
 void Machine::moveRunAndStop(float32_t accel, float32_t speed, float32_t distance) {
+    _led_buss.write(1);
     _l_wheel.setSpeed(+accel, +speed);
     _r_wheel.setSpeed(+accel, +speed);
-    HAL_Delay(1000);
-    _l_wheel.setSpeed(-accel/4.0f, 0.0f);
-    _r_wheel.setSpeed(-accel/4.0f, 0.0f);
+    const float32_t offset_distance = _l_wheel_distance;
+//    while ((_l_wheel_distance - offset_distance) < distance) {
+////        printf("%f\r\n", _l_wheel_distance);
+//    }
+    HAL_Delay(5000);
+    _led_buss.write(2);
+//    stopForce();
+//    HAL_Delay(100);
+    _l_wheel.setSpeed(-accel, speed/3);
+    _r_wheel.setSpeed(-accel, speed/3);
     while (1) {
-
     }
 
 

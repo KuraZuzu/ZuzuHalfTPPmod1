@@ -119,7 +119,7 @@ void machineRunAndStop(float32_t accel, float32_t speed, float32_t distance) {
     machine_interrupt.attach(&machine, &Machine::interruptMachine);
     machine.start();
     machine.run(0.0f, 0.0f);
-    machine.ledTurnOn(0b00000100);
+//    machine.ledTurnOn(0b00000100);
     machine.moveRunAndStop(+accel, +speed, +distance);
     while (1) {}
 }

@@ -87,7 +87,7 @@ int main(){
 //    selfEncoder();
 //    machineRun(2000.0f, 1000.0f);
 //    selfMotorOutput();
-    machineRunAndStop(20.0f, 500.0f, 100.0f);
+    machineRunAndStop(100.0f, 1000.0f, 100.0f);
 //    machineTurn(100.0f, 500.0f);
 //    machineRunSpecifiedDistance(2000.0f, 1000.0f, 90.0f);
 //    selfEncoder();
