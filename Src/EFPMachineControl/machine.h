@@ -68,6 +68,29 @@ public:
 
     void runLeftMethod(float32_t accel, float32_t speed);
 
+    bool selectedMode() {
+        bool selected_flag = true;
+        const uint32_t offset_time = HAL_GetTick();
+        while ((HAL_GetTick() - offset_time) < 1000) {  //< 1秒間処理
+            if(_lf_sensor.getDistance(1000) > 30) selected_flag = false;  //< 30mm下回るとNG
+        }
+        return selected_flag;
+    }
+
+    int32_t getLeftEncoderRotationCount() {
+        return _l_encoder.getRotationCount();
+    }
+
+    void beepBuzzer(uint16_t beep_times) {
+        _buzzer.beep_x(beep_times);
+    }
+
+    void consolePosition() {
+        while(1) {
+            printf("X:%6lf   Y:%6lf   RAD:%6lf   \r\n", getPositionX(), getPositionY(), getPositionRad());
+            HAL_Delay(10);
+        }
+    }
 
 private:
 

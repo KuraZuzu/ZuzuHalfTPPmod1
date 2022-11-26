@@ -83,70 +83,14 @@ void Machine::moveRunAndStop(float32_t accel, float32_t speed, float32_t distanc
     _l_wheel.setSpeed(+accel, +speed);
     _r_wheel.setSpeed(+accel, +speed);
     const float32_t offset_distance = _l_wheel_distance;
+    HAL_Delay(1000);
 //    while ((_l_wheel_distance - offset_distance) < distance) {
-////        printf("%f\r\n", _l_wheel_distance);
 //    }
-    HAL_Delay(5000);
-    _led_buss.write(2);
-//    stopForce();
-//    HAL_Delay(100);
-    _l_wheel.setSpeed(-accel, speed/3);
-    _r_wheel.setSpeed(-accel, speed/3);
+    _led_buss.write(1);
+    _l_wheel.setSpeed(-accel, -speed);
+    _r_wheel.setSpeed(-accel, -speed);
     while (1) {
     }
-
-
-
-//    const float32_t half_distance = distance / 2.0f;
-//
-//    float32_t offset_x_position = getPositionX();
-//    _l_wheel.setSpeed(+accel, +speed);
-//    _r_wheel.setSpeed(+accel, +speed);
-//    if(distance > 0) {
-//        while (((getPositionX() - offset_x_position) < half_distance)) {}
-//    } else {
-//        while (((getPositionX() - offset_x_position) > half_distance)) {}
-//    }
-//
-//
-//    offset_x_position = getPositionX();
-//    _l_wheel.setSpeed(0.0f, 0.0f);
-//    _r_wheel.setSpeed(0.0f, 0.0f);
-//    if(distance > 0) {
-//        while (((getPositionX() - offset_x_position) < half_distance)) {
-////            buzzer();
-//        }
-//    } else {
-//        while (((getPositionX() - offset_x_position) > half_distance)) {
-//            ledTurnOn(7);
-//        }
-//    }
-//    buzzer();
-//    stopForce();
-
-
-//    float32_t init_l_position = _l_wheel_distance;
-//    const float32_t half_distance = distance / 2.0f;
-//
-//    _l_wheel.setSpeed(+accel, +speed);
-//    _r_wheel.setSpeed(+accel, +speed);
-//    if(distance > 0) {
-//        while (((_l_wheel_distance - init_l_position) < half_distance)) {}
-//    } else {
-//        while (((_l_wheel_distance - init_l_position) > half_distance)) {}
-//    }
-//
-//
-//    init_l_position = _l_wheel_distance;
-//    _l_wheel.setSpeed(-accel, 0.0f);
-//    _r_wheel.setSpeed(-accel, 0.0f);
-//
-//    if(distance > 0) {
-//        while (((_l_wheel_distance - init_l_position) < half_distance)) {}
-//    } else {
-//        while (((_l_wheel_distance - init_l_position) > half_distance)) {}
-//    }
-//    stopForce();
 }
 
 void Machine::turnLeft(float32_t accel, float32_t speed, float32_t distance) {

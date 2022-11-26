@@ -193,17 +193,68 @@ void machineTurn(float32_t accel, float32_t speed) {
     machine_interrupt.attach(&machine, &Machine::interruptMachine);
     machine.start();
 
-    machine.ledTurnOn(2);
+    machine.ledTurnOn(1);
     machine.turnLeft(+accel, +speed, machine_parameter::TURN_90_DEG_DISTANCE);
+    machine.ledTurnOn(2);
     HAL_Delay(100);
     machine.turnRight(+accel, +speed, machine_parameter::TURN_90_DEG_DISTANCE);
+    machine.ledTurnOn(3);
     HAL_Delay(100);
     machine.turnLeft(+accel, +speed, machine_parameter::TURN_180_DEG_DISTANCE);
-    machine.ledTurnOn(5);
+    machine.ledTurnOn(4);
 
     while(1) {}
 }
 
+void machineSelectMode() {
+    Machine machine;
+    machine_interrupt.attach(&machine, &Machine::interruptMachine);
+    machine.start();
+    machine.reset();
+
+    while(1) {
+        const uint8_t mode = machine.getLeftEncoderRotationCount();
+        machine.ledTurnOn(mode);
+        if(machine.selectedMode()) {
+
+            if(mode == 1) {
+                machine.beepBuzzer(mode);
+                HAL_Delay(1000);
+                machine.runLeftMethod(2000.0f, 1000.0f);
+                machine.reset();
+
+            } else if(mode == 2) {
+                machine.beepBuzzer(mode);
+                HAL_Delay(1000);
+                machine.runSpecifiedDistance(2000.0f, 1000.0f, 150.0f);
+                machine.reset();
+
+            } else if(mode == 3) {
+                machine.beepBuzzer(mode);
+                HAL_Delay(1000);
+                machine.moveRunAndStop(2000.0f, 1000.0f, 150.0f);
+                machine.reset();
+
+            } else if(mode == 4) {
+                machine.beepBuzzer(mode);
+                HAL_Delay(1000);
+                machine.turnLeft(2000.0f, 1000.0f,  machine_parameter::TURN_90_DEG_DISTANCE);
+                machine.reset();
+
+            } else if(mode == 5) {
+                machine.beepBuzzer(mode);
+                HAL_Delay(1000);
+                machine.consolePosition();
+                machine.reset();
+
+            } else if(mode == 6) {
+
+            }
+
+
+        }
+    }
+}
 
 #ifdef __cplusplus
 }
