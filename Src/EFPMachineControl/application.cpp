@@ -217,31 +217,43 @@ void machineSelectMode() {
         machine.ledTurnOn(mode);
         if(machine.selectedMode()) {
 
-            if(mode == 1) {
+           if(mode == 0) {
+               machine.ledTurnOn(7);
+               machine.beepBuzzer(mode);
+               HAL_Delay(1000);
+               machine.moveRunAndStop(100.0f, 300.0f, 90.0f);
+               machine.reset();
+
+            } else if(mode == 1) {
+                machine.ledTurnOn(7);
                 machine.beepBuzzer(mode);
                 HAL_Delay(1000);
                 machine.runLeftMethod(2000.0f, 1000.0f);
                 machine.reset();
 
             } else if(mode == 2) {
+                machine.ledTurnOn(7);
                 machine.beepBuzzer(mode);
                 HAL_Delay(1000);
                 machine.runSpecifiedDistance(2000.0f, 1000.0f, 150.0f);
                 machine.reset();
 
             } else if(mode == 3) {
+                machine.ledTurnOn(7);
                 machine.beepBuzzer(mode);
                 HAL_Delay(1000);
-                machine.moveRunAndStop(2000.0f, 1000.0f, 150.0f);
-                machine.reset();
+                machine.moveRunAndStop(100.0f, 1000.0f, 500.0f);
+//                machine.reset();
 
             } else if(mode == 4) {
+                machine.ledTurnOn(7);
                 machine.beepBuzzer(mode);
                 HAL_Delay(1000);
-                machine.turnLeft(2000.0f, 1000.0f,  machine_parameter::TURN_90_DEG_DISTANCE);
+                machine.turnLeft(200.0f, 500.0f,  machine_parameter::TURN_90_DEG_DISTANCE);
                 machine.reset();
 
             } else if(mode == 5) {
+                machine.ledTurnOn(7);
                 machine.beepBuzzer(mode);
                 HAL_Delay(1000);
                 machine.consolePosition();
@@ -250,7 +262,6 @@ void machineSelectMode() {
             } else if(mode == 6) {
 
             }
-
 
         }
     }

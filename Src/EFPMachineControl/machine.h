@@ -71,7 +71,7 @@ public:
     bool selectedMode() {
         bool selected_flag = true;
         const uint32_t offset_time = HAL_GetTick();
-        while ((HAL_GetTick() - offset_time) < 1000) {  //< 1秒間処理
+        while ((HAL_GetTick() - offset_time) < 500) {  //< 1秒間処理
             if(_lf_sensor.getDistance(1000) > 30) selected_flag = false;  //< 30mm下回るとNG
         }
         return selected_flag;
