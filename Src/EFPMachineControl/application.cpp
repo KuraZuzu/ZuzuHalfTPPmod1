@@ -101,7 +101,7 @@ void machineRun(float32_t accel, float32_t speed) {
     machine_interrupt.attach(&machine, &Machine::interruptMachine);
     machine.start();
     machine.ledTurnOn(0b00000111);
-    machine.run(+accel, +speed);
+    machine.run(accel, speed);
     while (1) {}
 }
 
@@ -221,7 +221,9 @@ void machineSelectMode() {
                machine.ledTurnOn(7);
                machine.beepBuzzer(mode);
                HAL_Delay(1000);
-               machine.moveRunAndStop(100.0f, 300.0f, 90.0f);
+//               machine.run(500.0f, 1000.0f);
+//               while (1) {}
+               machine.moveRunAndStop(200.0f, 500.0f, 3*90.0f);
                machine.reset();
 
             } else if(mode == 1) {

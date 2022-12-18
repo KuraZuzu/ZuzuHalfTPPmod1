@@ -92,6 +92,8 @@ int main(){
 //    machineTurn(100.0f, 500.0f);
 //    machineRunSpecifiedDistance(2000.0f, 1000.0f, 90.0f);
 //    selfEncoder();
+//    selfMotorOutput();
+//    testBatteryConsole();
 
 
     while(1) {

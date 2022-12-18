@@ -66,22 +66,22 @@ void Machine::buzzer() {
 }
 
 void Machine::run(float32_t accel, float32_t speed) {
-    _l_wheel.setSpeed(+accel, +speed);
-    _r_wheel.setSpeed(+accel, +speed);
+    _l_wheel.setSpeed(accel, speed);
+    _r_wheel.setSpeed(accel, speed);
 }
 
 void Machine::runSpecifiedDistance(float32_t accel, float32_t speed, float32_t distance) {
     const float32_t offset_distance = _l_wheel_distance;
 
     if(distance > 0) {
-        _l_wheel.setSpeed(accel, speed);
         _r_wheel.setSpeed(accel, speed);
+        _l_wheel.setSpeed(accel, speed);
         while ((_l_wheel_distance - offset_distance) < distance) {
         }
 
     } else if (distance < 0) {
-        _l_wheel.setSpeed(accel, speed);
         _r_wheel.setSpeed(accel, speed);
+        _l_wheel.setSpeed(accel, speed);
         while ((_l_wheel_distance - offset_distance) > -distance) {
         }
     }
@@ -90,14 +90,16 @@ void Machine::runSpecifiedDistance(float32_t accel, float32_t speed, float32_t d
 void Machine::moveRunAndStop(float32_t accel, float32_t speed, float32_t distance) {
     const float32_t half_distance = distance/2.0f;
     ledTurnOn(6);
-    runSpecifiedDistance(+accel, +speed, half_distance);
-    ledTurnOn(5);
-//    HAL_Delay(2000);
-    runSpecifiedDistance(+accel, +speed, half_distance);
-    ledTurnOn(4);
-//    stopForce();
 
-//    while (1) {}
+    runSpecifiedDistance(accel, speed, half_distance);
+    ledTurnOn(5);
+//
+    runSpecifiedDistance(-accel, 10.0f, half_distance); //<ここで速度"0"はwheel::twoDeg...()の計算式の目標加速度の例外に設定されていないのでまずいのでは？
+//    ledTurnOn(4);
+
+    stopForce();
+    reset();
+    while (1) {}
 }
 
 void Machine::turnLeft(float32_t accel, float32_t speed, float32_t distance) {
@@ -108,8 +110,8 @@ void Machine::turnLeft(float32_t accel, float32_t speed, float32_t distance) {
     }
     offset_distance = _l_wheel_distance;
     while ((_l_wheel_distance - offset_distance) > -distance/2.0f) {
-//        _l_wheel.setSpeed(+accel, 0.0f);
-//        _r_wheel.setSpeed(-accel, 0.0f);
+        _l_wheel.setSpeed(+accel, 0.0f);
+        _r_wheel.setSpeed(-accel, 0.0f);
     }
     stopForce();
 }
@@ -133,8 +135,7 @@ void Machine::runLeftMethod(float32_t accel, float32_t speed) {
 
     while (1) {
         HAL_Delay(100);
-        runSpecifiedDistance(+accel, +speed,
-                             machine_parameter::START_BLOCK_DISTANCE + machine_parameter::HALF_BLOCK_DISTANCE);
+        runSpecifiedDistance(accel, speed, machine_parameter::START_BLOCK_DISTANCE + machine_parameter::HALF_BLOCK_DISTANCE);
 
         if (_ls_sensor.getDistance(1000) > machine_parameter::OPEN_SIDE_WALL_THRESHOLD) {
             runSpecifiedDistance(-accel, 0.0f, machine_parameter::HALF_BLOCK_DISTANCE);
