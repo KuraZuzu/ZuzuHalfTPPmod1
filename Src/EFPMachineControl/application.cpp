@@ -223,7 +223,7 @@ void machineSelectMode() {
                HAL_Delay(1000);
 //               machine.run(500.0f, 1000.0f);
 //               while (1) {}
-               machine.moveRunAndStop(200.0f, 500.0f, 3*90.0f);
+               machine.moveRunAndStop(1000.0f, 1000.0f, 400.0f);
                machine.reset();
 
             } else if(mode == 1) {
