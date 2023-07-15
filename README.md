@@ -12,11 +12,12 @@ This project's setting is the `KuraZuzu's sample.1`.
 このプロジェクトではcmakeプロジェクトに向けて解説します．
 
 <br>
-CMSIS-DSPライブラリがSTM32Cubeの`<STM32Cubeのディレクトリ>/STM32Cube/Repository/<現在のファームウェアバージョン (例:STM32Cube_FW_F4_V1.26.1)>/Drivers/CMSIS/DSP/`に存在します．
+
+CMSIS-DSPライブラリがSTM32Cubeの`<STM32Cubeのディレクトリ>/STM32Cube/Repository/<現在のファームウェアバージョン(例:STM32Cube_FW_F4_V1.26.1)>/Drivers/CMSIS/DSP/`に存在します．
 
 この中の`Include`と`Source`をコピーして，プロジェクトの`Drivers/CMSIS/DSP(なければ作る)`に配置し，コンパイルの設定に追加します．
 
-これは，`CMakeLists.txt`の`include_directories()`に`<STM32Cubeのディレクトリ>Drivers/CMSIS/DSP/Include`を追加すれば大丈夫です．
+これは，`CMakeLists.txt`の`include_directories()`に`Drivers/CMSIS/DSP/Include`を追加すれば大丈夫です．
 
 ![instructions image](images/image_DirectoryStruct.png)
 
@@ -39,23 +40,22 @@ FPUを有効化するために以下の2点の静的ライブラリも加えま�
 - `arm_cortexM4lf_math.lib`
 - `libarm_cortexM4lf_math.a`
 
-これは，`/STM32Cube/Repository/<現在のファームウェアバージョン>/Drivers/CMSIS/Lib`の中の`./ARM`と`./GCC`内にあります<br>
+これは，`<STM32Cubeのディレクトリ>/STM32Cube/Repository/<現在のファームウェアバージョン>/Drivers/CMSIS/Lib`の中の`./ARM`と`./GCC`内にあります<br>
 
 
 これらをリンクする方法として
-<br>
-```
+```cmake:CMakeLists.txt
 target_link_libraries(${PROJECT_NAME}.elf ${CMAKE_SOURCE_DIR}/Drivers/CMSIS/Lib/ARM/arm_cortexM4lf_math.lib ${CMAKE_SOURCE_DIR}/Drivers/CMSIS/Lib/GCC/libarm_cortexM4lf_math.a)
 ```
 を
-```
-add_executable(${PROJECT_NAME}.elf ${SOURCES} ${LINKER_SCRIPT} )  <br>
+```cmake:CMakeLists.txt
+add_executable(${PROJECT_NAME}.elf ${SOURCES} ${LINKER_SCRIPT} )
 ```
 の後に加えてください．
 ![instructions image](images/image_For_FPUSetting.png)
 
 このリポジトリのプロジェクト設定等は KuraZuzu の機体向けのものであるため，自分で設定した .ioc ファイルで`Generate Code`による上書きを行えば自動で更新してくれます．
-ただし，動作確認をしたのはJetbrain社のIDEである`CLion`のみです．
+ただし，動作確認をしたのはJetbrain社のIDEであるCLionのみです．
 
 ※`Generate Code`の際には，main関数のコールバックを呼ばない設定にしてください.各設定ファイルが全て`main.c`に生成されてしまいます．(2023/07/16 現在)
 
